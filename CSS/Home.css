@@ -1,123 +1,11 @@
-/* --- NAVBAR --- */
-
-.navbar {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: 125px;
-  background: transparent;
-  z-index: 1000;
-  transition: 1s ease-in-out;
-}
-
-/* EXPLANATION TO WHY THIS IS NEEDED - You need to remove the linear gradient from the background if the color of the navbar is not black */
-.navbar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0) 100%);
-  transition: opacity 1s ease-in-out;
-  opacity: 1;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.navbar:hover {
-  /* NAVBAR background color */
-  background-color: black;
-}
-
-.navbar:hover::before {
-  opacity: 0;
-}
-
-/* --- AUTH BUTTONS --- */
-
-.auth-buttons {
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 20px;
-}
-
-.auth-buttons button {
-  padding: 10px 20px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: #ffffff;
-  background-color: transparent;
-  border: 2px solid #ffffff;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.5s ease;
-}
-
-.auth-buttons button:hover {
-  background-color: #222222;
-}
-
-/* --- NAVBAR LOGO --- */
-
-.navbar .logo {
-  height: 70%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.navbar .links {
-  height: 30%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-}
-
-/* --- NAVBAR LINKS --- */
-
-.navbar .links a {
-  position: relative;
-  text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.navbar .links a::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  display: block;
-  margin-top: 10px;
-  right: 0;
-  transition: width 0.4s ease;
-}
-
-.navbar .links a:hover::after {
-  width: 100%;
-  left: 0;
-  background: #ffffff;
-}
-
 /* --- MAIN IMAGE --- */
-
 .main-image {
   position: relative;
   width: 100%;
-  height: 700px;
+  height: 100vh;
   background-image: url("../Images/Bank.jpg");
   background-size: cover; /* stretch to fit */
-  background-position: bottom;
+  background-position: center;
 
   justify-content: center;
   align-content: center;
@@ -155,39 +43,4 @@
 
 .main-image #learn-more-btn:hover {
   background-color: #000000;
-}
-
-/* --- FOOTER --- */
-
-footer {
-  background-color: #000000;
-  color: #ffffff;
-  text-align: center;
-  padding: 20px 0px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
-.footer-content {
-  padding-left: 400px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-content p {
-  margin: 0;
-}
-
-.footer-content .social-media {
-  padding-right: 400px;
-  display: flex;
-  gap: 20px;
-}
-
-.footer-content .social-media img {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
 }

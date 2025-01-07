@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="../CSS/General.css" />
     <link rel="stylesheet" href="../CSS/Home.css" />
     <link href="https://fonts.googleapis.com/css2?family=Helvetica&display=swap" rel="stylesheet" />
+    <script src="../scripts/general.js" defer></script>
   </head>
 
   <body>
+    <!-- Navbar -->
     <nav>
       <div class="navbar">
         <div class="logo">
@@ -18,8 +20,8 @@
         </div>
 
         <div class="auth-buttons">
-          <button id="login-btn">LOG IN</button>
-          <button id="signup-btn">SIGN UP</button>
+          <a id="login" href="./SignUp.html">LOG IN </a>
+          <a id="signup" href="./SignUp.html"> SIGN UP </a>
         </div>
 
         <div class="links">
@@ -34,16 +36,20 @@
       </div>
     </nav>
 
-    <div class="main-image">
-      <div class="main-text">
-        <h1>Banking Made Secure and Reliable</h1>
-        <p>"Empowering your financial journey with trust and innovation."</p>
-        <button id="learn-more-btn">LEARN MORE</button>
+    <!-- Main frame -->
+    <div id="main-frame">
+      <div class="main-image">
+        <div class="main-text">
+          <h1>Banking Made Secure and Reliable</h1>
+          <p>"Empowering your financial journey with trust and innovation."</p>
+          <button id="learn-more-btn">LEARN MORE</button>
+        </div>
       </div>
     </div>
 
+    <!-- Footer -->
     <footer>
-      <div class="footer-content">
+      <div class="footer footer-content">
         <div class="footer-text">
           <p>&copy; 2025 SAFEHAVEN. All rights reserved.</p>
         </div>

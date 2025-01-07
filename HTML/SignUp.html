@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- change page name with javascript dynamically maybe? -->
+    <title>SignUp / SafeHaven</title>
+    <link rel="stylesheet" href="../CSS/General.css" />
+    <link rel="stylesheet" href="../CSS/Forms.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica&display=swap" rel="stylesheet" />
+    <script src="../scripts/forms.js" defer></script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav id="navbar">
+      <div class="navbar">
+        <div class="logo">
+          <img src="../Images/Logo/Logo-WHITE.png" alt="Vault" />
+        </div>
+
+        <div class="auth-buttons">
+          <a id="login" href="./SignUp.html">LOG IN </a>
+          <a id="signup" href="./SignUp.html"> SIGN UP </a>
+        </div>
+
+        <div class="links">
+          <a>PERSONAL BANKING</a>
+          <a>SME BANKING</a>
+          <a>CORPORATE BANKING</a>
+          <a>MEDIA</a>
+          <a>INVESTOR RELATIONS</a>
+          <a>CSR</a>
+          <a>ABOUT US</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main frame -->
+    <div id="main-frame">
+      <div class="form-container">
+        <form action="" class="custom-form signup" data-action="signup">
+          <h2>Sign Up</h2>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" />
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" />
+          </div>
+
+          <!-- Birthday -->
+          <div class="form-group">
+            <label for="birthday">Birthday:</label>
+            <input type="date" id="birthday" name="birthday" />
+          </div>
+
+          <!-- Credit Card -->
+          <fieldset>
+            <legend>Credit Card Information</legend>
+
+            <div class="form-group">
+              <label for="card-number">Card Number:</label>
+              <input type="text" id="card-number" name="cardNumber" maxlength="16" placeholder="1234 5678 9012 3456" />
+            </div>
+
+            <div class="form-group">
+              <label for="expiration-date">Expiration Date:</label>
+              <input type="month" id="expiration-date" name="expirationDate" />
+            </div>
+
+            <div class="form-group">
+              <label for="cvv">CVV:</label>
+              <input type="text" id="cvv" name="cvv" maxlength="3" placeholder="123" />
+            </div>
+          </fieldset>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn">Sign up</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="footer-content">
+        <div class="footer-text">
+          <p>&copy; 2025 SAFEHAVEN. All rights reserved.</p>
+        </div>
+        <div class="social-media">
+          <a href="https://www.facebook.com/" target="_blank"><img src="../Images/Icons/facebook.png" alt="Facebook" /></a>
+          <a href="https://www.x.com/" target="_blank"><img src="../Images/Icons/x.png" alt="X" /></a>
+          <a href="https://www.instagram.com/" target="_blank"><img src="../Images/Icons/instagram.png" alt="Instagram" /></a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
