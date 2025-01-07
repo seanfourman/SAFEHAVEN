@@ -1,4 +1,5 @@
 /* --- NAVBAR --- */
+
 .navbar {
   position: fixed;
   display: flex;
@@ -19,12 +20,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.6),
-    rgba(0, 0, 0, 0.3) 30%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0) 100%);
   transition: opacity 1s ease-in-out;
   opacity: 1;
   pointer-events: none;
@@ -38,6 +34,33 @@
 
 .navbar:hover::before {
   opacity: 0;
+}
+
+/* --- AUTH BUTTONS --- */
+
+.auth-buttons {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.auth-buttons button {
+  padding: 10px 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.auth-buttons button:hover {
+  background-color: #222222;
 }
 
 /* --- NAVBAR LOGO --- */
@@ -59,14 +82,13 @@
   gap: 50px;
 }
 
-/* --- NAVBAR LINKS */
+/* --- NAVBAR LINKS --- */
 
 .navbar .links a {
   position: relative;
   text-decoration: none;
   font-size: 0.75rem;
   font-weight: bold;
-  color: #ffffff;
   cursor: pointer;
 }
 
@@ -92,7 +114,7 @@
 .main-image {
   position: relative;
   width: 100%;
-  height: 800px;
+  height: 700px;
   background-image: url("../Images/Bank.jpg");
   background-size: cover; /* stretch to fit */
   background-position: bottom;
@@ -101,10 +123,71 @@
   align-content: center;
 }
 
-.main-image p {
-  text-align: center;
+.main-image .main-text {
+  text-align: left;
   position: absolute;
-  bottom: 20%;
-  width: 100%;
+  bottom: 10%;
+  left: 5%;
   font-size: 1.25rem;
+}
+
+.main-image .main-text h1 {
+  margin: 0;
+  font-size: 3rem;
+}
+
+.main-image .main-text p {
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+
+.main-image #learn-more-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.main-image #learn-more-btn:hover {
+  background-color: #000000;
+}
+
+/* --- FOOTER --- */
+
+footer {
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px 0px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content {
+  padding-left: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-content p {
+  margin: 0;
+}
+
+.footer-content .social-media {
+  padding-right: 400px;
+  display: flex;
+  gap: 20px;
+}
+
+.footer-content .social-media img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }
