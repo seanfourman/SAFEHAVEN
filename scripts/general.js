@@ -1,3 +1,4 @@
+/*
 const elementVariables = ["navbar", "footer"];
 
 function init() {
@@ -19,3 +20,4 @@ function getElementHeight(element) {
 document.addEventListener("DOMContentLoaded", init);
 document.addEventListener("resize", init);
 document.addEventListener("scroll", init);
+*/

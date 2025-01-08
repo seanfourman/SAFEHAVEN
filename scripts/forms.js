@@ -12,7 +12,7 @@ function validatePassword(input) {
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8}$/;
   return regex.test(input);
 }
-function validateBirthday(input) {
+function validateBirthdate(input) {
   const today = new Date();
   const age = today.getFullYear() - new Date(input).getFullYear(); // check if value empty
   return age >= MINIMUM_AGE; // maybe add after
@@ -39,7 +39,7 @@ function validateCVV(input) {
 const validationDictionary = {
   email: { method: validateEmail, error: "Please enter a valid email address." },
   password: { method: validatePassword, error: "Password must be 8 characters long, must include a-z, A-Z, 0-9, special character" },
-  birthday: { method: validateBirthday, error: `Must be at least ${MINIMUM_AGE} years old` },
+  birthdate: { method: validateBirthdate, error: `Must be at least ${MINIMUM_AGE} years old` },
   cardNumber: { method: validateCardNumber, error: "Card number must be 16 digits" },
   expirationDate: { method: validateExpirationDate, error: "Expiration date must be valid" },
   cvv: { method: validateCVV, error: "CVV must be exactly 3 digits" }
