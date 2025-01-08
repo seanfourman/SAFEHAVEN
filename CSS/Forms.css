@@ -80,9 +80,11 @@ legend {
   border: red 1px solid;
 }
 
-.error-message {
+.input-error-message,
+.form-error-message {
   color: red;
   font-size: 13px;
   font-weight: 500;
-  margin-top: 6px;
+  margin-top: 5px;
+  display: block;
 }
