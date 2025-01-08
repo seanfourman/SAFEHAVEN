@@ -45,3 +45,67 @@
 .main-image #learn-more-btn:hover {
   background-color: #000000;
 }
+
+/* Features Section */
+.features {
+  padding: 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.features-list {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.features-list div {
+  width: 30%;
+  padding: 10px;
+}
+
+/* Testimonials Section */
+.testimonials {
+  padding: 20px;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+.testimonials p {
+  margin: 10px 0;
+}
+
+/* News Section */
+.news {
+  padding: 20px;
+}
+
+.news ul {
+  list-style: none;
+  padding: 0;
+}
+
+.news li {
+  margin: 5px 0;
+}
+
+/* Call-to-Action Buttons */
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.cta-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: 2px solid #000;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.cta-buttons button:hover {
+  background-color: #000;
+  color: #fff;
+}
