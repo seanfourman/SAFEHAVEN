@@ -9,7 +9,7 @@ body {
 
 /* --- NAVBAR --- */
 .navbar {
-  position: fixed;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,7 +25,6 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%);
@@ -42,6 +41,24 @@ body {
 
 .navbar:hover::before {
   opacity: 0;
+}
+
+/* --- NAVBAR LOGO --- */
+.navbar .logo {
+  height: 70%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar .links {
+  height: 30%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 }
 
 /* --- BUTTONS --- */
@@ -68,25 +85,8 @@ body {
 }
 
 .buttons a:hover {
-  background-color: #414141;
-}
-
-/* --- NAVBAR LOGO --- */
-.navbar .logo {
-  height: 70%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.navbar .links {
-  height: 30%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
+  color: #000000;
+  background-color: #ffffff;
 }
 
 /* --- NAVBAR LINKS --- */
@@ -118,13 +118,12 @@ body {
 /* --- FOOTER --- */
 footer {
   background-color: #000000;
-  color: #ffffff;
   padding: 20px 0px;
-  position: relative;
+  position: fixed;
+  bottom: 0;
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .footer-content {
@@ -135,6 +134,7 @@ footer {
 }
 
 .footer-content p {
+  font-size: 1rem;
   margin: 0;
 }
 
@@ -144,19 +144,7 @@ footer {
 }
 
 .footer-content .social-media img {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-
-/* --- MAIN FRAME --- */
-#main-frame {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-button {
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
