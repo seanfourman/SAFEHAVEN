@@ -72,7 +72,12 @@ class CustomFormValidator {
   }
   static _validateBirthdate(value) {
     const today = new Date();
-    const age = today.getFullYear() - new Date(value).getFullYear(); // check if value empty
+    const birthday = new Date(value);
+    let age = today.getFullYear() - birthdate.getFullYear();
+    const isBeforeBirthday = today.getMonth() < birthdate.getMonth() || (today.getMonth() === birthdate.getMonth() && today.getDate() < birthdate.getDate());
+    if (isBeforeBirthday) {
+      age -= 1;
+    }
     return age >= CustomFormValidator._minimumAge; // maybe add after
   }
   static _validateCardNumber(value) {
