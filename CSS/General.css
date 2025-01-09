@@ -52,6 +52,10 @@ body {
   align-items: center;
 }
 
+.navbar img {
+  width: 15%;
+}
+
 .navbar .links {
   height: 30%;
   width: 100%;
