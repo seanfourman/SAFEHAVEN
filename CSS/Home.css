@@ -1,34 +1,25 @@
 /* --- MAIN IMAGE --- */
-.main-image {
-  width: 100%;
-  height: calc(100vh - var(--navbarHeight) - var(--footerHeight));
-  /*height: calc(100vh - 125px - 60px);*/
+.main {
   background-image: url("../Images/Bank.jpg");
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-.main-image .main-text {
+.main .main-text {
   text-align: center;
   position: relative;
   bottom: -25%;
 }
 
-.main-image .main-text h1 {
+.main .main-text h1 {
   font-size: 3rem;
   margin: 0px 0px 60px 0px;
 }
 
-.main-image .main-text p {
+.main .main-text p {
   font-size: 1rem;
   margin: 0px 0px 10px 0px;
 }
 
-.main-image #learn-more-btn {
+.main #learn-more-btn {
   padding: 20px 100px;
   font-size: 1rem;
   font-weight: bold;
@@ -43,7 +34,7 @@
   transition: color 0.4s ease;
 }
 
-.main-image #learn-more-btn::before {
+.main #learn-more-btn::before {
   content: "";
   position: absolute;
   top: 0;
@@ -55,10 +46,10 @@
   transition: width 0.4s ease;
 }
 
-.main-image #learn-more-btn:hover {
+.main #learn-more-btn:hover {
   color: #000000;
 }
 
-.main-image #learn-more-btn:hover::before {
+.main #learn-more-btn:hover::before {
   width: 100%;
 }
