@@ -72,7 +72,7 @@ class CustomFormValidator {
   }
   static _validateBirthdate(value) {
     const today = new Date();
-    const birthday = new Date(value);
+    const birthdate = new Date(value);
     let age = today.getFullYear() - birthdate.getFullYear();
     const isBeforeBirthday = today.getMonth() < birthdate.getMonth() || (today.getMonth() === birthdate.getMonth() && today.getDate() < birthdate.getDate());
     if (isBeforeBirthday) {
