@@ -67,8 +67,12 @@ class CustomFormValidator {
     return regex.test(value);
   }
   static _validatePassword(value) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8}$/;
-    return regex.test(value);
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&#]{8}$/;
+    const specialCharRegex = /[@$!%*?&#]/g;
+    if (!regex.test(value)) return false;
+    const specialCharMatches = value.match(specialCharRegex);
+    if (!specialCharMatches || specialCharMatches.length !== 1) return false;
+    return true;
   }
   static _validateBirthdate(value) {
     const today = new Date();
@@ -78,7 +82,7 @@ class CustomFormValidator {
     if (isBeforeBirthday) {
       age -= 1;
     }
-    return age >= CustomFormValidator._minimumAge; // maybe add after
+    return age >= CustomFormValidator._minimumAge;
   }
   static _validateCardNumber(value) {
     value = value.replaceAll(" ", ""); // check empty
@@ -120,9 +124,15 @@ class CustomFormErrorHandler {
     // need to change this for something else
     let errorSpan = element.parentElement.querySelector(`.${element.localName}-error-message`);
     if (!errorSpan) {
-      errorSpan = document.createElement("span");
-      errorSpan.classList.add(`${element.localName}-error-message`);
-      element.parentElement.appendChild(errorSpan);
+      if (element.localName === "input") {
+        errorSpan = document.createElement("span");
+        errorSpan.classList.add(`${element.localName}-error-message`);
+        element.parentElement.appendChild(errorSpan);
+      } else if (element.localName === "form") {
+        errorSpan = document.createElement("span");
+        errorSpan.classList.add(`${element.localName}-error-message`);
+        element.appendChild(errorSpan);
+      }
     }
     errorSpan.textContent = message;
     if (element.localName === "input") element.classList.add("error");
