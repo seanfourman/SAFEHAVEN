@@ -114,19 +114,20 @@ legend {
 /* ---------------------------------------------------------------------------- */
 /* container */
 .container {
+  margin-top: 50px; /* need to remove and swap with auto centering */
   background-color: #ffffff;
   color: #000000;
   border-radius: 30px;
   position: relative;
   overflow: hidden;
-  max-width: 50%;
+  max-width: 50%; /* NEED TO FIX */
   min-height: 80%; /* NEED TO FIX  */
 }
 
 .container h1 {
   font-size: 2rem;
   letter-spacing: 1px;
-  margin: 0px 0px 10px 0px;
+  margin: 0px 0px 5px 0px;
   text-align: center;
 }
 
@@ -134,9 +135,12 @@ legend {
   font-size: 0.85rem;
 }
 
+.form-group {
+  margin-top: 10px;
+}
+
 .container span {
   font-size: 0.75rem;
-  margin: 0px 0px 10px 0px;
 }
 
 /* buttons */
@@ -173,7 +177,7 @@ legend {
 .container input {
   background-color: #eeeeee;
   border: none;
-  margin: 10px 0px;
+  margin: 2px 0px;
   padding: 10px 10px;
   font-size: 1rem;
   border-radius: 8px;
@@ -182,7 +186,8 @@ legend {
 }
 
 .container fieldset {
-  margin: 10px 0px;
+  margin: 10px 0px 0px 0px;
+  width: 97.5%; /* ***************************** */
 }
 
 .container fieldset input {

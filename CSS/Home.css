@@ -23,9 +23,9 @@
   padding: 20px 100px;
   font-size: 1rem;
   font-weight: bold;
-  color: #ffffff;
   background: transparent;
   border: 1px solid #ffffff;
+  color: #ffffff;
   border-radius: 5px;
   cursor: pointer;
   overflow: hidden; /* keep the animation in the button */
