@@ -1,11 +1,13 @@
-const container = document.getElementById("container");
+/* Desktop */
+const formContainer = document.getElementById("container");
 const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
 
-registerBtn.addEventListener("click", () => {
-  container.classList.add("active");
-});
+const signupSwitch = document.querySelector(".signup .form-switch");
+const signinSwitch = document.querySelector(".signin .form-switch");
 
-loginBtn.addEventListener("click", () => {
-  container.classList.remove("active");
-});
+function toggleActiveClass(isActive) {
+  formContainer.classList.toggle("active", isActive);
+}
+[registerBtn, signinSwitch].forEach((el) => el?.addEventListener("click", () => toggleActiveClass(true)));
+[loginBtn, signupSwitch].forEach((el) => el?.addEventListener("click", () => toggleActiveClass(false)));

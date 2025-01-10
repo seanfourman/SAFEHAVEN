@@ -29,6 +29,31 @@
     <div class="page-image form-page">
       <!-- Container -->
       <div class="container" id="container">
+        <!-- Sign In -->
+        <div class="form-container sign-in">
+          <form action="" class="custom-form signin" data-action="signin">
+            <h1>Sign In</h1>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" />
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password" />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-submit">
+              <button type="submit" class="submit-btn">SIGN IN</button>
+              <span class="mobile form-switch">Don't have an account</span>
+            </div>
+          </form>
+        </div>
+
         <!-- Sign Up -->
         <div class="form-container sign-up">
           <form action="" class="custom-form signup" data-action="signup">
@@ -73,29 +98,10 @@
             </fieldset>
 
             <!-- Submit Button -->
-            <button type="submit" class="submit-btn">SIGN UP</button>
-          </form>
-        </div>
-
-        <!-- Sign In -->
-        <div class="form-container sign-in">
-          <form action="" class="custom-form signin" data-action="signin">
-            <h1>Sign In</h1>
-
-            <!-- Email -->
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" id="email" name="email" />
+            <div class="form-submit">
+              <button type="submit" class="submit-btn">SIGN UP</button>
+              <span class="mobile form-switch">I have an account</span>
             </div>
-
-            <!-- Password -->
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password" />
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="submit-btn">SIGN IN</button>
           </form>
         </div>
 
