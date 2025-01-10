@@ -134,7 +134,7 @@ class CustomFormErrorHandler {
 }
 
 class CustomFormActionHandler {
-  _dictionary = { signup: (values) => auth.signUp(values), login: (values) => auth.login(values) };
+  _dictionary = { signup: (values) => auth.signUp(values), signin: (values) => auth.signin(values) };
 
   constructor(customForm, errorHandler) {
     this._customForm = customForm;
@@ -198,7 +198,7 @@ class Auth {
     this._users = users;
   }
 
-  login(credentials) {
+  signin(credentials) {
     this._ensureNotLogged();
     const dbUser = this._users.getUser(credentials.email);
     if (!dbUser) throw new Error("Email not found");
