@@ -1,25 +1,25 @@
 /* --- MAIN IMAGE --- */
-.main {
+.main-page {
   background-image: url("../Images/Bank.jpg");
 }
 
-.main .main-text {
+.main-page .main-text {
   text-align: center;
   position: relative;
   bottom: -25%;
 }
 
-.main .main-text h1 {
+.main-page .main-text h1 {
   font-size: 3rem;
   margin: 0px 0px 60px 0px;
 }
 
-.main .main-text p {
+.main-page .main-text p {
   font-size: 1rem;
   margin: 0px 0px 10px 0px;
 }
 
-.main #learn-more-btn {
+.main-page #learn-more-btn {
   padding: 20px 100px;
   font-size: 1rem;
   font-weight: bold;
@@ -34,7 +34,7 @@
   transition: color 0.4s ease;
 }
 
-.main #learn-more-btn::before {
+.main-page #learn-more-btn::before {
   content: "";
   position: absolute;
   top: 0;
@@ -46,10 +46,10 @@
   transition: width 0.4s ease;
 }
 
-.main #learn-more-btn:hover {
+.main-page #learn-more-btn:hover {
   color: #000000;
 }
 
-.main #learn-more-btn:hover::before {
+.main-page #learn-more-btn:hover::before {
   width: 100%;
 }

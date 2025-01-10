@@ -7,115 +7,32 @@ body {
   color: #ffffff;
 }
 
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 /* --- NAVBAR --- */
 .navbar {
-  position: relative;
+  position: fixed;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   width: 100%;
-  height: 125px;
-  background: transparent;
+  height: 100px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
   z-index: 1000;
-  transition: 0.5s ease-in-out;
+  box-sizing: border-box; /* make sure the padding is inside the div element */
+  padding: 0 5%;
 }
 
-/* WHY THIS IS NEEDED? - You need to remove the linear gradient from the background if the color of the navbar is not black */
-.navbar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%);
-  transition: opacity 0.5s ease-in-out;
-  opacity: 1;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.navbar:hover {
-  /* NAVBAR background color */
-  background-color: rgba(0, 0, 0, 1);
-}
-
-.navbar:hover::before {
-  opacity: 0;
-}
-
-/* --- NAVBAR LOGO --- */
-.navbar .logo {
-  height: 70%;
-  width: 100%;
-  display: flex;
+.account {
+  text-align: center;
   justify-content: center;
   align-items: center;
 }
 
-.links a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
+.logo img {
+  width: 250px;
 }
 
-.navbar img {
+.account img {
   width: 15%;
-}
-
-.navbar .links {
-  height: 30%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-}
-
-/* --- BUTTONS --- */
-
-.navbar a {
-  text-align: center;
-}
-
-#account {
-  position: absolute;
-  top: 50%;
-  right: 0px;
-  transform: translateY(-50%);
-  text-align: center;
-}
-
-/* --- NAVBAR LINKS --- */
-.navbar .links a {
-  position: relative;
-  text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.navbar .links a::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  display: block;
-  margin-top: 35px;
-  right: 0;
-  transition: width 0.4s ease;
-}
-
-.navbar .links a:hover::after {
-  width: 100%;
-  left: 0;
-  background: #ffffff;
 }
 
 /* --- FOOTER --- */
@@ -153,7 +70,7 @@ body {
 /* --- PAGE IMAGE --- */
 .page-image {
   width: 100%;
-  height: calc(100vh - var(--navbarHeight) - var(--footerHeight));
+  height: calc(100vh - var(--footerHeight));
   /*height: calc(100vh - 125px - 60px);*/
   background-size: cover;
   background-position: center;
