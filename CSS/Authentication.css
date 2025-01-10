@@ -125,6 +125,7 @@ legend {
 
 .container h1 {
   font-size: 2rem;
+  letter-spacing: 1px;
   margin: 0px 0px 10px 0px;
   text-align: center;
 }
@@ -140,7 +141,7 @@ legend {
 
 /* buttons */
 .container button {
-  background-color: #2596be;
+  background-color: #345f51;
   width: 30%;
   color: #ffffff;
   font-size: 0.75rem;
@@ -251,7 +252,7 @@ legend {
 }
 
 .toggle {
-  background-image: url("../Images/Account2.png");
+  background-image: url("../Images/money.jpg");
   background-position: bottom;
   height: 100%;
   color: #ffffff;
