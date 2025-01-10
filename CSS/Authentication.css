@@ -271,7 +271,7 @@ form .error {
   .container {
     max-width: 90%;
     flex-direction: column;
-    max-height: 98%;
+    height: 725px;
   }
   .container button {
     margin: 4px;
