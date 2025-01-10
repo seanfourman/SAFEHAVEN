@@ -90,11 +90,11 @@
 .container form {
   background-color: #ffffff;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  padding: 0 40px;
-  height: 100%;
+  padding: 15px 40px;
   box-sizing: border-box;
+  overflow-y: auto;
+  max-height: 100%;
 }
 
 .container input {
@@ -118,8 +118,37 @@
 
 /* --- ANIMATION RELATED --- */
 .container .form-container {
-  display: contents;
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.container form::-webkit-scrollbar,
+.container .form-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.container form::-webkit-scrollbar-track,
+.container .form-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.container form::-webkit-scrollbar-thumb,
+.container .form-container::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 5px;
+  border: 2px solid #f1f1f1;
+}
+
+.container form::-webkit-scrollbar-thumb:hover,
+.container .form-container::-webkit-scrollbar-thumb:hover {
+  background: rgb(175, 175, 175);
 }
 
 .toggle-container {
@@ -245,6 +274,12 @@
   }
 }
 
+@media (max-width: 1376px) {
+  .container {
+    max-width: 70%;
+  }
+}
+
 @media (max-width: 990px) {
   .form-page {
     padding: 0;
@@ -279,19 +314,31 @@
   .signin {
     z-index: 2;
   }
+  .container .form-container.sign-in {
+    display: flex;
+  }
   .container.active .signin {
     opacity: 0;
     z-index: 1;
+  }
+  .container.active .form-container.sign-in {
+    display: none;
   }
   .signup {
     opacity: 0;
     z-index: 1;
   }
+  .container .form-container.sign-up {
+    display: none;
+  }
   .container.active .signup {
     opacity: 1;
     z-index: 2;
   }
-  .container .form-container form {
-    transition: all 0.2s ease-in;
+  .container.active .form-container.sign-up {
+    display: flex;
+  }
+  .container .form-container {
+    height: 100%;
   }
 }
