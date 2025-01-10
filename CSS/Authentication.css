@@ -8,7 +8,7 @@
 }
 
 .form-page {
-  background-image: url("../Images/Account.jpg");
+  background-image: url("../Images/Account2.png");
 }
 
 /* --- CONTAINER --- */
@@ -58,6 +58,7 @@ input {
   box-sizing: border-box;
   transition: all 0.3s ease;
   background-color: #222222;
+  color: #747475; /* text color */
 }
 
 input:focus {
@@ -86,7 +87,7 @@ legend {
   display: block;
   width: 100%;
   background: #007bff;
-  color: #fff;
+  color: #ffffff;
   font-size: 16px;
   padding: 10px;
   border: none;
