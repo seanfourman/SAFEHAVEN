@@ -9,5 +9,6 @@ const signinSwitch = document.querySelector(".signin .form-switch");
 function toggleActiveClass(isActive) {
   formContainer.classList.toggle("active", isActive);
 }
+
 [registerBtn, signinSwitch].forEach((el) => el?.addEventListener("click", () => toggleActiveClass(true)));
 [loginBtn, signupSwitch].forEach((el) => el?.addEventListener("click", () => toggleActiveClass(false)));

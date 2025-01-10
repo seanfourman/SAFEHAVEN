@@ -67,8 +67,12 @@ class CustomFormValidator {
     return regex.test(value);
   }
   static _validatePassword(value) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8}$/;
-    return regex.test(value);
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&#]{8}$/;
+    const specialCharRegex = /[@$!%*?&#]/g;
+    if (!regex.test(value)) return false;
+    const specialCharMatches = value.match(specialCharRegex);
+    if (!specialCharMatches || specialCharMatches.length !== 1) return false;
+    return true;
   }
   static _validateBirthdate(value) {
     const today = new Date();
@@ -78,7 +82,7 @@ class CustomFormValidator {
     if (isBeforeBirthday) {
       age -= 1;
     }
-    return age >= CustomFormValidator._minimumAge; // maybe add after
+    return age >= CustomFormValidator._minimumAge;
   }
   static _validateCardNumber(value) {
     value = value.replaceAll(" ", ""); // check empty
@@ -117,11 +121,18 @@ class CustomFormErrorHandler {
     this._clearErrorMessage(inputElement);
   }
   _setErrorMessage(element, message) {
+    // need to change this for something else
     let errorSpan = element.parentElement.querySelector(`.${element.localName}-error-message`);
     if (!errorSpan) {
-      errorSpan = document.createElement("span");
-      errorSpan.classList.add(`${element.localName}-error-message`);
-      element.parentElement.appendChild(errorSpan);
+      if (element.localName === "input") {
+        errorSpan = document.createElement("span");
+        errorSpan.classList.add(`${element.localName}-error-message`);
+        element.parentElement.appendChild(errorSpan);
+      } else if (element.localName === "form") {
+        errorSpan = document.createElement("span");
+        errorSpan.classList.add(`${element.localName}-error-message`);
+        element.appendChild(errorSpan);
+      }
     }
     errorSpan.textContent = message;
     if (element.localName === "input") element.classList.add("error");
@@ -200,17 +211,21 @@ class Auth {
 
   signin(credentials) {
     this._ensureNotLogged();
+    credentials.email = credentials.email.toLowerCase();
     const dbUser = this._users.getUser(credentials.email);
     if (!dbUser) throw new Error("Email not found");
     if (credentials.password != dbUser.password) throw new Error("Wrong password");
     this._setLoggedUser(credentials.email);
+    window.location.href = "./Dashboard.html";
   }
   signUp(userValues) {
     this._ensureNotLogged();
+    userValues.email = userValues.email.toLowerCase();
     const dbUser = this._users.getUser(userValues.email);
     if (dbUser) throw new Error("Email already exists");
     this._users.addUser(userValues);
     this._setLoggedUser(userValues.email);
+    window.location.href = "./Dashboard.html";
   }
   getCurrentUserEmail() {
     return localStorage.getItem(this._key);

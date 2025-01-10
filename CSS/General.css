@@ -1,25 +1,21 @@
 :root {
-  --background-color: #757575;
+  --background-color: #fff;
   --footer-background-color: #000;
   --border-color: #fff;
   --text-color: #fff;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
 }
 
 h1,
 h2,
 h3,
-h4,
-h5,
-h6,
 span,
 p {
   color: var(--text-color);
@@ -59,6 +55,7 @@ p {
   height: 60px;
   width: 100%;
   display: flex;
+  position: relative;
   justify-content: center;
 }
 
@@ -95,4 +92,32 @@ p {
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+@media (max-width: 990px) {
+  .footer-content {
+    width: 75%;
+  }
+
+  .footer p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar {
+    height: 40px;
+  }
+
+  .footer {
+    height: 30px;
+  }
+
+  .footer-content {
+    width: 85%;
+  }
+
+  .footer p {
+    font-size: 0.75rem;
+  }
 }

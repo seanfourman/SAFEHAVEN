@@ -1,3 +1,16 @@
 .connected-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 20px;
+}
+
+.connected-user h1 {
   color: #000000;
+}
+
+.connected-user img {
+  width: 25px;
+  cursor: pointer;
 }
