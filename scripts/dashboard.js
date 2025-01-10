@@ -1,4 +1,6 @@
-let emailAddress = document.querySelector(".connected-user h1");
-let userName = emailAddress.textContent.split("@")[0];
-
-console.log(userName);
+document.addEventListener("DOMContentLoaded", function () {
+  if (!localStorage.getItem("loggedUser")) {
+    alert("You are not logged in. Redirecting to the front page.");
+    window.location.href = "./Home.html";
+  }
+});
