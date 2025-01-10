@@ -80,6 +80,10 @@ body {
 
 /* --- BUTTONS --- */
 
+.navbar a {
+  text-align: center;
+}
+
 #account {
   position: absolute;
   top: 50%;
