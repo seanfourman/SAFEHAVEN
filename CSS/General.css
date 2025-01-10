@@ -1,5 +1,5 @@
 :root {
-  --background-color: #757575;
+  --background-color: #fff;
   --footer-background-color: #000;
   --border-color: #fff;
   --text-color: #fff;
@@ -95,4 +95,32 @@ p {
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+@media (max-width: 990px) {
+  .footer-content {
+    width: 75%;
+  }
+
+  .footer p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar {
+    height: 50px;
+  }
+
+  .footer {
+    height: 40px;
+  }
+
+  .footer-content {
+    width: 85%;
+  }
+
+  .footer p {
+    font-size: 0.75rem;
+  }
 }
