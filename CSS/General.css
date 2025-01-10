@@ -17,9 +17,6 @@ body {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6,
 span,
 p {
   color: var(--text-color);
@@ -109,11 +106,11 @@ p {
 
 @media (max-width: 400px) {
   .navbar {
-    height: 50px;
+    height: 40px;
   }
 
   .footer {
-    height: 40px;
+    height: 30px;
   }
 
   .footer-content {

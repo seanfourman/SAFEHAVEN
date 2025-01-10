@@ -7,6 +7,11 @@
   display: none;
 }
 
+.form-page {
+  background-image: url("../Images/auth-background.png"); /* CHANGE THIS */
+  background-position: center;
+}
+
 .footer {
   background-color: #345f51;
 }
@@ -87,7 +92,7 @@
 
 .container input {
   background-color: #eeeeee;
-  border: none;
+  border: 1px solid transparent;
   margin: 2px 0px;
   padding: 10px 10px;
   font-size: 1rem;
@@ -167,17 +172,22 @@
 }
 
 /* --- ERROR MESSAGES --- */
-
-.error {
-  border: red 1px solid;
+form .error {
+  border: 1px solid red;
 }
 
 .input-error-message,
 .form-error-message {
-  color: red;
-  font-size: 13px;
-  font-weight: 500;
   display: block;
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  z-index: auto;
+}
+
+.form-error-message {
+  margin: 0.5rem auto;
+  font-weight: bold;
 }
 
 @media (min-width: 991px) {
@@ -333,5 +343,11 @@
 @media (max-width: 378px) {
   .container h1 {
     display: none;
+  }
+  .input-error-message {
+    margin: 0;
+  }
+  .form-error-message {
+    margin: 0.5rem auto;
   }
 }

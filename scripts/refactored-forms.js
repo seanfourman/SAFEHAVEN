@@ -117,6 +117,7 @@ class CustomFormErrorHandler {
     this._clearErrorMessage(inputElement);
   }
   _setErrorMessage(element, message) {
+    // need to change this for something else
     let errorSpan = element.parentElement.querySelector(`.${element.localName}-error-message`);
     if (!errorSpan) {
       errorSpan = document.createElement("span");
@@ -204,6 +205,7 @@ class Auth {
     if (!dbUser) throw new Error("Email not found");
     if (credentials.password != dbUser.password) throw new Error("Wrong password");
     this._setLoggedUser(credentials.email);
+    window.location.href = "Dashboard.html";
   }
   signUp(userValues) {
     this._ensureNotLogged();
@@ -211,6 +213,7 @@ class Auth {
     if (dbUser) throw new Error("Email already exists");
     this._users.addUser(userValues);
     this._setLoggedUser(userValues.email);
+    window.location.href = "Dashboard.html";
   }
   getCurrentUserEmail() {
     return localStorage.getItem(this._key);
