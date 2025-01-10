@@ -33,7 +33,7 @@ class CustomFormValidator {
   static _minimumAge = 16;
   static _dictionary = {
     email: { method: CustomFormValidator._validateEmail, error: "Please enter a valid email address." },
-    password: { method: CustomFormValidator._validatePassword, error: "Password must be 8 characters long, must include a-z, A-Z, 0-9, special character" },
+    password: { method: CustomFormValidator._validatePassword, error: "Password must be 8 characters and include a-z, A-Z, 0-9, special character" },
     birthdate: { method: CustomFormValidator._validateBirthdate, error: `Must be at least ${CustomFormValidator._minimumAge} years old` },
     cardNumber: { method: CustomFormValidator._validateCardNumber, error: "Card number must be 16 digits" },
     expirationDate: { method: CustomFormValidator._validateExpirationDate, error: "Expiration date must be valid" },

@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Helvetica&display=swap" rel="stylesheet" />
     <script src="../scripts/general.js" defer></script>
     <script src="../scripts/refactored-forms.js" defer></script>
+    <script src="../scripts/authentication.js" defer></script>
   </head>
 
   <body>
@@ -17,7 +18,7 @@
     <nav>
       <div class="navbar">
         <div class="logo">
-          <a href="Home.html"><img src="../Images/Logo/Logo-BLACK.png" alt="SAFEHAVEN" /></a>
+          <a href="Home.html"><img src="../Images/Logo/Logo-WHITE.png" alt="SAFEHAVEN" /></a>
         </div>
         <div class="account">
           <a href="./Authentication .html"><img src="../Images/Icons/account-BLACK.png" alt="Account" /></a>
@@ -28,9 +29,10 @@
     <div class="page-image form-page">
       <!-- Container -->
       <div class="container" id="container">
-        <div class="form-container">
+        <!-- Sign Up -->
+        <div class="form-container sign-up">
           <form action="" class="custom-form signup" data-action="signup">
-            <h2>Sign Up</h2>
+            <h1>Sign Up</h1>
 
             <!-- Email -->
             <div class="form-group">
@@ -46,7 +48,7 @@
 
             <!-- Birthdate -->
             <div class="form-group">
-              <label for="birthdate">Birthday:</label>
+              <label for="birthdate">Birthdate:</label>
               <input type="date" id="birthdate" name="birthdate" />
             </div>
 
@@ -71,8 +73,46 @@
             </fieldset>
 
             <!-- Submit Button -->
-            <button type="submit" class="submit-btn">Sign up</button>
+            <button type="submit" class="submit-btn">SIGN UP</button>
           </form>
+        </div>
+
+        <!-- Sign In -->
+        <div class="form-container sign-in">
+          <form action="" class="custom-form signin" data-action="signin">
+            <h1>Sign In</h1>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" />
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password" />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">SIGN IN</button>
+          </form>
+        </div>
+
+        <!-- Toggle -->
+        <div class="toggle-container">
+          <div class="toggle">
+            <div class="toggle-panel toggle-left">
+              <h1>Welcome Back!</h1>
+              <p>Enter your personal details to use all of site features</p>
+              <button class="hidden" id="login">SIGN IN</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+              <h1>Hello, Friend!</h1>
+              <p>Sign up with your personal information to enjoy our website</p>
+              <button class="hidden" id="register">SIGN UP</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
