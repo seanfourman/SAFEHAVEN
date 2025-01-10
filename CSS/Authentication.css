@@ -18,12 +18,14 @@
   background-color: #345f51;
 }
 
+/*
 .form-page {
   height: calc(100vh - var(--footerHeight) - var(--navbarHeight));
   padding: 15px 0;
   align-items: unset;
   box-sizing: border-box;
 }
+  */
 
 /* --- CONTAINER --- */
 .container {
