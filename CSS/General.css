@@ -55,6 +55,7 @@ p {
   height: 60px;
   width: 100%;
   display: flex;
+  position: relative;
   justify-content: center;
 }
 
