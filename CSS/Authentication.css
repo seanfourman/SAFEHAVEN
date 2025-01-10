@@ -1,6 +1,7 @@
 /* --- GENERAL ADJUSTMENTS ---  */
 
 .navbar {
+  position: relative;
   justify-content: center;
 }
 
@@ -19,7 +20,6 @@
 
 .form-page {
   height: calc(100vh - var(--footerHeight) - var(--navbarHeight));
-  margin-top: var(--navbarHeight);
   padding: 15px 0;
   align-items: unset;
   box-sizing: border-box;
