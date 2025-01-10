@@ -179,16 +179,17 @@ class Users {
   }
   addUser(user) {
     const users = this._getUsers();
+    user.email = user.email.toLowerCase(); // convert email to lowercase
     users.push(user);
     this._setUsers(users);
   }
   removeUser(email) {
     let users = this._getUsers();
-    users = users.filter((user) => user.email != email);
+    users = users.filter((user) => user.email != email.toLowerCase());
     this._setUsers(users);
   }
   getUser(email) {
-    return this._getUsers().find((user) => user.email === email);
+    return this._getUsers().find((user) => user.email === email.toLowerCase());
   }
 }
 
@@ -201,15 +202,15 @@ class Auth {
 
   signin(credentials) {
     this._ensureNotLogged();
-    const dbUser = this._users.getUser(credentials.email);
+    const dbUser = this._users.getUser(credentials.email.toLowerCase());
     if (!dbUser) throw new Error("Email not found");
     if (credentials.password != dbUser.password) throw new Error("Wrong password");
-    this._setLoggedUser(credentials.email);
+    this._setLoggedUser(credentials.email.toLowerCase());
     window.location.href = "./Dashboard.html";
   }
   signUp(userValues) {
     this._ensureNotLogged();
-    const dbUser = this._users.getUser(userValues.email);
+    const dbUser = this._users.getUser(userValues.email.toLowerCase());
     if (dbUser) throw new Error("Email already exists");
     this._users.addUser(userValues);
     this._setLoggedUser(userValues.email);
