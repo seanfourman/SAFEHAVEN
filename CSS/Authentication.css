@@ -276,9 +276,12 @@
     text-align: center;
     width: max-content;
   }
+  .signin {
+    z-index: 2;
+  }
   .container.active .signin {
     opacity: 0;
-    z-index: 2;
+    z-index: 1;
   }
   .signup {
     opacity: 0;
@@ -287,5 +290,8 @@
   .container.active .signup {
     opacity: 1;
     z-index: 2;
+  }
+  .container .form-container form {
+    transition: all 0.2s ease-in;
   }
 }
