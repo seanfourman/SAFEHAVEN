@@ -18,7 +18,7 @@ body {
   background-color: transparent;
   z-index: 1000;
   box-sizing: border-box; /* make sure the padding is inside the div element */
-  padding: 0 5%;
+  padding: 0 2.5%;
 }
 
 .account {
@@ -32,7 +32,7 @@ body {
 }
 
 .account img {
-  width: 15%;
+  width: 40px;
 }
 
 /* --- FOOTER --- */
