@@ -137,8 +137,20 @@ class ActiveUserData {
   // _fillData fills the elements with the user data
   _fillData() {
     this.$fields.forEach((element) => {
-      element.textContent = this._user[element.dataset.userField];
+      const path = element.dataset.userField; // e.g. "cards[0].styledCN"
+      element.textContent = this._getNestedValue(this._user, path) || "";
     });
+  }
+
+  // _getNestedValue gets a nested value from an object using a path
+  _getNestedValue(obj, path) {
+    // Convert a path like "cards[0].styledCN" into an array like ["cards", "0", "styledCN"] with regex
+    const keys = path.replace(/\[(\d+)\]/g, ".$1").split(".");
+
+    // Use reduce to traverse the object and get the nested value
+    return keys.reduce((acc, key) => {
+      return acc ? acc[key] : undefined;
+    }, obj);
   }
 }
 
