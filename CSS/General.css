@@ -163,8 +163,12 @@ p {
   width: 25px;
 }
 
-#logout {
+.logout {
   cursor: pointer;
+}
+
+#logoutText {
+  color: #aaaaaa;
 }
 
 /* --- ACCOUNT --- */

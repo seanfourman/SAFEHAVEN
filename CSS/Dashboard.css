@@ -58,6 +58,79 @@
   color: #ffffff;
 }
 
+/* --- CREDIT CARD --- */
+.user-cards-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-text {
+  margin: 0px;
+  margin-bottom: 10px;
+  font-size: 5rem;
+}
+
+.main-frame a {
+  text-decoration: none;
+}
+
+.user-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.card-container {
+  position: relative;
+  background-image: url("../Images/CreditCard/bg.png");
+  background-size: cover;
+  padding: 25px;
+  border-radius: 25px;
+  height: 175px;
+  width: 300px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+.card-header,
+.card-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-logo img {
+  width: 48px;
+  margin-right: 10px;
+}
+h5 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+}
+.card-header .chip {
+  width: 60px;
+}
+h6 {
+  color: #fff;
+  margin: 0px;
+  font-size: 10px;
+  font-weight: 400;
+}
+h5.number {
+  margin-top: 4px;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+h5.name {
+  margin-top: 20px;
+}
+.card-container .card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 @media (max-width: 768px) {
   .welcome-text {
     bottom: 5%;
