@@ -1,0 +1,59 @@
+function getRealTime() {
+  let date = new Date();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  hours = hours < 10 ? "0" + hours : hours;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  let strTime = hours + ":" + minutes;
+  return strTime;
+}
+
+function getWeekday() {
+  let date = new Date();
+  let weekday = date.getDay();
+  let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  return weekdays[weekday];
+}
+
+function getRealDate() {
+  let date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth();
+  let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month];
+  let strDate = monthName + " " + day;
+  return strDate;
+}
+
+function changeTheme() {
+  let background = document.querySelector(".page-image");
+
+  if (background) {
+    //background.style.backgroundImage = 'url("https://picsum.photos/1920/1080")';
+    background.style.backgroundImage = 'url("https://picsum.photos/2560/1440")';
+  }
+}
+
+// update time, date and welcome message based on real time for dashboard
+function updateRealTime() {
+  document.getElementById("time").innerHTML = getRealTime();
+  document.getElementById("date").innerHTML = getWeekday() + ", " + getRealDate();
+
+  if (document.getElementById("welcome-message")) {
+    if (getRealTime() >= "06:00" && getRealTime() < "12:00") {
+      document.getElementById("welcome-message").innerHTML = "Good Morning!";
+    } else if (getRealTime() >= "12:00" && getRealTime() < "18:00") {
+      document.getElementById("welcome-message").innerHTML = "Good Afternoon!";
+    } else if (getRealTime() >= "18:00" && getRealTime() < "00:00") {
+      document.getElementById("welcome-message").innerHTML = "Good Evening!";
+    } else {
+      document.getElementById("welcome-message").innerHTML = "Good Night!";
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateRealTime();
+  changeTheme();
+});
+
+setInterval(updateRealTime, 1000); // update every second

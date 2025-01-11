@@ -19,7 +19,19 @@ function getElementHeight(element) {
   return `${element.clientHeight}px`;
 }
 
+// change title to page name
+function changePageName() {
+  const path = window.location.pathname;
+  let pageName = path.split("/").pop().split(".")[0];
+  pageName = pageName.toUpperCase() + " / SafeHaven";
+  document.title = pageName;
+}
+
 // eventListeners for getting the height of the navbar and footer
-document.addEventListener("DOMContentLoaded", initInject);
+document.addEventListener("DOMContentLoaded", () => {
+  initInject();
+  changePageName();
+});
+
 document.addEventListener("resize", initInject);
 document.addEventListener("scroll", initInject);

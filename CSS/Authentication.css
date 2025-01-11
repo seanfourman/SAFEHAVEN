@@ -92,6 +92,11 @@ form .error {
   font-weight: bold;
   cursor: pointer;
   margin: 10px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.container button:hover {
+  background-color: #46806c;
 }
 
 .container button.hidden {

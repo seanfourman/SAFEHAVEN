@@ -1,74 +1,101 @@
 class Users {
   _key = "listOfUsers";
 
+  // constructor calls _init to set users
   constructor() {
     this._init();
   }
 
+  // _init gets users from local storage and sets them to the class instance
   _init() {
     this._setUsers(this._getUsers());
   }
+
+  // _getUsers gets users from local storage
   _getUsers() {
     return JSON.parse(localStorage.getItem(this._key) || "[]");
   }
+
+  // _setUsers sets users to local storage as a string (JSON)
   _setUsers(value) {
     value = typeof value != "object" ? JSON.parse(value || "[]") : value;
     localStorage.setItem(this._key, JSON.stringify(value));
   }
+
+  // addUser pushes a new user to the users array and sets it to local storage
   addUser(user) {
     const users = this._getUsers();
     users.push(user);
     this._setUsers(users);
   }
+
+  // removeUser filters the users array to remove the user with the given email
   removeUser(email) {
     let users = this._getUsers();
     users = users.filter((user) => user.email != email);
     this._setUsers(users);
   }
+
+  // getUser finds a user in the users array with the given email (find method returns the first element that satisfies the condition)
   getUser(email) {
     return this._getUsers().find((user) => user.email === email);
   }
 }
 
 class Auth {
+  // key for local storage
   _key = "loggedUser";
 
+  // constructor sets users
   constructor(users) {
     this._users = users;
   }
 
-  signin(credentials) {
+  // signIn checks if user is already logged in, then checks if email exists in the database, then checks if the password is correct, then sets the user as logged in and redirects to the dashboard
+  signIn(credentials) {
     this._ensureNotLogged();
-    credentials.email = credentials.email.toLowerCase();
-    const dbUser = this._users.getUser(credentials.email);
+    credentials.email = credentials.email.toLowerCase(); // convert email to lowercase
+    const dbUser = this._users.getUser(credentials.email); // get user from database
     if (!dbUser) throw new Error("Email not found");
     if (credentials.password != dbUser.password) throw new Error("Wrong password");
     this._setLoggedUser(credentials.email);
     window.location.href = "./Dashboard.html";
   }
+
+  // signUp checks if user is already logged in, then checks if email already exists in the database, then adds the user to the database and sets the user as logged in and redirects to the dashboard
   signUp(userValues) {
     this._ensureNotLogged();
-    userValues.email = userValues.email.toLowerCase();
-    const dbUser = this._users.getUser(userValues.email);
+    userValues.email = userValues.email.toLowerCase(); // convert email to lowercase
+    userValues.cardNumber = userValues.cardNumber.replaceAll(" ", ""); // remove spaces from card number
+    const dbUser = this._users.getUser(userValues.email); // get user from database
     if (dbUser) throw new Error("Email already exists");
-    this._users.addUser(userValues);
+    this._users.addUser(userValues); // add user to database
     this._setLoggedUser(userValues.email);
     window.location.href = "./Dashboard.html";
   }
+
+  // getCurrentUserEmail gets the email of the current user from local storage
   getCurrentUserEmail() {
     return localStorage.getItem(this._key);
   }
+
+  // isLogged checks if the user is logged in
   isLogged() {
     if (this.getCurrentUserEmail()) return true;
     return false;
   }
+
+  // _setLoggedUser sets the current user in local storage
   _setLoggedUser(email) {
     localStorage.setItem(this._key, email);
   }
+
+  // _ensureNotLogged checks if the user is already logged in
   _ensureNotLogged() {
     if (this.isLogged()) throw new Error("Already logged in");
   }
 
+  // logout removes the current user from local storage and redirects to the home page
   logout() {
     localStorage.removeItem("loggedUser");
     window.location.href = "./Home.html";
@@ -76,6 +103,7 @@ class Auth {
 }
 
 class ActiveUserData {
+  // constructor sets user and body element, calls _init and _fillData (bodyElement is the document.body, kinda pointless in vanilla JS)
   constructor(user, bodyElement) {
     this._user = user;
     this._bodyElement = bodyElement;
@@ -83,9 +111,12 @@ class ActiveUserData {
     this._fillData();
   }
 
+  // _init gets all elements with the data-user-field attribute
   _init() {
     this.$fields = Array.from(this._bodyElement.querySelectorAll("[data-user-field]"));
   }
+
+  // _fillData fills the elements with the user data
   _fillData() {
     this.$fields.forEach((element) => {
       element.textContent = this._user[element.dataset.userField];
@@ -98,8 +129,8 @@ class ActiveUserData {
   window.users = new Users();
   window.auth = new Auth(window.users);
 
-  const isLogged = window.auth.isLogged();
-  handleRestrictedPage(isLogged);
+  const isLogged = window.auth.isLogged(); // check if user is logged
+  handleRestrictedPage(isLogged); // check if page is restricted
 
   // fill user data if logged
   if (isLogged) {
@@ -107,7 +138,7 @@ class ActiveUserData {
   }
 
   // if logged and on dashboard, call function to change user content
-  if (isLogged && document.getElementById("emailAddress")) {
+  if (isLogged && document.getElementById("emailAddress") && document.getElementById("welcome-message")) {
     changeUserContent(window.auth.getCurrentUserEmail());
   }
 
@@ -132,8 +163,10 @@ function handleRestrictedPage(isLogged) {
   }
 }
 
+// change user content for dashboard
 function changeUserContent(emailAddress) {
   document.getElementById("emailAddress").innerHTML = emailAddress;
   document.getElementById("username").innerHTML = emailAddress.split("@")[0];
+  document.getElementById("welcome-message").innerHTML = "Welcome, " + emailAddress.split("@")[0] + "!";
   document.getElementById("logout").addEventListener("click", auth.logout);
 }

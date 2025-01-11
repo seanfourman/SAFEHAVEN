@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- change page name with javascript dynamically maybe? -->
-    <title>DASHBOARD / SafeHaven</title>
+    <title>PAGE / SafeHaven</title>
     <link rel="stylesheet" href="../CSS/General.css" />
     <link rel="stylesheet" href="../CSS/Dashboard.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
-    <!-- <script src="../scripts/general.js" defer></script> -->
     <script src="../scripts/frame.js" defer></script>
     <script src="../scripts/users.js" defer></script>
+    <script src="../scripts/dashboard.js" defer></script>
   </head>
 
   <body data-auth="true">
@@ -39,6 +38,14 @@
     </nav>
 
     <div class="page-image dashboard-page"></div>
+
+    <div class="main-frame">
+      <div class="welcome-text">
+        <h1 id="time"></h1>
+        <p id="date"></p>
+        <h1 id="welcome-message">WELCOME</h1>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

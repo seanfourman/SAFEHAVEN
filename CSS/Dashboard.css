@@ -1,34 +1,59 @@
-/* --- NAVBAR --- */
-.connected-user {
+/* --- BACKGROUND IMAGE --- */
+.dashboard-page {
+  position: absolute;
+  top: 0;
+}
+
+.dashboard-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+/* --- MAIN FRAME --- */
+.main-frame {
+  position: relative;
+  margin-top: var(--navbarHeight); /* need to find a better fix later */
+  height: calc(100vh - var(--navbarHeight) - var(--footerHeight));
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  gap: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  height: fit-content;
-  padding: 0 10px;
 }
 
-.connected-user p {
+.main-frame h1,
+.main-frame p {
+  position: relative;
+  z-index: 2;
+}
+
+.welcome-text {
+  position: absolute;
+  bottom: 5%;
+  left: 2.5%;
+  text-align: left;
+}
+
+#time {
+  font-size: 4rem;
+  margin: 0px;
   color: #ffffff;
-  font-size: 0.8rem;
 }
 
-#emailAddress {
-  color: #cccccc;
+#date {
+  font-size: 1.5rem;
+  margin: 0px;
+  color: #ffffff;
 }
 
-.connected-user img {
-  width: 25px;
-}
-
-#logout {
-  cursor: pointer;
-}
-
-/* * --- GENERAL --- */
-.dashboard-page {
-  background-image: url("../Images/time-of-day/night.png");
+#welcome-message {
+  font-size: 3rem;
+  margin: 0px;
+  margin-top: 10px;
+  color: #ffffff;
 }
