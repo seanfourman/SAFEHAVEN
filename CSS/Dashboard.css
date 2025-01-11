@@ -1,3 +1,4 @@
+/* --- NAVBAR --- */
 .connected-user {
   display: flex;
   justify-content: center;
@@ -25,4 +26,9 @@
 
 #logout {
   cursor: pointer;
+}
+
+/* * --- GENERAL --- */
+.dashboard-page {
+  background-image: url("../Images/time-of-day/night.png");
 }

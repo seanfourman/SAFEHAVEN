@@ -108,15 +108,21 @@ class ActiveUserData {
 
   // if logged and on dashboard, call function to change user content
   if (isLogged && document.getElementById("emailAddress")) {
-    changeUserContent(auth.getCurrentUserEmail());
+    changeUserContent(window.auth.getCurrentUserEmail());
+  }
+
+  // if logged and on home, change account link
+  if (isLogged && document.getElementById("accountLink")) {
+    document.getElementById("accountLink").href = "./Dashboard.html";
   }
 })();
 
 function handleRestrictedPage(isLogged) {
+  // check if page is restricted
   const pageAuthSettings = document.body.dataset.auth;
 
   if (!pageAuthSettings) return;
-  if ((pageAuthSettings === "true" && !isLogged) || (pageAuthSettings === "false" && isLogged)) {
+  if (pageAuthSettings === "true" && !isLogged) {
     document.documentElement.innerHTML = ""; // clears page content
 
     setTimeout(() => {
