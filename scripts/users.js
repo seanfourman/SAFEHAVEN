@@ -65,17 +65,29 @@ class Auth {
   // signUp checks if user is already logged in, then checks if email already exists in the database, then adds the user to the database and sets the user as logged in and redirects to the dashboard
   signUp(userValues) {
     this._ensureNotLogged();
-    // set username, styledCN and styledED for design purposes
-    userValues.userName = userValues.email.split("@")[0]; // set username to email without domain
-    userValues.styledCN = userValues.cardNumber; // set styledCN to card number with spaces
-    userValues.styledED = userValues.expirationDate.slice(2).replaceAll("-", "/").split("/").reverse().join("/"); // set styledED to expiration date in MM/YY format
-    userValues.cardNumber = userValues.cardNumber.replaceAll(" ", ""); // remove spaces from card number
+    userValues.email = userValues.email.toLowerCase();
+    userValues.username = userValues.email.split("@")[0]; // default username as email without domain
 
-    userValues.email = userValues.email.toLowerCase(); // convert email to lowercase
-    userValues.billingDay = 1; // set billing day to first day of the month (default value, not in the form)
-    const dbUser = this._users.getUser(userValues.email); // get user from database
+    // add card info to cards array
+    userValues.cards = [
+      {
+        cardNumber: userValues.cardNumber.replaceAll(" ", ""),
+        styledCN: userValues.cardNumber,
+        expirationDate: userValues.expirationDate,
+        styledED: userValues.expirationDate.slice(2).replaceAll("-", "/").split("/").reverse().join("/"),
+        billingDay: 1 // default billing day
+      }
+    ];
+
+    // remove card info from userValues, as it is now in the cards array
+    delete userValues.cardNumber;
+    delete userValues.expirationDate;
+
+    const dbUser = this._users.getUser(userValues.email);
     if (dbUser) throw new Error("Email already exists");
-    this._users.addUser(userValues); // add user to database
+
+    // Add user to the local storage
+    this._users.addUser(userValues);
     this._setLoggedUser(userValues.email);
     window.location.href = "./Dashboard.html";
   }
