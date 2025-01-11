@@ -1,3 +1,4 @@
+// generateUserCards() -> generateCreditCard() -> RenderData()
 function generateUserCards() {
   const templateCreditCard = document.querySelector(".user-card");
   if (!templateCreditCard) return;
@@ -6,7 +7,7 @@ function generateUserCards() {
   if (!user) return;
 
   user.cards.forEach((card) => generateCreditCard(card, templateCreditCard));
-  templateCreditCard.classList.add("hidden");
+  templateCreditCard.classList.add("card-hidden");
 }
 
 function generateCreditCard(cardValues, template) {

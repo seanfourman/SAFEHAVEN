@@ -27,7 +27,7 @@ p {
   color: var(--text-color);
 }
 
-.hidden {
+.card-hidden {
   display: none !important;
 }
 
