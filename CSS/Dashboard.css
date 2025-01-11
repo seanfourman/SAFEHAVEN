@@ -193,6 +193,10 @@ h5.number {
     font-size: 2rem;
   }
 
+  .card-container {
+    flex-direction: column;
+  }
+
   .user-cards {
     flex-direction: column;
     gap: 50px;
