@@ -10,32 +10,27 @@ class Users {
   _init() {
     this._setUsers(this._getUsers());
   }
-
   // _getUsers gets users from local storage
   _getUsers() {
     return JSON.parse(localStorage.getItem(this._key) || "[]");
   }
-
   // _setUsers sets users to local storage as a string (JSON)
   _setUsers(value) {
     value = typeof value != "object" ? JSON.parse(value || "[]") : value;
     localStorage.setItem(this._key, JSON.stringify(value));
   }
-
   // addUser pushes a new user to the users array and sets it to local storage
   addUser(user) {
     const users = this._getUsers();
     users.push(user);
     this._setUsers(users);
   }
-
   // removeUser filters the users array to remove the user with the given email
   removeUser(email) {
     let users = this._getUsers();
     users = users.filter((user) => user.email != email);
     this._setUsers(users);
   }
-
   // getUser finds a user in the users array with the given email (find method returns the first element that satisfies the condition)
   getUser(email) {
     return this._getUsers().find((user) => user.email === email);
@@ -61,7 +56,6 @@ class Auth {
     this._setLoggedUser(credentials.email);
     window.location.href = "./Dashboard.html";
   }
-
   // signUp checks if user is already logged in, then checks if email already exists in the database, then adds the user to the database and sets the user as logged in and redirects to the dashboard
   signUp(userValues) {
     this._ensureNotLogged();
@@ -72,16 +66,19 @@ class Auth {
     userValues.cards = [
       {
         cardNumber: userValues.cardNumber.replaceAll(" ", ""),
-        styledCN: userValues.cardNumber,
+        displayCardNumber: userValues.cardNumber,
         expirationDate: userValues.expirationDate,
-        styledED: userValues.expirationDate.slice(2).replaceAll("-", "/").split("/").reverse().join("/"),
-        billingDay: 1 // default billing day
+        displayExpirationDate: userValues.expirationDate.slice(2).replaceAll("-", "/").split("/").reverse().join("/"),
+        cvv: userValues.cvv,
+        billingDay: 1, // default billing day
+        cardName: userValues.username
       }
     ];
 
     // remove card info from userValues, as it is now in the cards array
     delete userValues.cardNumber;
     delete userValues.expirationDate;
+    delete userValues.cvv;
 
     const dbUser = this._users.getUser(userValues.email);
     if (dbUser) throw new Error("Email already exists");
@@ -91,66 +88,27 @@ class Auth {
     this._setLoggedUser(userValues.email);
     window.location.href = "./Dashboard.html";
   }
-
   // getCurrentUserEmail gets the email of the current user from local storage
   getCurrentUserEmail() {
     return localStorage.getItem(this._key);
   }
-
   // isLogged checks if the user is logged in
   isLogged() {
     if (this.getCurrentUserEmail()) return true;
     return false;
   }
-
   // _setLoggedUser sets the current user in local storage
   _setLoggedUser(email) {
     localStorage.setItem(this._key, email);
   }
-
   // _ensureNotLogged checks if the user is already logged in
   _ensureNotLogged() {
     if (this.isLogged()) throw new Error("Already logged in");
   }
-
   // logout removes the current user from local storage and redirects to the home page
   logout() {
     localStorage.removeItem("loggedUser");
     window.location.href = "./Home.html";
-  }
-}
-
-class ActiveUserData {
-  // constructor sets user and body element, calls _init and _fillData (bodyElement is the document.body, kinda pointless in vanilla JS)
-  constructor(user, bodyElement) {
-    this._user = user;
-    this._bodyElement = bodyElement;
-    this._init();
-    this._fillData();
-  }
-
-  // _init gets all elements with the data-user-field attribute
-  _init() {
-    this.$fields = Array.from(this._bodyElement.querySelectorAll("[data-user-field]"));
-  }
-
-  // _fillData fills the elements with the user data
-  _fillData() {
-    this.$fields.forEach((element) => {
-      const path = element.dataset.userField; // e.g. "cards[0].styledCN"
-      element.textContent = this._getNestedValue(this._user, path) || "";
-    });
-  }
-
-  // _getNestedValue gets a nested value from an object using a path
-  _getNestedValue(obj, path) {
-    // Convert a path like "cards[0].styledCN" into an array like ["cards", "0", "styledCN"] with regex
-    const keys = path.replace(/\[(\d+)\]/g, ".$1").split(".");
-
-    // Use reduce to traverse the object and get the nested value
-    return keys.reduce((acc, key) => {
-      return acc ? acc[key] : undefined;
-    }, obj);
   }
 }
 
@@ -164,7 +122,7 @@ class ActiveUserData {
 
   // fill user data if logged
   if (isLogged) {
-    new ActiveUserData(window.users.getUser(window.auth.getCurrentUserEmail()), document.body);
+    new RenderData(window.users.getUser(window.auth.getCurrentUserEmail()), document.body);
   }
 
   // if logged and on dashboard, call function to change user content

@@ -2,6 +2,7 @@
 .dashboard-page {
   position: absolute;
   top: 0;
+  z-index: 0;
 }
 
 .dashboard-page::before {
@@ -83,14 +84,6 @@
 
 .card-container {
   position: relative;
-  background-image: url("../Images/CreditCard/bg.png");
-  background-size: cover;
-  padding: 25px;
-  border-radius: 25px;
-  height: 150px;
-  width: 250px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1;
 }
 
 .card-header,
@@ -110,7 +103,6 @@ h5 {
   font-weight: 400;
   color: #fff;
   margin: 0px;
-  margin-bottom: 40px;
 }
 
 .card-header .chip {
@@ -130,26 +122,54 @@ h5.number {
   letter-spacing: 1px;
 }
 
-h5.name {
-  margin: 30px;
-}
-
 .card-container .card-details {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.monthlyCharges {
+.monthly-charges {
   display: flex;
-  margin: 0 auto;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
-.monthlyCharges p {
+.monthly-charges p {
   font-weight: bold;
   font-size: 0.75rem;
   margin: 0px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-image: url("../Images/CreditCard/bg.png");
+  background-size: cover;
+  padding: 25px;
+  border-radius: 25px;
+  height: 150px;
+  width: 250px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  justify-content: space-between;
+}
+
+.card-name-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 @media (max-width: 768px) {
