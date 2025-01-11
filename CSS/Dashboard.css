@@ -128,10 +128,11 @@ h5.number {
   margin-top: 4px;
   font-size: 18px;
   letter-spacing: 1px;
+  margin-bottom: 10px;
 }
 
 h5.name {
-  margin: 30px;
+  margin-bottom: 60px;
 }
 
 .card-container .card-details {
