@@ -24,7 +24,7 @@ function getRealDate() {
   return strDate;
 }
 
-function changeTheme() {
+function changeBackground() {
   let background = document.querySelector(".page-image");
 
   if (background) {
@@ -43,7 +43,7 @@ function updateRealTime() {
       document.getElementById("welcome-message").innerHTML = "Good Morning!";
     } else if (getRealTime() >= "12:00" && getRealTime() < "18:00") {
       document.getElementById("welcome-message").innerHTML = "Good Afternoon!";
-    } else if (getRealTime() >= "18:00" && getRealTime() < "00:00") {
+    } else if (getRealTime() >= "18:00" && getRealTime() < "24:00") {
       document.getElementById("welcome-message").innerHTML = "Good Evening!";
     } else {
       document.getElementById("welcome-message").innerHTML = "Good Night!";
@@ -53,7 +53,7 @@ function updateRealTime() {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateRealTime();
-  changeTheme();
+  changeBackground();
 });
 
 setInterval(updateRealTime, 1000); // update every second

@@ -57,3 +57,22 @@
   margin-top: 10px;
   color: #ffffff;
 }
+
+@media (max-width: 768px) {
+  .welcome-text {
+    bottom: 5%;
+    left: 5%;
+  }
+
+  #time {
+    font-size: 3rem;
+  }
+
+  #date {
+    font-size: 1rem;
+  }
+
+  #welcome-message {
+    font-size: 2rem;
+  }
+}

@@ -27,9 +27,22 @@ function changePageName() {
   document.title = pageName;
 }
 
+// hamburger menu
+function initHamburgerMenu() {
+  if (!document.querySelector(".hamburger-menu") && !document.querySelector(".nav-links-mobile")) return;
+  const hamburger = document.querySelector(".hamburger-menu");
+  const mobileNavLinks = document.querySelector(".nav-links-mobile");
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    mobileNavLinks.classList.toggle("active");
+  });
+}
+
 // eventListeners for getting the height of the navbar and footer
 document.addEventListener("DOMContentLoaded", () => {
   initInject();
+  initHamburgerMenu();
   changePageName();
 });
 

@@ -67,6 +67,8 @@ class Auth {
     this._ensureNotLogged();
     userValues.email = userValues.email.toLowerCase(); // convert email to lowercase
     userValues.cardNumber = userValues.cardNumber.replaceAll(" ", ""); // remove spaces from card number
+    userValues.billingDay = 1; // set billing day to first day of the month (default value, not in the form)
+    userValues.userName = userValues.email.split("@")[0]; // set username to email without domain
     const dbUser = this._users.getUser(userValues.email); // get user from database
     if (dbUser) throw new Error("Email already exists");
     this._users.addUser(userValues); // add user to database
@@ -138,8 +140,8 @@ class ActiveUserData {
   }
 
   // if logged and on dashboard, call function to change user content
-  if (isLogged && document.getElementById("emailAddress") && document.getElementById("welcome-message")) {
-    changeUserContent(window.auth.getCurrentUserEmail());
+  if (isLogged && document.getElementById("logout")) {
+    changeUserContent();
   }
 
   // if logged and on home, change account link
@@ -155,18 +157,14 @@ function handleRestrictedPage(isLogged) {
   if (!pageAuthSettings) return;
   if (pageAuthSettings === "true" && !isLogged) {
     document.documentElement.innerHTML = ""; // clears page content
-
     setTimeout(() => {
       alert("You are not logged in. Redirecting to the home page.");
       window.location.href = "./Home.html";
-    }, 1); // delay for page to be blank
+    }, 10); // delay for page to be blank
   }
 }
 
 // change user content for dashboard
-function changeUserContent(emailAddress) {
-  document.getElementById("emailAddress").innerHTML = emailAddress;
-  document.getElementById("username").innerHTML = emailAddress.split("@")[0];
-  document.getElementById("welcome-message").innerHTML = "Welcome, " + emailAddress.split("@")[0] + "!";
-  document.getElementById("logout").addEventListener("click", auth.logout);
+function changeUserContent() {
+  document.getElementById("logout").addEventListener("click", window.auth.logout);
 }
