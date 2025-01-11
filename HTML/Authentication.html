@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../CSS/Authentication.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     <script src="../scripts/general.js" defer></script>
-    <script src="../scripts/refactored-forms.js" defer></script>
     <script src="../scripts/authentication.js" defer></script>
   </head>
 
@@ -36,14 +35,14 @@
 
             <!-- Email -->
             <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" name="email" />
+              <label for="signin-email">Email:</label>
+              <input id="signin-email" type="email" name="email" />
             </div>
 
             <!-- Password -->
             <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" name="password" />
+              <label for="signin-password">Password:</label>
+              <input id="signin-password" type="password" name="password" />
             </div>
 
             <!-- Submit Button -->
@@ -61,20 +60,20 @@
 
             <!-- Email -->
             <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" name="email" />
+              <label for="signup-email">Email:</label>
+              <input id="signup-email" type="email" name="email" />
             </div>
 
             <!-- Password -->
             <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" name="password" />
+              <label for="signup-password">Password:</label>
+              <input id="signup-password" type="password" name="password" />
             </div>
 
             <!-- Birthdate -->
             <div class="form-group">
               <label for="birthdate">Birthdate:</label>
-              <input type="date" name="birthdate" />
+              <input id="birthdate" type="date" name="birthdate" />
             </div>
 
             <!-- Credit Card -->
@@ -83,17 +82,17 @@
 
               <div class="form-group">
                 <label for="card-number">Card Number:</label>
-                <input type="text" name="cardNumber" maxlength="16" placeholder="1234 5678 9012 3456" />
+                <input id="card-number" type="text" name="cardNumber" maxlength="16" placeholder="1234 5678 9012 3456" />
               </div>
 
               <div class="form-group">
                 <label for="expiration-date">Expiration Date:</label>
-                <input type="month" name="expirationDate" />
+                <input id="expiration-date" type="month" name="expirationDate" />
               </div>
 
               <div class="form-group">
                 <label for="cvv">CVV:</label>
-                <input type="text" name="cvv" maxlength="3" placeholder="123" />
+                <input id="cvv" type="text" name="cvv" maxlength="3" placeholder="123" />
               </div>
             </fieldset>
 

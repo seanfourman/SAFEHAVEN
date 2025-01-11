@@ -105,14 +105,6 @@ p {
 }
 
 @media (max-width: 400px) {
-  .navbar {
-    height: 40px;
-  }
-
-  .footer {
-    height: 30px;
-  }
-
   .footer-content {
     width: 85%;
   }

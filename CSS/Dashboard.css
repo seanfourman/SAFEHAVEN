@@ -4,13 +4,25 @@
   align-items: center;
   height: 100%;
   gap: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  height: fit-content;
+  padding: 0 10px;
 }
 
-.connected-user h1 {
-  color: #000000;
+.connected-user p {
+  color: #ffffff;
+  font-size: 0.8rem;
+}
+
+#emailAddress {
+  color: #cccccc;
 }
 
 .connected-user img {
   width: 25px;
+}
+
+#logout {
   cursor: pointer;
 }
