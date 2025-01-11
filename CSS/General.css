@@ -35,6 +35,23 @@ p {
   padding: 0 2.5%;
 }
 
+.nav-links {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.nav-links a.current-page {
+  color: #007bff;
+}
+
 .account {
   text-align: center;
   justify-content: center;
