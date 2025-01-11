@@ -68,6 +68,11 @@ class Auth {
   _ensureNotLogged() {
     if (this.isLogged()) throw new Error("Already logged in");
   }
+
+  logout() {
+    localStorage.removeItem("loggedUser");
+    window.location.href = "./Home.html";
+  }
 }
 
 class ActiveUserData {
@@ -96,8 +101,14 @@ class ActiveUserData {
   const isLogged = window.auth.isLogged();
   handleRestrictedPage(isLogged);
 
+  // fill user data if logged
   if (isLogged) {
     new ActiveUserData(window.users.getUser(window.auth.getCurrentUserEmail()), document.body);
+  }
+
+  // if logged and on dashboard, call function to change user content
+  if (isLogged && document.getElementById("emailAddress")) {
+    changeUserContent(auth.getCurrentUserEmail());
   }
 })();
 
@@ -105,5 +116,18 @@ function handleRestrictedPage(isLogged) {
   const pageAuthSettings = document.body.dataset.auth;
 
   if (!pageAuthSettings) return;
-  if ((pageAuthSettings === "true" && !isLogged) || (pageAuthSettings === "false" && isLogged)) window.location.href = "./Home.html";
+  if ((pageAuthSettings === "true" && !isLogged) || (pageAuthSettings === "false" && isLogged)) {
+    document.documentElement.innerHTML = ""; // clears page content
+
+    setTimeout(() => {
+      alert("You are not logged in. Redirecting to the home page.");
+      window.location.href = "./Home.html";
+    }, 1); // delay for page to be blank
+  }
+}
+
+function changeUserContent(emailAddress) {
+  document.getElementById("emailAddress").innerHTML = emailAddress;
+  document.getElementById("username").innerHTML = emailAddress.split("@")[0];
+  document.getElementById("logout").addEventListener("click", auth.logout);
 }
