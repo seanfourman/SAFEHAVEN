@@ -84,6 +84,8 @@
 
 .card-container {
   position: relative;
+  display: flex;
+  gap: 15px;
 }
 
 .card-header,
