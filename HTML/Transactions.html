@@ -10,6 +10,8 @@
     <script src="../scripts/frame.js" defer></script>
     <script src="../scripts/data.js" defer></script>
     <script src="../scripts/users.js" defer></script>
+    <script src="../scripts/transactions.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body data-auth="true">
@@ -51,7 +53,34 @@
       </div>
     </nav>
 
-    <div class="charges-container"></div>
+    <div class="container">
+      <h1>My Expenses</h1>
+      <label for="monthSelect">Choose Month:</label>
+      <select id="monthSelect"></select>
+      <div id="summary">
+        <h1>Summary</h1>
+        <p>Total Expenses: <span id="totalExpenses"></span></p>
+      </div>
+
+      <table border="1" id="details">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Business Name</th>
+            <th>Category</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="chart-container">
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

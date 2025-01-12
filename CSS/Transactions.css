@@ -1,3 +1,7 @@
+body {
+  background-color: white;
+}
+
 .navbar {
   position: relative;
 }
@@ -9,4 +13,10 @@
 
 .charges-dashboard {
   display: flex;
+}
+
+.container h1,
+p,
+span {
+  color: black;
 }
