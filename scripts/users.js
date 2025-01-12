@@ -15,6 +15,7 @@ class Users {
     return JSON.parse(localStorage.getItem(this._key) || "[]");
   }
   // _setUsers sets users to local storage as a string (JSON)
+  // value is stringified if it is not an object
   _setUsers(value) {
     value = typeof value != "object" ? JSON.parse(value || "[]") : value;
     localStorage.setItem(this._key, JSON.stringify(value));

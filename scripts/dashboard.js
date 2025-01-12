@@ -24,15 +24,6 @@ function getRealDate() {
   return strDate;
 }
 
-function changeBackground() {
-  let background = document.querySelector(".page-image");
-
-  if (background) {
-    //background.style.backgroundImage = 'url("https://picsum.photos/1920/1080")';
-    background.style.backgroundImage = 'url("https://picsum.photos/2560/1440")';
-  }
-}
-
 // update time, date and welcome message based on real time for dashboard
 function updateRealTime() {
   document.getElementById("time").innerHTML = getRealTime();
@@ -48,6 +39,15 @@ function updateRealTime() {
     } else {
       document.getElementById("welcome-message").innerHTML = "Good Night!";
     }
+  }
+}
+
+function changeBackground() {
+  let background = document.querySelector(".page-image");
+
+  if (background) {
+    //background.style.backgroundImage = 'url("https://picsum.photos/1920/1080")';
+    background.style.backgroundImage = 'url("https://picsum.photos/2560/1440")';
   }
 }
 

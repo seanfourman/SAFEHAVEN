@@ -6,7 +6,7 @@ class CustomForm {
 
     this._errorHandler = new CustomFormErrorHandler(this);
     this._validator = new CustomFormValidator(this, this._errorHandler);
-    this._actionHandler = new CustomFormActionHandler(this, this._errorHandler); // kinda pointless but whatever, maybe will be useful in the future
+    this._actionHandler = new CustomFormActionHandler(this, this._errorHandler);
     this._bindEventListeners();
   }
 

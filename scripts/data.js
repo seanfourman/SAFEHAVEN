@@ -9,6 +9,7 @@ class RenderData {
   _init() {
     this.$fields = Array.from(this._containerElement.querySelectorAll("[data-render-field]"));
   }
+
   _fillData() {
     this.$fields.forEach((element) => {
       element.textContent = this._source[element.dataset.renderField];
