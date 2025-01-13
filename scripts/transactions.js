@@ -20,8 +20,6 @@ if (storedData.allData) {
   removeElements();
 }
 
-updateChargesFromStorage(); // Update Last and Next Charges directly from localStorage
-
 // Build the dropdown for months
 function buildMonthSelect(data) {
   if (!document.getElementById("monthSelect")) return;
@@ -96,31 +94,8 @@ function updateDashboard() {
 
   totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
 
-  // Update Last and Next Charges
-  updateChargesFromStorage();
-
   // Update charts
   updateCharts(filteredData);
-}
-
-// Update Last and Next Charges directly from localStorage
-function updateChargesFromStorage() {
-  if (previousChargeSpan && nextChargeSpan) {
-    const prevCharge = storedData.previousMonthExpenses || 0;
-    const nextCharge = storedData.currentMonthExpenses || 0;
-
-    if (!localStorage.getItem("expensesData") || prevCharge === 0) {
-      previousChargeSpan.remove(); // Remove the entire element
-    } else {
-      previousChargeSpan.textContent = `Last Charge: $${prevCharge.toFixed(2)}`;
-    }
-
-    if (!localStorage.getItem("expensesData")) {
-      nextChargeSpan.remove(); // Remove the entire element
-    } else {
-      nextChargeSpan.textContent = `Next Charge: $${nextCharge.toFixed(2)}`;
-    }
-  }
 }
 
 // Helper: Calculate total expenses for a given month (YYYY-MM)
@@ -283,18 +258,12 @@ function removeElements() {
       }
     });
 
-    const centerFrame = document.createElement("div");
-    centerFrame.classList.add("page-image");
-    centerFrame.style.height = `calc(100vh - var(--navbarHeight) - var(--footerHeight))`;
+    const centerFrame = document.querySelector(".page-image");
+    centerFrame.style.display = "flex";
+
     const text = document.createElement("h1");
     text.textContent = "No data available";
     document.body.appendChild(centerFrame);
     centerFrame.appendChild(text);
-
-    const footer = document.querySelector("footer");
-    if (footer) {
-      footer.style.position = "absolute";
-      footer.style.bottom = "0";
-    }
   }
 }

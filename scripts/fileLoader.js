@@ -26,6 +26,30 @@ function calculateMonthlyExpenses(data, targetMonth) {
     .reduce((total, row) => total + (parseFloat(row.Amount) || 0), 0);
 }
 
+// Function to update Last and Next Charges directly from localStorage
+function updateChargesFromStorage() {
+  const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
+  const previousChargeSpan = document.getElementById("previous-charge");
+  const nextChargeSpan = document.getElementById("next-charge");
+
+  if (previousChargeSpan && nextChargeSpan) {
+    const prevCharge = storedData.previousMonthExpenses || 0;
+    const nextCharge = storedData.currentMonthExpenses || 0;
+
+    if (!localStorage.getItem("expensesData") || prevCharge === 0) {
+      previousChargeSpan.remove();
+    } else {
+      previousChargeSpan.innerHTML = `Last Charge: <span style="color: #ff5733;">$${prevCharge.toFixed(2)}</span>`;
+    }
+
+    if (localStorage.getItem("expensesData")) {
+      nextChargeSpan.innerHTML = `Next Charge: <span style="color: #ff5733;">$${nextCharge.toFixed(2)}</span>`;
+    }
+  }
+}
+
+updateChargesFromStorage();
+
 // Function to get current and previous months in YYYY-MM format
 function getCurrentAndPreviousMonth() {
   const now = new Date();
@@ -38,38 +62,43 @@ function getCurrentAndPreviousMonth() {
 // Attach event listener to the file input
 const csvFileInput = document.getElementById("csvFileInput");
 
-csvFileInput.addEventListener("change", function (event) {
-  const file = event.target.files[0];
-  if (!file) return;
+if (csvFileInput) {
+  csvFileInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const csvText = e.target.result;
-    const newData = csvToJson(csvText);
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const csvText = e.target.result;
+      const newData = csvToJson(csvText);
 
-    // Retrieve existing data from localStorage
-    const storedData = JSON.parse(localStorage.getItem("expensesData")) || { allData: [], currentMonthExpenses: 0, previousMonthExpenses: 0 };
+      // Retrieve existing data from localStorage
+      const storedData = JSON.parse(localStorage.getItem("expensesData")) || { allData: [], currentMonthExpenses: 0, previousMonthExpenses: 0 };
 
-    // Merge existing data with new data
-    const combinedData = [...storedData.allData, ...newData];
+      // Merge existing data with new data
+      const combinedData = [...storedData.allData, ...newData];
 
-    // Get current and previous months
-    const { currentMonth, previousMonth } = getCurrentAndPreviousMonth();
+      // Get current and previous months
+      const { currentMonth, previousMonth } = getCurrentAndPreviousMonth();
 
-    // Recalculate expenses
-    const currentMonthExpenses = calculateMonthlyExpenses(combinedData, currentMonth);
-    const previousMonthExpenses = calculateMonthlyExpenses(combinedData, previousMonth);
+      // Recalculate expenses
+      const currentMonthExpenses = calculateMonthlyExpenses(combinedData, currentMonth);
+      const previousMonthExpenses = calculateMonthlyExpenses(combinedData, previousMonth);
 
-    // Save the combined data and updated expenses to localStorage
-    const updatedData = {
-      allData: combinedData,
-      currentMonthExpenses,
-      previousMonthExpenses
+      // Save the combined data and updated expenses to localStorage
+      const updatedData = {
+        allData: combinedData,
+        currentMonthExpenses,
+        previousMonthExpenses
+      };
+
+      localStorage.setItem("expensesData", JSON.stringify(updatedData));
+
+      // Update charges from storage after saving
+      updateChargesFromStorage();
+
+      alert("Data successfully added to storage!");
     };
-
-    localStorage.setItem("expensesData", JSON.stringify(updatedData));
-
-    alert("Data successfully added to storage!");
-  };
-  reader.readAsText(file);
-});
+    reader.readAsText(file);
+  });
+}

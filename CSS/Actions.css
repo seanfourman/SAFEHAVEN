@@ -32,3 +32,9 @@
 .custom-file-input:active {
   background-color: #ffa490;
 }
+
+@media (max-width: 468px) {
+  .actions-page h1 {
+    font-size: 1.5rem;
+  }
+}

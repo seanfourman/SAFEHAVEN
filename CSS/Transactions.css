@@ -6,6 +6,11 @@
   width: 100%;
 }
 
+.transactions-page {
+  height: auto; /* Let the page adjust its height dynamically */
+  display: block;
+}
+
 .charges-dashboard h1,
 p,
 span,
@@ -19,7 +24,7 @@ label {
 }
 
 .footer {
-  position: relative;
+  position: absolute;
   bottom: 0;
 }
 
@@ -29,14 +34,16 @@ label {
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  height: auto; /* Adjust height based on content */
 }
 
 .charges-dashboard {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 75%;
-  margin: 50px auto 0 auto;
+  flex-direction: column; /* Stack charts and table vertically */
+  justify-content: flex-start;
+  align-items: center;
+  height: auto; /* Adjust height dynamically */
+  margin-bottom: 20px; /* Add spacing before the footer */
 }
 
 #summary {
@@ -54,19 +61,20 @@ p {
   color: var(--highlight-color);
 }
 
-/* -------------------------------------------------- */
+/* --- CHARTS CONTAINER --- */
 .charts-container {
   display: flex;
-  justify-content: space-around;
-  margin: 20px auto;
+  justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
+  width: 80%; /* Align with table width */
+  margin: 20px auto; /* Center charts container */
 }
 
 canvas {
   max-width: 400px;
   max-height: 300px;
 }
-/* -------------------------------------------------- */
 
 /* --- MONTH SELECTION --- */
 .month-selection {
@@ -107,15 +115,23 @@ canvas {
 }
 
 /* --- TABLE --- */
+#details-container {
+  max-height: 500px;
+  overflow-y: auto;
+  width: 50%;
+}
+
 #details {
-  width: 25%;
+  width: 100%; /* Ensure the table takes the full width of the container */
   border-collapse: collapse;
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: 0; /* Remove border-radius since the container handles it */
 }
 
 #details thead {
-  background-color: var(--highlight-color);
+  position: sticky; /* Keep the header fixed while scrolling */
+  top: 0; /* Ensure it sticks to the top of the container */
+  background-color: var(--highlight-color); /* Match header background */
+  z-index: 2; /* Ensure it stays above other elements */
 }
 
 #details th {
@@ -146,4 +162,46 @@ canvas {
 #details tbody tr:hover {
   background-color: #ffd1c0;
   cursor: pointer;
+}
+
+#details-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+#details-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#details-container::-webkit-scrollbar-thumb {
+  background: #d2d2d2;
+}
+
+#details-container::-webkit-scrollbar-thumb:hover {
+  background: #afafaf;
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 1080px) {
+  .charts-container {
+    flex-direction: column; /* Stack charts vertically on smaller screens */
+  }
+
+  #details-container {
+    width: 100%; /* Adjust container width for smaller screens */
+  }
+
+  .footer {
+    position: relative; /* Ensure footer adjusts dynamically */
+  }
+}
+
+@media (max-width: 678px) {
+  .charges-title {
+    flex-direction: column; /* Stack title elements vertically */
+    gap: 30px;
+  }
+
+  .chart {
+    width: 80%;
+  }
 }

@@ -54,39 +54,43 @@
       </div>
     </nav>
 
-    <div class="charges-title">
-      <div>
-        <h1>My Charges</h1>
-      </div>
-      <div id="summary">
-        <h1>Summary</h1>
-        <p>Total Expenses: <span id="totalExpenses">$0</span></p>
-      </div>
-
-      <div class="month-selection">
-        <label for="monthSelect">Choose Month:</label>
-        <select id="monthSelect"></select>
-      </div>
-    </div>
-
-    <div class="charges-dashboard">
-      <div class="charts-container">
-        <div class="chart">
-          <canvas id="pieChart"></canvas>
-          <canvas id="barChart"></canvas>
+    <div class="page-image transactions-page">
+      <div class="charges-title">
+        <div>
+          <h1>My Charges</h1>
+        </div>
+        <div id="summary">
+          <h1>Summary</h1>
+          <p>Total Expenses: <span id="totalExpenses">$0</span></p>
         </div>
 
-        <table id="details">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Business Name</th>
-              <th>Category</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <div class="month-selection">
+          <label for="monthSelect">Choose Month:</label>
+          <select id="monthSelect"></select>
+        </div>
+      </div>
+
+      <div class="charges-dashboard">
+        <div class="charts-container">
+          <div class="chart">
+            <canvas id="pieChart"></canvas>
+            <canvas id="barChart"></canvas>
+          </div>
+
+          <div id="details-container">
+            <table id="details">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Business Name</th>
+                  <th>Category</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
