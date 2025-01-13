@@ -7,6 +7,16 @@ const monthSelect = document.getElementById("monthSelect");
 const tableBody = document.querySelector("#details tbody");
 const totalExpensesSpan = document.getElementById("totalExpenses");
 
+// Get the stored CSV data from local storage
+let storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
+
+// If data exists in local storage, load it into the app
+if (storedData.allData) {
+  allData = storedData.allData;
+  buildMonthSelect(allData);
+  updateDashboard();
+}
+
 csvFileInput.addEventListener("change", function (event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -15,6 +25,15 @@ csvFileInput.addEventListener("change", function (event) {
   reader.onload = function (e) {
     const csvText = e.target.result;
     allData = csvToJson(csvText);
+
+    // Save the data to local storage
+    storedData = {
+      allData,
+      currentMonthExpenses: 0, // Reset when loading new data
+      previousMonthExpenses: 0 // Reset when loading new data
+    };
+    localStorage.setItem("expensesData", JSON.stringify(storedData));
+
     buildMonthSelect(allData);
     updateDashboard();
   };
@@ -102,6 +121,23 @@ function updateDashboard() {
 
   totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
 
+  // Save the current month's expenses
+  storedData.currentMonthExpenses = total;
+
+  // Calculate the previous month's expenses
+  const previousMonth = getPreviousMonth(selectedMonth);
+  const previousMonthExpenses = calculateMonthlyExpenses(previousMonth);
+  storedData.previousMonthExpenses = previousMonthExpenses;
+
+  // Save updated data to local storage
+  localStorage.setItem("expensesData", JSON.stringify(storedData));
+
+  // Update Charts
+  updateCharts(filteredData);
+}
+
+function updateCharts(filteredData) {
+  // --- Pie Chart ---
   const categoryTotals = {};
   filteredData.forEach((row) => {
     const cat = row.Category || "Unknown";
@@ -133,12 +169,19 @@ function updateDashboard() {
       plugins: {
         title: {
           display: true,
-          text: "Expenses by Category"
+          text: "Expenses by Category",
+          color: "white"
+        },
+        legend: {
+          labels: {
+            color: "white"
+          }
         }
       }
     }
   });
 
+  // --- Bar Chart ---
   const dailyTotals = {};
   filteredData.forEach((row) => {
     const [dd] = row.Date.split("/");
@@ -157,12 +200,28 @@ function updateDashboard() {
   barChartInstance = new Chart(barCtx, {
     type: "bar",
     data: {
-      labels: sortedDays.map((d) => "Day " + d),
+      labels: sortedDays.map((d) => {
+        const day = parseInt(d);
+        const suffix = (day) => {
+          if (day > 3 && day < 21) return "th";
+          switch (day % 10) {
+            case 1:
+              return "st";
+            case 2:
+              return "nd";
+            case 3:
+              return "rd";
+            default:
+              return "th";
+          }
+        };
+        return `${day}${suffix(day)}`;
+      }),
       datasets: [
         {
-          label: "Expenses Per Day",
+          label: "Expenses Per Day of the Month",
           data: barValues,
-          backgroundColor: "#36A2EB"
+          backgroundColor: "#ff5733"
         }
       ]
     },
@@ -171,12 +230,39 @@ function updateDashboard() {
       plugins: {
         title: {
           display: true,
-          text: "Daily Expenses"
+          text: "Daily Expenses",
+          color: "white"
+        },
+        legend: {
+          labels: {
+            color: "white"
+          }
         }
       },
       scales: {
-        y: { beginAtZero: true }
+        y: { beginAtZero: true, ticks: { color: "white" } },
+        x: { ticks: { color: "white" } }
       }
     }
   });
+}
+
+// Helper: Calculate total expenses for a given month (YYYY-MM)
+function calculateMonthlyExpenses(month) {
+  const [year, mm] = month.split("-");
+  return allData
+    .filter((row) => {
+      const [dd, rowMM, rowYYYY] = row.Date.split("/");
+      return rowYYYY === year && rowMM === mm;
+    })
+    .reduce((sum, row) => sum + (parseFloat(row.Amount) || 0), 0);
+}
+
+// Helper: Get the previous month (YYYY-MM format)
+function getPreviousMonth(currentMonth) {
+  const [year, month] = currentMonth.split("-").map(Number);
+  const previousMonth = new Date(year, month - 2, 1); // Subtract 1 month
+  const yyyy = previousMonth.getFullYear();
+  const mm = String(previousMonth.getMonth() + 1).padStart(2, "0");
+  return `${yyyy}-${mm}`;
 }
