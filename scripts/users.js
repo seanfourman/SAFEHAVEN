@@ -26,6 +26,11 @@ class Users {
     users.push(user);
     this._setUsers(users);
   }
+  updateUser(user) {
+    const users = this._getUsers();
+    const updatedUsers = users.map((dbUser) => (dbUser.email === user.email ? { ...dbUser, ...user } : dbUser));
+    this._setUsers(updatedUsers);
+  }
   // removeUser filters the users array to remove the user with the given email
   removeUser(email) {
     let users = this._getUsers();

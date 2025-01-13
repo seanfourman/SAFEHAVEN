@@ -105,9 +105,10 @@
 .user-cards {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   gap: 20px;
+  overflow-x: auto;
+  max-width: 60%;
 }
 
 .card-container {
@@ -217,5 +218,8 @@ h5.number {
   .user-cards {
     flex-direction: column;
     gap: 50px;
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 70%;
   }
 }
