@@ -95,13 +95,6 @@ function updateDashboard() {
 
   totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
 
-  // Save current and previous month expenses to localStorage
-  storedData.currentMonthExpenses = total;
-  const previousMonth = getPreviousMonth(selectedMonth);
-  const previousMonthExpenses = calculateMonthlyExpenses(previousMonth);
-  storedData.previousMonthExpenses = previousMonthExpenses;
-  localStorage.setItem("expensesData", JSON.stringify(storedData));
-
   // Update Last and Next Charges
   updateChargesFromStorage();
 
@@ -121,7 +114,7 @@ function updateChargesFromStorage() {
       previousChargeSpan.textContent = `$${prevCharge.toFixed(2)}`;
     }
 
-    if (!localStorage.getItem("expensesData") || nextCharge === 0) {
+    if (!localStorage.getItem("expensesData")) {
       nextChargeSpan.parentElement.remove(); // Remove the entire element
     } else {
       nextChargeSpan.textContent = `$${nextCharge.toFixed(2)}`;
@@ -149,10 +142,38 @@ function getPreviousMonth(currentMonth) {
   return `${yyyy}-${mm}`;
 }
 
-// Update the charts
-function updateCharts(filteredData) {
+function updateCharts() {
+  // Get the selected month from the dropdown
+  const selectedMonth = monthSelect.value;
+  if (!selectedMonth) return;
+
+  const [selectedYear, selectedMonthNumber] = selectedMonth.split("-").map(Number);
+
+  // Calculate the past three months relative to the selected month
+  const pastThreeMonths = [];
+  for (let i = 2; i >= 0; i--) {
+    const date = new Date(selectedYear, selectedMonthNumber - 1 - i, 1); // Adjust for 0-based index
+    pastThreeMonths.push(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`);
+  }
+
+  // Aggregate expenses by month
+  const monthlyTotals = {};
+  pastThreeMonths.forEach((month) => {
+    monthlyTotals[month] = allData
+      .filter((row) => {
+        if (!row.Date) return false;
+        const [dd, mm, yyyy] = row.Date.split("/");
+        return `${yyyy}-${mm.padStart(2, "0")}` === month;
+      })
+      .reduce((total, row) => total + (parseFloat(row.Amount) || 0), 0);
+  });
+
+  const sortedMonths = Object.keys(monthlyTotals);
+  const monthlyValues = Object.values(monthlyTotals);
+
+  // --- Pie Chart (Category Totals for Current Data) ---
   const categoryTotals = {};
-  filteredData.forEach((row) => {
+  allData.forEach((row) => {
     const cat = row.Category || "Unknown";
     const amt = parseFloat(row.Amount) || 0;
     categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;
@@ -170,21 +191,31 @@ function updateCharts(filteredData) {
     type: "pie",
     data: {
       labels: pieLabels,
-      datasets: [{ data: pieValues, backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"] }]
+      datasets: [
+        {
+          data: pieValues,
+          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#FFCD56"]
+        }
+      ]
     },
-    options: { responsive: true }
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Category Breakdown",
+          color: "white" // Set title color to white
+        },
+        legend: {
+          labels: {
+            color: "white" // Set legend text color to white
+          }
+        }
+      }
+    }
   });
 
-  const dailyTotals = {};
-  filteredData.forEach((row) => {
-    const [dd] = row.Date.split("/");
-    const amt = parseFloat(row.Amount) || 0;
-    dailyTotals[dd] = (dailyTotals[dd] || 0) + amt;
-  });
-
-  const sortedDays = Object.keys(dailyTotals).sort((a, b) => parseInt(a) - parseInt(b));
-  const barValues = sortedDays.map((day) => dailyTotals[day]);
-
+  // --- Bar Chart (Relative to Selected Month) ---
   if (barChartInstance) {
     barChartInstance.destroy();
   }
@@ -193,9 +224,51 @@ function updateCharts(filteredData) {
   barChartInstance = new Chart(barCtx, {
     type: "bar",
     data: {
-      labels: sortedDays.map((d) => `Day ${d}`),
-      datasets: [{ label: "Daily Expenses", data: barValues, backgroundColor: "#36A2EB" }]
+      labels: sortedMonths.map((month) => {
+        const [year, mm] = month.split("-");
+        return `${monthNumberToName(parseInt(mm))} ${year}`;
+      }),
+      datasets: [
+        {
+          label: "Monthly Expenses",
+          data: monthlyValues,
+          backgroundColor: "#ff5733"
+        }
+      ]
     },
-    options: { responsive: true }
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Expenses for the Past Months",
+          color: "white" // Set title color to white
+        },
+        legend: {
+          labels: {
+            color: "white" // Set legend text color to white
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "white" // Set Y-axis text color to white
+          }
+        },
+        x: {
+          ticks: {
+            color: "white" // Set X-axis text color to white
+          }
+        }
+      }
+    }
   });
+}
+
+// Helper: Convert month number to name
+function monthNumberToName(num) {
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  return months[num - 1] || "Unknown";
 }
