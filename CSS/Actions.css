@@ -1,0 +1,33 @@
+.actions-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+#csvFileInput {
+  display: none; /* Hide the default file input */
+}
+
+.custom-file-input {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--highlight-color);
+  color: #fff; /* White text */
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-input:hover {
+  background-color: #ff7556;
+}
+
+.custom-file-input:active {
+  background-color: #ffa490;
+}

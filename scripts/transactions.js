@@ -12,11 +12,12 @@ const nextChargeSpan = document.getElementById("next-charge");
 // Load stored data from localStorage
 const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
 
-// If data exists, initialize the app
 if (storedData.allData) {
   allData = storedData.allData;
   buildMonthSelect(allData);
   updateDashboard();
+} else {
+  removeElements();
 }
 
 updateChargesFromStorage(); // Update Last and Next Charges directly from localStorage
@@ -204,11 +205,11 @@ function updateCharts() {
         title: {
           display: true,
           text: "Category Breakdown",
-          color: "white" // Set title color to white
+          color: "#ffffff"
         },
         legend: {
           labels: {
-            color: "white" // Set legend text color to white
+            color: "#ffffff"
           }
         }
       }
@@ -242,11 +243,11 @@ function updateCharts() {
         title: {
           display: true,
           text: "Expenses for the Past Months",
-          color: "white" // Set title color to white
+          color: "#ffffff"
         },
         legend: {
           labels: {
-            color: "white" // Set legend text color to white
+            color: "#ffffff"
           }
         }
       },
@@ -254,12 +255,12 @@ function updateCharts() {
         y: {
           beginAtZero: true,
           ticks: {
-            color: "white" // Set Y-axis text color to white
+            color: "#ffffff"
           }
         },
         x: {
           ticks: {
-            color: "white" // Set X-axis text color to white
+            color: "#ffffff"
           }
         }
       }
@@ -271,4 +272,29 @@ function updateCharts() {
 function monthNumberToName(num) {
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return months[num - 1] || "Unknown";
+}
+
+function removeElements() {
+  if (!storedData.allData) {
+    const elementsToRemove = [document.querySelector(".charges-title"), document.querySelector(".charges-dashboard")];
+    elementsToRemove.forEach((element) => {
+      if (element) {
+        element.remove();
+      }
+    });
+
+    const centerFrame = document.createElement("div");
+    centerFrame.classList.add("page-image");
+    centerFrame.style.height = `calc(100vh - var(--navbarHeight) - var(--footerHeight))`;
+    const text = document.createElement("h1");
+    text.textContent = "No data available";
+    document.body.appendChild(centerFrame);
+    centerFrame.appendChild(text);
+
+    const footer = document.querySelector("footer");
+    if (footer) {
+      footer.style.position = "absolute";
+      footer.style.bottom = "0";
+    }
+  }
 }
