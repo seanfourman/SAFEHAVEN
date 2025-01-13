@@ -251,15 +251,13 @@ function monthNumberToName(num) {
 
 function removeElements() {
   if (!storedData.allData) {
-    const elementsToRemove = [document.querySelector(".charges-title"), document.querySelector(".charges-dashboard")];
-    elementsToRemove.forEach((element) => {
-      if (element) {
-        element.remove();
-      }
-    });
+    document.querySelector(".transactions-page").remove();
 
-    const centerFrame = document.querySelector(".page-image");
+    const centerFrame = document.createElement("div");
+    centerFrame.style.height = "calc(100vh - var(--navbarHeight) - var(--footerHeight))";
     centerFrame.style.display = "flex";
+    centerFrame.style.justifyContent = "center";
+    centerFrame.style.alignItems = "center";
 
     const text = document.createElement("h1");
     text.textContent = "No data available";
@@ -267,3 +265,17 @@ function removeElements() {
     centerFrame.appendChild(text);
   }
 }
+
+function checkIfPageScrollable() {
+  const isScrollable = document.documentElement.scrollHeight > document.documentElement.clientHeight;
+  const footerElement = document.querySelector(".footer");
+  if (isScrollable) {
+    footerElement.style.position = "relative";
+  } else {
+    footerElement.style.position = "absolute";
+  }
+}
+
+checkIfPageScrollable();
+
+window.addEventListener("resize", checkIfPageScrollable);

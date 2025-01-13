@@ -11,14 +11,6 @@
   display: block;
 }
 
-.charges-dashboard h1,
-p,
-span,
-table,
-label {
-  color: white;
-}
-
 .navbar {
   position: relative;
 }
@@ -52,7 +44,7 @@ label {
 }
 
 #summary h1,
-p {
+#summary p {
   font-weight: bold;
   margin: 0px;
 }
@@ -184,14 +176,11 @@ canvas {
 @media (max-width: 1080px) {
   .charts-container {
     flex-direction: column; /* Stack charts vertically on smaller screens */
+    gap: 20px;
   }
 
   #details-container {
     width: 100%; /* Adjust container width for smaller screens */
-  }
-
-  .footer {
-    position: relative; /* Ensure footer adjusts dynamically */
   }
 }
 
