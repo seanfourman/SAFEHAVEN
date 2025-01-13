@@ -61,6 +61,10 @@
   margin-bottom: 0px;
 }
 
+.monthly-charges span {
+  color: var(--highlight-color);
+}
+
 #time {
   font-size: 4rem;
   margin: 0px;

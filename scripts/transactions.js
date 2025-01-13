@@ -1,5 +1,3 @@
-// transactions.js
-
 let allData = [];
 let pieChartInstance = null;
 let barChartInstance = null;
@@ -8,6 +6,8 @@ let barChartInstance = null;
 const monthSelect = document.getElementById("monthSelect");
 const tableBody = document.querySelector("#details tbody");
 const totalExpensesSpan = document.getElementById("totalExpenses");
+const previousChargeSpan = document.getElementById("previous-charge");
+const nextChargeSpan = document.getElementById("next-charge");
 
 // Load stored data from localStorage
 const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
@@ -17,12 +17,13 @@ if (storedData.allData) {
   allData = storedData.allData;
   buildMonthSelect(allData);
   updateDashboard();
-} else {
-  alert("No data found! Please upload a file on the previous page.");
 }
+
+updateChargesFromStorage(); // Update Last and Next Charges directly from localStorage
 
 // Build the dropdown for months
 function buildMonthSelect(data) {
+  if (!document.getElementById("monthSelect")) return;
   monthSelect.innerHTML = "";
   const monthsSet = new Set();
 
@@ -36,7 +37,7 @@ function buildMonthSelect(data) {
     }
   });
 
-  const sortedMonths = Array.from(monthsSet).sort();
+  const sortedMonths = Array.from(monthsSet).sort().reverse();
   sortedMonths.forEach((monthStr) => {
     const option = document.createElement("option");
     option.value = monthStr;
@@ -46,7 +47,7 @@ function buildMonthSelect(data) {
   });
 
   if (sortedMonths.length > 0) {
-    monthSelect.value = sortedMonths[sortedMonths.length - 1];
+    monthSelect.value = sortedMonths[0];
   }
 }
 
@@ -57,10 +58,13 @@ function monthNumberToName(num) {
 }
 
 // Event listener for month selection change
-monthSelect.addEventListener("change", updateDashboard);
+if (monthSelect) {
+  monthSelect.addEventListener("change", updateDashboard);
+}
 
 // Update the dashboard
 function updateDashboard() {
+  if (!document.getElementById("monthSelect")) return;
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
 
@@ -98,8 +102,31 @@ function updateDashboard() {
   storedData.previousMonthExpenses = previousMonthExpenses;
   localStorage.setItem("expensesData", JSON.stringify(storedData));
 
+  // Update Last and Next Charges
+  updateChargesFromStorage();
+
   // Update charts
   updateCharts(filteredData);
+}
+
+// Update Last and Next Charges directly from localStorage
+function updateChargesFromStorage() {
+  if (previousChargeSpan && nextChargeSpan) {
+    const prevCharge = storedData.previousMonthExpenses || 0;
+    const nextCharge = storedData.currentMonthExpenses || 0;
+
+    if (!localStorage.getItem("expensesData") || prevCharge === 0) {
+      previousChargeSpan.parentElement.remove(); // Remove the entire element
+    } else {
+      previousChargeSpan.textContent = `$${prevCharge.toFixed(2)}`;
+    }
+
+    if (!localStorage.getItem("expensesData") || nextCharge === 0) {
+      nextChargeSpan.parentElement.remove(); // Remove the entire element
+    } else {
+      nextChargeSpan.textContent = `$${nextCharge.toFixed(2)}`;
+    }
+  }
 }
 
 // Helper: Calculate total expenses for a given month (YYYY-MM)
