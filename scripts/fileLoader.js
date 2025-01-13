@@ -45,23 +45,31 @@ csvFileInput.addEventListener("change", function (event) {
   const reader = new FileReader();
   reader.onload = function (e) {
     const csvText = e.target.result;
-    const allData = csvToJson(csvText);
+    const newData = csvToJson(csvText);
+
+    // Retrieve existing data from localStorage
+    const storedData = JSON.parse(localStorage.getItem("expensesData")) || { allData: [], currentMonthExpenses: 0, previousMonthExpenses: 0 };
+
+    // Merge existing data with new data
+    const combinedData = [...storedData.allData, ...newData];
 
     // Get current and previous months
     const { currentMonth, previousMonth } = getCurrentAndPreviousMonth();
 
-    // Calculate expenses
-    const currentMonthExpenses = calculateMonthlyExpenses(allData, currentMonth);
-    const previousMonthExpenses = calculateMonthlyExpenses(allData, previousMonth);
+    // Recalculate expenses
+    const currentMonthExpenses = calculateMonthlyExpenses(combinedData, currentMonth);
+    const previousMonthExpenses = calculateMonthlyExpenses(combinedData, previousMonth);
 
-    // Save the data to localStorage
-    const storedData = {
-      allData,
+    // Save the combined data and updated expenses to localStorage
+    const updatedData = {
+      allData: combinedData,
       currentMonthExpenses,
       previousMonthExpenses
     };
 
-    localStorage.setItem("expensesData", JSON.stringify(storedData));
+    localStorage.setItem("expensesData", JSON.stringify(updatedData));
+
+    alert("Data successfully added to storage!");
   };
   reader.readAsText(file);
 });

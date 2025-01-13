@@ -110,15 +110,15 @@ function updateChargesFromStorage() {
     const nextCharge = storedData.currentMonthExpenses || 0;
 
     if (!localStorage.getItem("expensesData") || prevCharge === 0) {
-      previousChargeSpan.parentElement.remove(); // Remove the entire element
+      previousChargeSpan.remove(); // Remove the entire element
     } else {
-      previousChargeSpan.textContent = `$${prevCharge.toFixed(2)}`;
+      previousChargeSpan.textContent = `Last Charge: $${prevCharge.toFixed(2)}`;
     }
 
     if (!localStorage.getItem("expensesData")) {
-      nextChargeSpan.parentElement.remove(); // Remove the entire element
+      nextChargeSpan.remove(); // Remove the entire element
     } else {
-      nextChargeSpan.textContent = `$${nextCharge.toFixed(2)}`;
+      nextChargeSpan.textContent = `Next Charge: $${nextCharge.toFixed(2)}`;
     }
   }
 }
