@@ -1,61 +1,27 @@
+// transactions.js
+
 let allData = [];
 let pieChartInstance = null;
 let barChartInstance = null;
 
-const csvFileInput = document.getElementById("csvFileInput");
+// Get references to DOM elements
 const monthSelect = document.getElementById("monthSelect");
 const tableBody = document.querySelector("#details tbody");
 const totalExpensesSpan = document.getElementById("totalExpenses");
 
-// Get the stored CSV data from local storage
-let storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
+// Load stored data from localStorage
+const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
 
-// If data exists in local storage, load it into the app
+// If data exists, initialize the app
 if (storedData.allData) {
   allData = storedData.allData;
   buildMonthSelect(allData);
   updateDashboard();
+} else {
+  alert("No data found! Please upload a file on the previous page.");
 }
 
-csvFileInput.addEventListener("change", function (event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const csvText = e.target.result;
-    allData = csvToJson(csvText);
-
-    // Save the data to local storage
-    storedData = {
-      allData,
-      currentMonthExpenses: 0, // Reset when loading new data
-      previousMonthExpenses: 0 // Reset when loading new data
-    };
-    localStorage.setItem("expensesData", JSON.stringify(storedData));
-
-    buildMonthSelect(allData);
-    updateDashboard();
-  };
-  reader.readAsText(file);
-});
-
-function csvToJson(csvText) {
-  const lines = csvText.trim().split("\n");
-  const headers = lines[0].split(",").map((h) => h.trim());
-  const rows = lines.slice(1);
-
-  const jsonArray = rows.map((line) => {
-    const values = line.split(",").map((v) => v.trim());
-    const obj = {};
-    headers.forEach((header, i) => {
-      obj[header] = values[i];
-    });
-    return obj;
-  });
-  return jsonArray;
-}
-
+// Build the dropdown for months
 function buildMonthSelect(data) {
   monthSelect.innerHTML = "";
   const monthsSet = new Set();
@@ -84,13 +50,16 @@ function buildMonthSelect(data) {
   }
 }
 
+// Convert month number to name
 function monthNumberToName(num) {
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return months[num - 1] || "Unknown";
 }
 
+// Event listener for month selection change
 monthSelect.addEventListener("change", updateDashboard);
 
+// Update the dashboard
 function updateDashboard() {
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
@@ -103,6 +72,7 @@ function updateDashboard() {
     return yyyy === year && mm === month;
   });
 
+  // Update the table
   tableBody.innerHTML = "";
   let total = 0;
   filteredData.forEach((row) => {
@@ -121,130 +91,15 @@ function updateDashboard() {
 
   totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
 
-  // Save the current month's expenses
+  // Save current and previous month expenses to localStorage
   storedData.currentMonthExpenses = total;
-
-  // Calculate the previous month's expenses
   const previousMonth = getPreviousMonth(selectedMonth);
   const previousMonthExpenses = calculateMonthlyExpenses(previousMonth);
   storedData.previousMonthExpenses = previousMonthExpenses;
-
-  // Save updated data to local storage
   localStorage.setItem("expensesData", JSON.stringify(storedData));
 
-  // Update Charts
+  // Update charts
   updateCharts(filteredData);
-}
-
-function updateCharts(filteredData) {
-  // --- Pie Chart ---
-  const categoryTotals = {};
-  filteredData.forEach((row) => {
-    const cat = row.Category || "Unknown";
-    const amt = parseFloat(row.Amount) || 0;
-    categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;
-  });
-
-  const pieLabels = Object.keys(categoryTotals);
-  const pieValues = Object.values(categoryTotals);
-
-  if (pieChartInstance) {
-    pieChartInstance.destroy();
-  }
-
-  const pieCtx = document.getElementById("pieChart").getContext("2d");
-  pieChartInstance = new Chart(pieCtx, {
-    type: "pie",
-    data: {
-      labels: pieLabels,
-      datasets: [
-        {
-          data: pieValues,
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#8B572A", "#F5A623"]
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: "Expenses by Category",
-          color: "white"
-        },
-        legend: {
-          labels: {
-            color: "white"
-          }
-        }
-      }
-    }
-  });
-
-  // --- Bar Chart ---
-  const dailyTotals = {};
-  filteredData.forEach((row) => {
-    const [dd] = row.Date.split("/");
-    const amt = parseFloat(row.Amount) || 0;
-    dailyTotals[dd] = (dailyTotals[dd] || 0) + amt;
-  });
-
-  const sortedDays = Object.keys(dailyTotals).sort((a, b) => parseInt(a) - parseInt(b));
-  const barValues = sortedDays.map((day) => dailyTotals[day]);
-
-  if (barChartInstance) {
-    barChartInstance.destroy();
-  }
-
-  const barCtx = document.getElementById("barChart").getContext("2d");
-  barChartInstance = new Chart(barCtx, {
-    type: "bar",
-    data: {
-      labels: sortedDays.map((d) => {
-        const day = parseInt(d);
-        const suffix = (day) => {
-          if (day > 3 && day < 21) return "th";
-          switch (day % 10) {
-            case 1:
-              return "st";
-            case 2:
-              return "nd";
-            case 3:
-              return "rd";
-            default:
-              return "th";
-          }
-        };
-        return `${day}${suffix(day)}`;
-      }),
-      datasets: [
-        {
-          label: "Expenses Per Day of the Month",
-          data: barValues,
-          backgroundColor: "#ff5733"
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: "Daily Expenses",
-          color: "white"
-        },
-        legend: {
-          labels: {
-            color: "white"
-          }
-        }
-      },
-      scales: {
-        y: { beginAtZero: true, ticks: { color: "white" } },
-        x: { ticks: { color: "white" } }
-      }
-    }
-  });
 }
 
 // Helper: Calculate total expenses for a given month (YYYY-MM)
@@ -265,4 +120,55 @@ function getPreviousMonth(currentMonth) {
   const yyyy = previousMonth.getFullYear();
   const mm = String(previousMonth.getMonth() + 1).padStart(2, "0");
   return `${yyyy}-${mm}`;
+}
+
+// Update the charts
+function updateCharts(filteredData) {
+  const categoryTotals = {};
+  filteredData.forEach((row) => {
+    const cat = row.Category || "Unknown";
+    const amt = parseFloat(row.Amount) || 0;
+    categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;
+  });
+
+  const pieLabels = Object.keys(categoryTotals);
+  const pieValues = Object.values(categoryTotals);
+
+  if (pieChartInstance) {
+    pieChartInstance.destroy();
+  }
+
+  const pieCtx = document.getElementById("pieChart").getContext("2d");
+  pieChartInstance = new Chart(pieCtx, {
+    type: "pie",
+    data: {
+      labels: pieLabels,
+      datasets: [{ data: pieValues, backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"] }]
+    },
+    options: { responsive: true }
+  });
+
+  const dailyTotals = {};
+  filteredData.forEach((row) => {
+    const [dd] = row.Date.split("/");
+    const amt = parseFloat(row.Amount) || 0;
+    dailyTotals[dd] = (dailyTotals[dd] || 0) + amt;
+  });
+
+  const sortedDays = Object.keys(dailyTotals).sort((a, b) => parseInt(a) - parseInt(b));
+  const barValues = sortedDays.map((day) => dailyTotals[day]);
+
+  if (barChartInstance) {
+    barChartInstance.destroy();
+  }
+
+  const barCtx = document.getElementById("barChart").getContext("2d");
+  barChartInstance = new Chart(barCtx, {
+    type: "bar",
+    data: {
+      labels: sortedDays.map((d) => `Day ${d}`),
+      datasets: [{ label: "Daily Expenses", data: barValues, backgroundColor: "#36A2EB" }]
+    },
+    options: { responsive: true }
+  });
 }

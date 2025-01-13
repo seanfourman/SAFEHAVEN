@@ -24,6 +24,8 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .main-frame h1,
@@ -32,11 +34,31 @@
   z-index: 2;
 }
 
+.bottom-image-text {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  height: 30%;
+  margin-bottom: 20px;
+}
+
 .welcome-text {
-  position: absolute;
-  bottom: 5%;
-  left: 2.5%;
   text-align: left;
+}
+
+.monthly-charges {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.monthly-charges h1 {
+  text-align: right;
+  margin-bottom: 0px;
 }
 
 #time {
@@ -57,9 +79,11 @@
 
 /* --- CREDIT CARD --- */
 .user-cards-container {
-  margin-top: 4%;
+  height: 70%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-text {
@@ -130,17 +154,6 @@ h5.number {
   justify-content: space-between;
   flex-direction: column;
   gap: 15px;
-}
-
-.monthly-charges {
-  display: flex;
-  justify-content: space-around;
-}
-
-.monthly-charges p {
-  font-weight: bold;
-  font-size: 0.75rem;
-  margin: 0px;
 }
 
 .card {
