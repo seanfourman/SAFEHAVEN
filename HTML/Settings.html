@@ -6,10 +6,12 @@
     <title>PAGE / SafeHaven</title>
     <link rel="stylesheet" href="../CSS/General.css" />
     <link rel="stylesheet" href="../CSS/Settings.css" />
+    <link ref="stylesheet" href="../CSS/Authentication.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     <script src="../scripts/frame.js" defer></script>
     <script src="../scripts/data.js" defer></script>
     <script src="../scripts/users.js" defer></script>
+    <script src="../scripts/forms.js" defer></script>
   </head>
 
   <body data-auth="true">
@@ -52,7 +54,39 @@
       </div>
     </nav>
 
-    <div class="page-image settings-page"></div>
+    <div class="page-image settings-page">
+      <div class="container" id="container">
+        <!-- Update User -->
+        <div class="form-container update-user">
+          <form action="" class="custom-form signup" data-action="updateUser" data-init="user">
+            <h1>Update User</h1>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="signup-email">Email:</label>
+              <input id="signup-email" type="email" name="email" disabled />
+            </div>
+
+            <!-- Username -->
+            <div class="form-group">
+              <label for="signup-username">Username:</label>
+              <input id="signup-username" type="text" name="username" />
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label for="signup-password">Password:</label>
+              <input id="signup-password" type="password" name="password" maxlength="8" data-init-skip />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-submit">
+              <button type="submit" class="submit-btn">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

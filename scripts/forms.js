@@ -7,6 +7,8 @@ class CustomForm {
     this._errorHandler = new CustomFormErrorHandler(this);
     this._validator = new CustomFormValidator(this, this._errorHandler);
     this._actionHandler = new CustomFormActionHandler(this, this._errorHandler);
+
+    if (this._initiateSource) this._initiator = new CustomFormValuesInitiator(this, this._initiateSource);
     this._bindEventListeners();
   }
 
@@ -14,6 +16,7 @@ class CustomForm {
   _init() {
     this.$inputs = Array.from(this.$form.querySelectorAll("input"));
     this.$submitBtn = this.$form.querySelector('button[type="submit"]');
+    this._initiateSource = this.$form.dataset.init;
   }
 
   // _bindEventListeners binds submit, change, and focusout events to the form
@@ -60,7 +63,7 @@ class CustomFormValidator {
   validateInput(inputElement) {
     const name = inputElement.name;
     const validation = CustomFormValidator._dictionary[name]; // get validation method and error message from dictionary
-    if (!validation) return false;
+    if (!validation) return true;
 
     const valid = validation.method(inputElement.value); // call validation method in dictionary
     valid ? this._errorHandler.clearInputErrorMessage(inputElement) : this._errorHandler.setInputErrorMessage(inputElement, validation.error); // set or clear error message
@@ -185,7 +188,11 @@ class CustomFormErrorHandler {
 
 class CustomFormActionHandler {
   // dictionary of actions and their corresponding functions (signup and signin)
-  _dictionary = { signup: (values) => window.auth.signUp(values), signin: (values) => window.auth.signIn(values) };
+  _dictionary = {
+    signup: (values) => window.auth.signUp(values),
+    signin: (values) => window.auth.signIn(values),
+    updateUser: (values) => window.users.updateUser(values)
+  };
 
   // constructor sets form, error handler, and action
   constructor(customForm, errorHandler) {
@@ -211,6 +218,29 @@ class CustomFormActionHandler {
     const values = {};
     this._customForm.$inputs.forEach((inputElement) => (values[inputElement.name] = inputElement.value)); // set values object with input name as key and input value as value
     return values;
+  }
+}
+
+class CustomFormValuesInitiator {
+  static _dictionary = {
+    user: () => window.users.getUser(window.auth.getCurrentUserEmail())
+  };
+
+  constructor(customForm, sourceName) {
+    this._customForm = customForm;
+    this._sourceName = sourceName;
+
+    this._init();
+    this._initiateValues();
+  }
+
+  _init() {
+    this._source = CustomFormValuesInitiator._dictionary[this._sourceName]();
+    this.$inputs = this._customForm.$inputs.filter((inputElement) => !inputElement.hasAttribute("data-init-skip"));
+  }
+
+  _initiateValues() {
+    this.$inputs.forEach((inputElement) => (inputElement.value = this._source[inputElement.name]));
   }
 }
 
