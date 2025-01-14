@@ -8,6 +8,7 @@ class CustomForm {
     this._validator = new CustomFormValidator(this, this._errorHandler);
     this._actionHandler = new CustomFormActionHandler(this, this._errorHandler);
 
+    // if the form has a data-init attribute, it will initiate the form values from the source
     if (this._initiateSource) this._initiator = new CustomFormValuesInitiator(this, this._initiateSource);
     this._bindEventListeners();
   }
@@ -244,7 +245,7 @@ class CustomFormValuesInitiator {
 
   _init() {
     this._source = CustomFormValuesInitiator._dictionary[this._sourceName]();
-    this.$inputs = this._customForm.$inputs.filter((inputElement) => !inputElement.hasAttribute("data-init-skip"));
+    this.$inputs = this._customForm.$inputs.filter((inputElement) => !inputElement.hasAttribute("data-init-skip")); // skip inputs with data-init-skip attribute
   }
 
   _initiateValues() {

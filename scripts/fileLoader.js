@@ -1,4 +1,4 @@
-// Function to parse CSV text into JSON
+// Function to parse CSV text into JSON (copy paste from the word document)
 function csvToJson(csvText) {
   const lines = csvText.trim().split("\n");
   const headers = lines[0].split(",").map((h) => h.trim());
@@ -17,13 +17,22 @@ function csvToJson(csvText) {
 
 // calculate total expenses for a given month
 function calculateMonthlyExpenses(data, targetMonth) {
-  return data
-    .filter((row) => {
-      if (!row.Date) return false;
-      const [dd, mm, yyyy] = row.Date.split("/");
-      return `${yyyy}-${mm.padStart(2, "0")}` === targetMonth;
-    })
-    .reduce((total, row) => total + (parseFloat(row.Amount) || 0), 0);
+  let totalExpenses = 0;
+
+  data.forEach((row) => {
+    if (row.Date) {
+      const dateParts = row.Date.split("/");
+      const yearMonth = `${dateParts[2]}-${dateParts[1].padStart(2, "0")}`;
+
+      // Add the amount to the total expenses if the month matches the target month
+      if (yearMonth === targetMonth) {
+        const amount = parseFloat(row.Amount) || 0;
+        totalExpenses += amount;
+      }
+    }
+  });
+
+  return totalExpenses;
 }
 
 // update Last and Next Charges directly from localStorage
@@ -54,12 +63,12 @@ updateChargesFromStorage();
 function getCurrentAndPreviousMonth() {
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  const previousDate = new Date(now.getFullYear(), now.getMonth() - 1, 1); // Subtract 1 month
+  const previousDate = new Date(now.getFullYear(), now.getMonth() - 1, 1); // subtract 1 month
   const previousMonth = `${previousDate.getFullYear()}-${String(previousDate.getMonth() + 1).padStart(2, "0")}`;
   return { currentMonth, previousMonth };
 }
 
-// attach event listener to the file input
+// attach event listener to the file input (copy paste from the word document)
 const csvFileInput = document.getElementById("csvFileInput");
 
 if (csvFileInput) {
@@ -72,20 +81,20 @@ if (csvFileInput) {
       const csvText = e.target.result;
       const newData = csvToJson(csvText);
 
-      // Retrieve existing data from localStorage
+      // retrieve existing data from localStorage
       const storedData = JSON.parse(localStorage.getItem("expensesData")) || { allData: [], currentMonthExpenses: 0, previousMonthExpenses: 0 };
 
-      // Merge existing data with new data
+      // merge existing data with new data
       const combinedData = [...storedData.allData, ...newData];
 
-      // Get current and previous months
+      // get current and previous months
       const { currentMonth, previousMonth } = getCurrentAndPreviousMonth();
 
-      // Recalculate expenses
+      // recalculate expenses
       const currentMonthExpenses = calculateMonthlyExpenses(combinedData, currentMonth);
       const previousMonthExpenses = calculateMonthlyExpenses(combinedData, previousMonth);
 
-      // Save the combined data and updated expenses to localStorage
+      // save the combined data and updated expenses to localStorage
       const updatedData = {
         allData: combinedData,
         currentMonthExpenses,
@@ -93,11 +102,8 @@ if (csvFileInput) {
       };
 
       localStorage.setItem("expensesData", JSON.stringify(updatedData));
-
-      // Update charges from storage after saving
       updateChargesFromStorage();
 
-      // Add a span to show that a file was added
       if (!document.querySelector(".success")) {
         const fileAddedSpan = document.createElement("span");
         fileAddedSpan.textContent = "File successfully added!";
@@ -106,13 +112,14 @@ if (csvFileInput) {
       }
       clearButtonBind();
 
-      // Reset the file input value to allow re-uploading the same file
+      // reset the file input value to allow re-uploading the same file
       csvFileInput.value = "";
     };
     reader.readAsText(file);
   });
 }
 
+// bind the clear button to clearAllData function
 function clearButtonBind() {
   const clearButton = document.getElementById("clearButton");
   if (localStorage.getItem("expensesData") && clearButton) {

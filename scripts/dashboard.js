@@ -1,3 +1,4 @@
+// getRealTime returns the current time in HH:MM format
 function getRealTime() {
   let date = new Date();
   let hours = date.getHours();
@@ -8,6 +9,7 @@ function getRealTime() {
   return strTime;
 }
 
+// getWeekday returns the current weekday
 function getWeekday() {
   let date = new Date();
   let weekday = date.getDay();
@@ -15,6 +17,7 @@ function getWeekday() {
   return weekdays[weekday];
 }
 
+// getRealDate returns the current date in Month DD format
 function getRealDate() {
   let date = new Date();
   let day = date.getDate();
@@ -42,6 +45,7 @@ function updateRealTime() {
   }
 }
 
+// change background image
 function changeBackground() {
   let background = document.querySelector(".page-image");
 

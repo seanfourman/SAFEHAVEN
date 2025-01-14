@@ -2,22 +2,20 @@ let allData = [];
 let pieChartInstance = null;
 let barChartInstance = null;
 
-// Get references to DOM elements
 const monthSelect = document.getElementById("monthSelect");
 const tableBody = document.querySelector("#details tbody");
 const totalExpensesSpan = document.getElementById("totalExpenses");
-const previousChargeSpan = document.getElementById("previous-charge");
-const nextChargeSpan = document.getElementById("next-charge");
 
-// Load stored data from localStorage
 const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
 
+// check if there is data in the local storage and update the dashboard
 if (storedData.allData) {
   allData = storedData.allData;
   buildMonthSelect(allData);
   updateDashboard();
 } else {
-  buildMonthSelect(allData);
+  buildMonthSelect(allData); // build the dropdown with no data (only current month)
+
   chargesDashboard = document.querySelector(".charges-dashboard");
   chargesDashboard.remove();
   const centerFrame = document.createElement("div");
