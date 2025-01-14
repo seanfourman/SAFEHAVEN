@@ -6,11 +6,15 @@
     <title>PAGE / SafeHaven</title>
     <link rel="stylesheet" href="../CSS/General.css" />
     <link rel="stylesheet" href="../CSS/Settings.css" />
+    <link rel="stylesheet" href="../CSS/Cards.css" />
+    <link rel="stylesheet" href="../CSS/Popup.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     <script src="../scripts/frame.js" defer></script>
     <script src="../scripts/data.js" defer></script>
     <script src="../scripts/users.js" defer></script>
     <script src="../scripts/forms.js" defer></script>
+    <script src="../scripts/cards.js" defer></script>
+    <script src="../scripts/popup.js" defer></script>
   </head>
 
   <body data-auth="true">
@@ -36,7 +40,7 @@
         <div class="connected-user">
           <img id="userIcon" src="../Images/Icons/account-WHITE.png" alt="Account" />
           <div class="user">
-            <p id="username" data-render-field="username">UNKNOWN</p>
+            <p id="username" data-render-field="userName">UNKNOWN</p>
             <p id="emailAddress" data-render-field="email">NOT CONNECTED</p>
           </div>
           <img class="logout" src="../Images/Icons/logout-WHITE.png" alt="Logout" />
@@ -68,7 +72,7 @@
             <!-- Username -->
             <div class="form-group">
               <label for="updateuser-username">Username:</label>
-              <input id="updateuser-username" type="text" name="username" />
+              <input id="updateuser-username" type="text" name="userName" />
               <span class="tip">* A combination of your first and last name makes a great username!</span>
             </div>
 
@@ -76,6 +80,112 @@
             <div class="form-group">
               <label for="updateuser-password">Password:</label>
               <input id="updateuser-password" type="password" name="password" maxlength="8" />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-submit">
+              <button type="submit" class="submit-btn">Update</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="user-cards" id="userCards">
+          <div class="card-container">
+            <div class="user-card" data-popup data-popup-target="updateCard">
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-logo">
+                    <img src="../Images/CreditCard/logo.png" alt="" />
+                  </span>
+                  <img src="../Images/CreditCard/chip.png" alt="" class="chip" />
+                </div>
+                <div class="card-details">
+                  <div class="card-number">
+                    <h6>Card Number</h6>
+                    <h5 class="number" data-render-field="displayCardNumber">0000 0000 0000 0000</h5>
+                  </div>
+                  <div class="card-name-date">
+                    <h5 class="name" data-render-field="cardHolder">XXXXX-XXXXX</h5>
+                    <div class="card-date">
+                      <h6>Valid Thru</h6>
+                      <h5 data-render-field="displayExpirationDate">XX/XX</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-add"><span class="card-add-symbol" data-popup data-popup-target="addCard">+</span></div>
+          </div>
+        </div>
+
+        <div class="element-hidden">
+          <form id="addCard" action="" class="custom-form" data-action="addCard" data-template>
+            <h1>Add Card</h1>
+            <div class="form-group">
+              <label for="card-number">Card Number:</label>
+              <input
+                id="card-number"
+                type="text"
+                name="cardNumber"
+                maxlength="19"
+                placeholder="1234 5678 9012 3456"
+                oninput="this.value = this.value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ').trim();"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="expiration-date">Expiration Date:</label>
+              <input id="expiration-date" type="month" name="expirationDate" />
+            </div>
+
+            <div class="form-group">
+              <label for="cvv">CVV:</label>
+              <input id="cvv" type="text" name="cvv" maxlength="3" placeholder="123" />
+            </div>
+
+            <div class="form-group">
+              <label for="cardHolder">Card Holder:</label>
+              <input id="cardHolder" type="text" name="cardHolder" placeholder="John Doe" />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-submit">
+              <button type="submit" class="submit-btn">Update</button>
+            </div>
+          </form>
+          <form id="updateCard" action="" class="custom-form" data-action="updateCard" data-init="card" data-template>
+            <h1>Update Card</h1>
+            <div class="form-group">
+              <label for="card-number">Card Number:</label>
+              <input
+                id="card-number"
+                type="text"
+                name="displayCardNumber"
+                maxlength="19"
+                placeholder="1234 5678 9012 3456"
+                oninput="this.value = this.value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ').trim();"
+                disabled
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="expiration-date">Expiration Date:</label>
+              <input id="expiration-date" type="month" name="expirationDate" disabled />
+            </div>
+
+            <div class="form-group">
+              <label for="cvv">CVV:</label>
+              <input id="cvv" type="text" name="cvv" maxlength="3" placeholder="123" disabled />
+            </div>
+
+            <div class="form-group">
+              <label for="cardHolder">Card Holder:</label>
+              <input id="cardHolder" type="text" name="cardHolder" placeholder="John Doe" />
+            </div>
+
+            <div class="form-group">
+              <label for="billing-day">Billing Day:</label>
+              <input id="billing-day" type="text" name="billingDay" />
             </div>
 
             <!-- Submit Button -->

@@ -46,7 +46,9 @@ class CustomFormValidator {
     cardNumber: { method: CustomFormValidator._validateCardNumber, error: "Card number must be 16 digits" },
     expirationDate: { method: CustomFormValidator._validateExpirationDate, error: "Expiration date must be valid" },
     cvv: { method: CustomFormValidator._validateCVV, error: "CVV must be exactly 3 digits" },
-    username: { method: CustomFormValidator._validateUsername, error: "Username must be at least 3 characters" }
+    userName: { method: CustomFormValidator._validateUserName, error: "Username must be at least 3 characters" },
+    billingDay: { method: CustomFormValidator._validateBillingDay, error: "Billing day must be 1 - 28" },
+    cardHolder: { method: CustomFormValidator._validateCardHolder, error: "Card Holder must be a valid name" }
   };
 
   // constructor sets form and error handler
@@ -80,13 +82,13 @@ class CustomFormValidator {
   }
 
   // validation methods
-  // _validateEmail checks if the email is valid (if it has an @ and a .)
+  // Checks if the email is valid (if it has an @ and a .)
   static _validateEmail(value) {
     const regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     return regex.test(value);
   }
 
-  // _validatePassword checks if the password is valid (8 characters, at least one lowercase, one uppercase, one number, and ONLY one special character)
+  // Checks if the password is valid (8 characters, at least one lowercase, one uppercase, one number, and ONLY one special character)
   static _validatePassword(value) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&#]{8}$/;
     const specialCharRegex = /[@$!%*?&#]/g;
@@ -96,7 +98,7 @@ class CustomFormValidator {
     return true;
   }
 
-  // _validateBirthdate checks if the birthdate is valid (at least 16 years old)
+  // Checks if the birthdate is valid (at least 16 years old)
   static _validateBirthdate(value) {
     const today = new Date();
     const birthdate = new Date(value);
@@ -110,14 +112,14 @@ class CustomFormValidator {
     return age >= CustomFormValidator._minimumAge;
   }
 
-  // _validateCardNumber checks if the card number is valid (16 digits)
+  // Checks if the card number is valid (16 digits)
   static _validateCardNumber(value) {
     value = value.replaceAll(" ", ""); // remove spaces
     const regex = /^\d{16}$/;
     return regex.test(value);
   }
 
-  // _validateExpirationDate checks if the expiration date is valid (not before this month)
+  // Checks if the expiration date is valid (not before this month)
   static _validateExpirationDate(value) {
     if (!value) return false;
     const expirationDate = new Date(value + "-01"); // add a string "-01" to the end of the date, so it becomes the first day of the month
@@ -127,16 +129,30 @@ class CustomFormValidator {
     return expirationDate >= thisMonth;
   }
 
-  // _validateCVV checks if the CVV is valid (3 digits)
+  // Checks if the CVV is valid (3 digits)
   static _validateCVV(value) {
     const regex = /^\d{3}$/;
     return regex.test(value);
   }
 
-  // _validateUsername checks if the username is valid (at least 3 characters)
-  static _validateUsername(value) {
-    value = value.trim(); // remove whitespace from the beginning and end of the string
+  // Checks if the userName is valid (at least 3 characters)
+  static _validateUserName(value) {
+    value = value.trim();
     const regex = /^[A-Za-z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-]{3,}$/;
+    return regex.test(value);
+  }
+
+  // Checks if the billing day is valid (1-28)
+  static _validateBillingDay(value) {
+    value = value.trim();
+    const regex = /^(1[0-9]|2[0-8]|[1-9])$/;
+    return regex.test(value);
+  }
+
+  // Checks if the card holder is valid (text)
+  static _validateCardHolder(value) {
+    value = value.trim();
+    const regex = /^[a-zA-Z\s]+$/;
     return regex.test(value);
   }
 }
@@ -200,7 +216,9 @@ class CustomFormActionHandler {
   _dictionary = {
     signup: (values) => window.auth.signUp(values),
     signin: (values) => window.auth.signIn(values),
-    updateUser: (values) => window.users.updateUser(values)
+    updateUser: (values) => window.users.updateUser(values),
+    addCard: (values) => window.users.addCard(window.auth.getCurrentUserEmail(), values),
+    updateCard: (values) => window.users.updateCard(window.auth.getCurrentUserEmail(), values)
   };
 
   // constructor sets form, error handler, and action
@@ -232,7 +250,8 @@ class CustomFormActionHandler {
 
 class CustomFormValuesInitiator {
   static _dictionary = {
-    user: () => window.users.getUser(window.auth.getCurrentUserEmail())
+    user: () => window.users.getUser(window.auth.getCurrentUserEmail()),
+    card: (index) => window.users.getUser(window.auth.getCurrentUserEmail()).cards[index]
   };
 
   constructor(customForm, sourceName) {
@@ -244,7 +263,14 @@ class CustomFormValuesInitiator {
   }
 
   _init() {
-    this._source = CustomFormValuesInitiator._dictionary[this._sourceName]();
+    this._sourceMethod = CustomFormValuesInitiator._dictionary[this._sourceName];
+
+    if (this._sourceMethod.length) {
+      this._source = this._sourceMethod(this._customForm.$form.dataset.index);
+    } else {
+      this._source = this._sourceMethod();
+    }
+
     this.$inputs = this._customForm.$inputs.filter((inputElement) => !inputElement.hasAttribute("data-init-skip")); // skip inputs with data-init-skip attribute
   }
 
@@ -256,5 +282,9 @@ class CustomFormValuesInitiator {
 // IIFE to initialize all forms on the page
 (function () {
   const forms = document.querySelectorAll(".custom-form");
-  forms.forEach((form) => new CustomForm(form));
+  forms.forEach((form) => {
+    if (!form.hasAttribute("data-template")) {
+      new CustomForm(form);
+    }
+  });
 })();

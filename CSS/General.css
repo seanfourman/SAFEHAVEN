@@ -29,7 +29,7 @@ table {
   color: var(--text-color);
 }
 
-.card-hidden {
+.element-hidden {
   display: none !important;
 }
 
@@ -261,6 +261,7 @@ table {
   background-size: cover;
   background-position: center;
   display: flex;
+  gap: 15px;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -380,6 +381,13 @@ table {
 
 .form-submit span {
   color: #345f51;
+}
+
+input:disabled:hover {
+  cursor: not-allowed;
+}
+input:disabled {
+  background-color: #dbdbdb;
 }
 
 @media (max-width: 1200px) {

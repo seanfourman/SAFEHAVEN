@@ -6,6 +6,7 @@
     <title>PAGE / SafeHaven</title>
     <link rel="stylesheet" href="../CSS/General.css" />
     <link rel="stylesheet" href="../CSS/Dashboard.css" />
+    <link rel="stylesheet" href="../CSS/Cards.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     <script src="../scripts/frame.js" defer></script>
     <script src="../scripts/data.js" defer></script>
@@ -39,7 +40,7 @@
         <div class="connected-user">
           <img id="userIcon" src="../Images/Icons/account-WHITE.png" alt="Account" />
           <div class="user">
-            <p id="username" data-render-field="username">UNKNOWN</p>
+            <p id="username" data-render-field="userName">UNKNOWN</p>
             <p id="emailAddress" data-render-field="email">NOT CONNECTED</p>
           </div>
           <img class="logout" src="../Images/Icons/logout-WHITE.png" alt="Logout" />
@@ -76,7 +77,7 @@
                     <h5 class="number" data-render-field="displayCardNumber">0000 0000 0000 0000</h5>
                   </div>
                   <div class="card-name-date">
-                    <h5 class="name" data-render-field="cardName">XXXXX-XXXXX</h5>
+                    <h5 class="name" data-render-field="cardHolder">XXXXX-XXXXX</h5>
                     <div class="card-date">
                       <h6>Valid Thru</h6>
                       <h5 data-render-field="displayExpirationDate">XX/XX</h5>

@@ -1,5 +1,22 @@
+.page-image {
+  height: calc(100vh - var(--footerHeight) - var(--navbarHeight));
+  margin-top: var(--navbarHeight);
+}
+
 .container {
   max-width: 500px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container .form-container {
+  height: unset !important;
+}
+
+.user-cards {
+  box-sizing: border-box;
+  max-width: 100% !important;
+  padding: 0 10px;
 }
 
 #updateuser-email {
@@ -21,8 +38,87 @@
   background-color: #ff7b5e;
 }
 
+.user-cards::-webkit-scrollbar-thumb {
+  background: rgba(175, 175, 175, 1) !important;
+  cursor: grab;
+}
+
+.card-add {
+  display: flex;
+  align-items: center;
+}
+
+.card-add-symbol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #949494; /* Primary blue color */
+  color: #fff; /* White text */
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%; /* Circular button */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-add-symbol:hover {
+  background-color: var(--highlight-color); /* Darker blue on hover */
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+.card-add-symbol:active {
+  transform: scale(0.95); /* Click effect */
+}
+
+.container form::-webkit-scrollbar,
+.container .form-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.container form::-webkit-scrollbar-track,
+.container .form-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.container form::-webkit-scrollbar-thumb,
+.container .form-container::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 5px;
+  border: 2px solid #f1f1f1;
+}
+
+.container form::-webkit-scrollbar-thumb:hover,
+.container .form-container::-webkit-scrollbar-thumb:hover {
+  background: rgb(175, 175, 175);
+  cursor: grab;
+}
+
+.page-image {
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: row !important;
+  }
+  .user-cards {
+    align-items: unset !important;
+    max-width: 500px !important;
+  }
+}
+
 @media (max-width: 520px) {
   .container {
-    max-width: 275px;
+    max-width: 95%;
+  }
+  .user-cards {
+    align-items: unset !important;
+    max-width: 95% !important;
+    padding: 0;
   }
 }

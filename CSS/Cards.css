@@ -1,0 +1,154 @@
+/* --- CREDIT CARD --- */
+.user-cards-container {
+  height: 70%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-text {
+  margin: 0px;
+  margin-bottom: 10px;
+  font-size: 3rem;
+  text-align: left;
+  text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-cards {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  overflow-x: auto;
+  max-width: 60%;
+}
+
+/* --- CARD CONTAINER & SCROLL BAR --- */
+.card-container {
+  position: relative;
+  display: flex;
+  gap: 15px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+}
+
+.user-cards::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.user-cards::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.user-cards::-webkit-scrollbar-thumb {
+  background: rgba(175, 175, 175, 0.5);
+  border-radius: 5px;
+  cursor: grab;
+}
+
+.user-cards::-webkit-scrollbar-thumb:hover {
+  background: rgb(200, 200, 200);
+}
+
+.card-header,
+.card-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-logo img {
+  width: 48px;
+  margin-right: 10px;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0px;
+}
+
+.card-header .chip {
+  width: 60px;
+}
+
+h6 {
+  color: #fff;
+  margin: 0px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+h5.number {
+  margin-top: 4px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.card-container .card-details {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-image: url("../Images/CreditCard/bg.png");
+  background-size: cover;
+  padding: 25px;
+  border-radius: 25px;
+  height: 150px;
+  width: 250px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  justify-content: space-between;
+}
+
+.card-name-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+  }
+
+  .user-cards {
+    flex-direction: column;
+    gap: 50px;
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 70%;
+  }
+
+  .monthly-charges h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .monthly-charges {
+    width: 50%;
+  }
+}

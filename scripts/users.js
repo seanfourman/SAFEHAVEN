@@ -43,6 +43,50 @@ class Users {
   getUser(email) {
     return this._getUsers().find((user) => user.email === email);
   }
+  getCard(displayCardNumber) {
+    const dbUser = this._getUsers().find((user) => user.cards.find((card) => card.displayCardNumber === displayCardNumber));
+    return dbUser ? dbUser.cards.find((card) => card.displayCardNumber === displayCardNumber) : null;
+  }
+  updateCard(email, cardValues) {
+    const users = this._getUsers();
+    const updatedUsers = users.map((dbUser) => {
+      if (dbUser.email === email) {
+        dbUser.cards = dbUser.cards.map((card) => (card.displayCardNumber === cardValues.displayCardNumber ? { ...card, ...cardValues } : card));
+      }
+      return dbUser;
+    });
+    this._setUsers(updatedUsers);
+    window.location.reload();
+  }
+  addCard(email, cardValues) {
+    this.ensureUniqueCardNumber(cardValues.displayCardNumber);
+    const users = this._getUsers();
+    const updatedUsers = users.map((dbUser) => {
+      if (dbUser.email === email) {
+        dbUser.cards.push(this.buildCard(cardValues));
+      }
+      return dbUser;
+    });
+    this._setUsers(updatedUsers);
+    window.location.reload();
+  }
+  buildCard(cardValues) {
+    return {
+      cardNumber: cardValues.cardNumber.replaceAll(" ", ""),
+      displayCardNumber: cardValues.cardNumber,
+      expirationDate: cardValues.expirationDate,
+      displayExpirationDate: cardValues.expirationDate.slice(2).replaceAll("-", "/").split("/").reverse().join("/"),
+      cvv: cardValues.cvv,
+      billingDay: 1, // default billing day
+      cardHolder: cardValues.cardHolder
+    };
+  }
+  ensureUniqueEmail(email) {
+    if (this.getUser(email)) throw new Error("Email already exists");
+  }
+  ensureUniqueCardNumber(displayCardNumber) {
+    if (this.getCard(displayCardNumber)) throw new Error("Card already exists");
+  }
 }
 
 class Auth {
@@ -67,29 +111,18 @@ class Auth {
   // signUp checks if user is already logged in, then checks if email already exists in the database, then adds the user to the database and sets the user as logged in and redirects to the dashboard
   signUp(userValues) {
     this._ensureNotLogged();
+    this._users.ensureUniqueEmail(userValues.email);
+    this._users.ensureUniqueCardNumber(userValues.cardNumber);
     userValues.email = userValues.email.toLowerCase();
-    userValues.username = userValues.email.split("@")[0]; // default username as email without domain
 
     // add card info to cards array
-    userValues.cards = [
-      {
-        cardNumber: userValues.cardNumber.replaceAll(" ", ""),
-        displayCardNumber: userValues.cardNumber,
-        expirationDate: userValues.expirationDate,
-        displayExpirationDate: userValues.expirationDate.slice(2).replaceAll("-", "/").split("/").reverse().join("/"),
-        cvv: userValues.cvv,
-        billingDay: 1, // default billing day
-        cardName: userValues.username
-      }
-    ];
+    userValues.cards = [this._users.buildCard(userValues)];
+    userValues.userName = userValues.cardHolder;
 
     // remove card info from userValues, as it is now in the cards array
     delete userValues.cardNumber;
     delete userValues.expirationDate;
     delete userValues.cvv;
-
-    const dbUser = this._users.getUser(userValues.email);
-    if (dbUser) throw new Error("Email already exists");
 
     // Add user to the local storage
     this._users.addUser(userValues);

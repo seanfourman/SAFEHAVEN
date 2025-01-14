@@ -7,14 +7,21 @@ function generateUserCards() {
   const user = window.users.getUser(window.auth.getCurrentUserEmail());
   if (!user) return;
 
-  user.cards.forEach((card) => generateCreditCard(card, templateCreditCard));
-  templateCreditCard.classList.add("card-hidden");
+  user.cards.forEach((card, index) => generateCreditCard(index, card, templateCreditCard));
+
+  const templateCardAdd = document.querySelector(".card-add");
+  if (templateCardAdd) {
+    templateCreditCard.parentElement.append(templateCardAdd);
+  }
+
+  templateCreditCard.remove();
 }
 
 // RenderData renders the user data in the credit card template and appends it to the parent element of the template
-function generateCreditCard(cardValues, template) {
+function generateCreditCard(index, cardValues, template) {
   const clonedElement = template.cloneNode(true);
   new RenderData(cardValues, clonedElement);
+  clonedElement.setAttribute("data-index", index);
   template.parentElement.append(clonedElement);
 }
 
