@@ -26,6 +26,7 @@ class Users {
     users.push(user);
     this._setUsers(users);
   }
+  // updateUser maps through the users array and updates the user with the given email
   updateUser(user) {
     const users = this._getUsers();
     const updatedUsers = users.map((dbUser) => (dbUser.email === user.email ? { ...dbUser, ...user } : dbUser));

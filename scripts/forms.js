@@ -135,7 +135,7 @@ class CustomFormValidator {
   // _validateUsername checks if the username is valid (at least 3 characters)
   static _validateUsername(value) {
     value = value.trim(); // remove whitespace from the beginning and end of the string
-    const regex = /^[A-Za-z0-9\s]{3,}$/;
+    const regex = /^[A-Za-z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-]{3,}$/;
     return regex.test(value);
   }
 }
