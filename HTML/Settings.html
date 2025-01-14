@@ -15,7 +15,6 @@
   </head>
 
   <body data-auth="true">
-    <!-- Navbar -->
     <nav>
       <div class="navbar">
         <div class="logo">
@@ -41,7 +40,7 @@
             <p id="username" data-render-field="username">UNKNOWN</p>
             <p id="emailAddress" data-render-field="email">NOT CONNECTED</p>
           </div>
-          <img id="logout" src="../Images/Icons/logout-WHITE.png" alt="Logout" />
+          <img class="logout" src="../Images/Icons/logout-WHITE.png" alt="Logout" />
         </div>
 
         <div class="nav-links-mobile">
@@ -58,25 +57,25 @@
       <div class="container" id="container">
         <!-- Update User -->
         <div class="form-container update-user">
-          <form action="" class="custom-form signup" data-action="updateUser" data-init="user">
+          <form action="" class="custom-form updateuser" data-action="updateUser" data-init="user">
             <h1>Update User</h1>
 
             <!-- Email -->
             <div class="form-group">
-              <label for="signup-email">Email:</label>
-              <input id="signup-email" type="email" name="email" disabled />
+              <label for="updateuser-email">Email:</label>
+              <input id="updateuser-email" type="email" name="email" disabled />
             </div>
 
             <!-- Username -->
             <div class="form-group">
-              <label for="signup-username">Username:</label>
-              <input id="signup-username" type="text" name="username" />
+              <label for="updateuser-username">Username:</label>
+              <input id="updateuser-username" type="text" name="username" />
             </div>
 
             <!-- Password -->
             <div class="form-group">
-              <label for="signup-password">Password:</label>
-              <input id="signup-password" type="password" name="password" maxlength="8" data-init-skip />
+              <label for="updateuser-password">Password:</label>
+              <input id="updateuser-password" type="password" name="password" maxlength="8" data-init-skip />
             </div>
 
             <!-- Submit Button -->
@@ -88,7 +87,6 @@
       </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-text">

@@ -262,6 +262,103 @@ table {
   position: relative;
 }
 
+/* ---------------------------------------------------------------------------- */
+/* container */
+.container {
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  max-width: 60%;
+}
+
+.container h1 {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  margin: 0px 0px 5px 0px;
+  text-align: center;
+}
+
+.container p {
+  font-size: 0.85rem;
+}
+
+.form-group {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container span {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* buttons */
+.container button {
+  background-color: #345f51;
+  width: 35%;
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.container h1,
+.container p,
+.container label {
+  color: #000000;
+}
+
+.container button:hover {
+  background-color: #46806c;
+}
+
+.container button.hidden {
+  background-color: transparent;
+  border-color: #ffffff;
+}
+
+/* forms */
+.container form {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.container input {
+  background-color: #eeeeee;
+  border: none;
+  margin: 2px 0px;
+  padding: 10px 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  outline: none;
+}
+
+.container fieldset {
+  margin: 0;
+  margin-top: 15px;
+}
+
+.container fieldset input {
+  width: 95%;
+}
+
+.form-submit span {
+  color: #345f51;
+}
+
 @media (max-width: 1200px) {
   .connected-user {
     display: none;

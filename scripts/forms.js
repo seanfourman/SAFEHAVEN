@@ -187,7 +187,7 @@ class CustomFormErrorHandler {
 }
 
 class CustomFormActionHandler {
-  // dictionary of actions and their corresponding functions (signup and signin)
+  // dictionary of actions and their corresponding functions (signup, signin and updateUser)
   _dictionary = {
     signup: (values) => window.auth.signUp(values),
     signin: (values) => window.auth.signIn(values),

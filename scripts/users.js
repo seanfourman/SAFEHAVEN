@@ -159,6 +159,7 @@ function handleRestrictedPage(isLogged) {
 // change user content for dashboard
 function changeUserContent() {
   document.querySelectorAll(".logout").forEach((element) => {
+    console.log("alo");
     element.addEventListener("click", window.auth.logout);
   });
 }
