@@ -44,7 +44,8 @@ class CustomFormValidator {
     birthdate: { method: CustomFormValidator._validateBirthdate, error: `Must be at least ${CustomFormValidator._minimumAge} years old` },
     cardNumber: { method: CustomFormValidator._validateCardNumber, error: "Card number must be 16 digits" },
     expirationDate: { method: CustomFormValidator._validateExpirationDate, error: "Expiration date must be valid" },
-    cvv: { method: CustomFormValidator._validateCVV, error: "CVV must be exactly 3 digits" }
+    cvv: { method: CustomFormValidator._validateCVV, error: "CVV must be exactly 3 digits" },
+    username: { method: CustomFormValidator._validateUsername, error: "Username must be at least 3 characters" }
   };
 
   // constructor sets form and error handler
@@ -128,6 +129,13 @@ class CustomFormValidator {
   // _validateCVV checks if the CVV is valid (3 digits)
   static _validateCVV(value) {
     const regex = /^\d{3}$/;
+    return regex.test(value);
+  }
+
+  // _validateUsername checks if the username is valid (at least 3 characters)
+  static _validateUsername(value) {
+    value = value.trim(); // remove whitespace from the beginning and end of the string
+    const regex = /^[A-Za-z0-9\s]{3,}$/;
     return regex.test(value);
   }
 }

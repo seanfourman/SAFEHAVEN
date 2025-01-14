@@ -44,6 +44,10 @@ table {
   padding-top: 10px;
 }
 
+.tip {
+  color: #0066ff;
+}
+
 .input-error-message,
 .form-error-message {
   display: block;
