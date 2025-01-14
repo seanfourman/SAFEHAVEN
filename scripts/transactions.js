@@ -8,14 +8,22 @@ const totalExpensesSpan = document.getElementById("totalExpenses");
 
 const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
 
-// check if there is data in the local storage and update the dashboard
+// parse "DD/MM/YYYY" into { year, month }
+function parseDateToYearMonth(dateStr) {
+  if (!dateStr) return null;
+  const [_, mm, yyyy] = dateStr.split("/");
+  if (!mm || !yyyy) return null;
+  return { year: yyyy, month: mm };
+}
+
 if (storedData.allData) {
   allData = storedData.allData;
-  buildMonthSelect(allData);
+}
+buildMonthSelect(allData);
+
+if (storedData.allData) {
   updateDashboard();
 } else {
-  buildMonthSelect(allData); // build the dropdown with no data (only current month)
-
   chargesDashboard = document.querySelector(".charges-dashboard");
   chargesDashboard.remove();
   const centerFrame = document.createElement("div");
@@ -29,67 +37,62 @@ if (storedData.allData) {
   centerFrame.appendChild(text);
 }
 
-// Build the dropdown for months
+// Build the dropdown menu for selecting months
 function buildMonthSelect(data) {
-  if (!document.getElementById("monthSelect")) return;
-  monthSelect.innerHTML = "";
-  const monthsSet = new Set();
+  const monthSelectElement = document.getElementById("monthSelect");
+  if (!monthSelectElement) return;
+  monthSelectElement.innerHTML = "";
 
+  const uniqueMonths = new Set();
   data.forEach((row) => {
-    const dateStr = row.Date;
-    if (!dateStr) return;
-    const [dd, mm, yyyy] = dateStr.split("/");
-    if (yyyy && mm) {
-      const key = `${yyyy}-${mm.padStart(2, "0")}`;
-      monthsSet.add(key);
+    const parsed = parseDateToYearMonth(row.Date);
+    if (parsed) {
+      const formattedMonth = `${parsed.year}-${parsed.month.padStart(2, "0")}`;
+      uniqueMonths.add(formattedMonth);
     }
   });
 
-  // Add the current month to the set
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  monthsSet.add(currentMonth);
+  uniqueMonths.add(currentMonth);
 
-  const sortedMonths = Array.from(monthsSet).sort().reverse();
+  const sortedMonths = Array.from(uniqueMonths).sort().reverse();
   sortedMonths.forEach((monthStr) => {
     const option = document.createElement("option");
     option.value = monthStr;
-    const [year, mo] = monthStr.split("-");
-    option.textContent = `${monthNumberToName(parseInt(mo, 10))} ${year}`;
-    monthSelect.appendChild(option);
+    const [yyyy, mm] = monthStr.split("-");
+    option.textContent = `${monthNumberToName(parseInt(mm, 10))} ${yyyy}`;
+    monthSelectElement.appendChild(option);
   });
 
   if (sortedMonths.length > 0) {
-    monthSelect.value = sortedMonths[0];
+    monthSelectElement.value = sortedMonths[0];
   }
 }
 
-// Convert month number to name
+// month number to name
 function monthNumberToName(num) {
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return months[num - 1] || "Unknown";
 }
 
-// Event listener for month selection change
 if (monthSelect) {
   monthSelect.addEventListener("change", updateDashboard);
 }
 
-// Update the dashboard
+// update the dashboard
 function updateDashboard() {
-  if (!document.getElementById("monthSelect")) return;
+  if (!monthSelect) return;
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
 
   const [year, month] = selectedMonth.split("-");
-
   const filteredData = allData.filter((row) => {
-    if (!row.Date) return false;
-    const [dd, mm, yyyy] = row.Date.split("/");
-    return yyyy === year && mm === month;
+    const parsed = parseDateToYearMonth(row.Date);
+    return parsed && parsed.year === year && parsed.month === month;
   });
 
-  // Update the table
+  // update the table
   tableBody.innerHTML = "";
   let total = 0;
   filteredData.forEach((row) => {
@@ -108,60 +111,58 @@ function updateDashboard() {
 
   totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
 
-  // Update charts
+  // update charts
   updateCharts(filteredData);
 }
 
-// Helper: Calculate total expenses for a given month (YYYY-MM)
+// calculate total expenses for a given month
 function calculateMonthlyExpenses(month) {
   const [year, mm] = month.split("-");
   return allData
     .filter((row) => {
-      const [dd, rowMM, rowYYYY] = row.Date.split("/");
+      const [_, rowMM, rowYYYY] = row.Date.split("/");
       return rowYYYY === year && rowMM === mm;
     })
-    .reduce((sum, row) => sum + (parseFloat(row.Amount) || 0), 0);
+    .reduce((sum, row) => sum + (parseFloat(row.Amount) || 0), 0); // sum the amounts for the month
 }
 
-// Helper: Get the previous month (YYYY-MM format)
+// get the previous month
 function getPreviousMonth(currentMonth) {
   const [year, month] = currentMonth.split("-").map(Number);
-  const previousMonth = new Date(year, month - 2, 1); // Subtract 1 month
+  const previousMonth = new Date(year, month - 2, 1); // subtract 1 month
   const yyyy = previousMonth.getFullYear();
   const mm = String(previousMonth.getMonth() + 1).padStart(2, "0");
   return `${yyyy}-${mm}`;
 }
 
+// update the charges dashboard
 function updateCharts(filteredData) {
-  // Get the selected month from the dropdown
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
 
   const [selectedYear, selectedMonthNumber] = selectedMonth.split("-").map(Number);
 
-  // Calculate the past three months relative to the selected month
+  // calculate the past three months
   const pastThreeMonths = [];
   for (let i = 2; i >= 0; i--) {
-    const date = new Date(selectedYear, selectedMonthNumber - 1 - i, 1); // Adjust for 0-based index
+    const date = new Date(selectedYear, selectedMonthNumber - 1 - i, 1);
     pastThreeMonths.push(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`);
   }
 
-  // Aggregate expenses by month
   const monthlyTotals = {};
   pastThreeMonths.forEach((month) => {
     monthlyTotals[month] = allData
       .filter((row) => {
-        if (!row.Date) return false;
-        const [dd, mm, yyyy] = row.Date.split("/");
-        return `${yyyy}-${mm.padStart(2, "0")}` === month;
+        const parsed = parseDateToYearMonth(row.Date);
+        return parsed && `${parsed.year}-${parsed.month.padStart(2, "0")}` === month;
       })
-      .reduce((total, row) => total + (parseFloat(row.Amount) || 0), 0);
+      .reduce((acc, row) => acc + (parseFloat(row.Amount) || 0), 0);
   });
 
+  // object to array conversion for the bar chart data
   const sortedMonths = Object.keys(monthlyTotals);
   const monthlyValues = Object.values(monthlyTotals);
 
-  // --- Pie Chart (Category Totals for Current Data) ---
   const categoryTotals = {};
   filteredData.forEach((row) => {
     const cat = row.Category || "Unknown";
@@ -172,6 +173,7 @@ function updateCharts(filteredData) {
   const pieLabels = Object.keys(categoryTotals);
   const pieValues = Object.values(categoryTotals);
 
+  // --- PIE CHART ---
   if (pieChartInstance) {
     pieChartInstance.destroy();
   }
@@ -205,7 +207,7 @@ function updateCharts(filteredData) {
     }
   });
 
-  // --- Bar Chart (Relative to Selected Month) ---
+  // --- BAR CHART ---
   if (barChartInstance) {
     barChartInstance.destroy();
   }
@@ -257,29 +259,7 @@ function updateCharts(filteredData) {
   });
 }
 
-// Helper: Convert month number to name
-function monthNumberToName(num) {
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  return months[num - 1] || "Unknown";
-}
-
-function removeElements() {
-  if (!storedData.allData) {
-    document.querySelector(".transactions-page").remove();
-
-    const centerFrame = document.createElement("div");
-    centerFrame.style.height = "calc(100vh - var(--navbarHeight) - var(--footerHeight))";
-    centerFrame.style.display = "flex";
-    centerFrame.style.justifyContent = "center";
-    centerFrame.style.alignItems = "center";
-
-    const text = document.createElement("h1");
-    text.textContent = "No data available";
-    document.body.appendChild(centerFrame);
-    centerFrame.appendChild(text);
-  }
-}
-
+// check if the page is scrollable and adjust the footer position (fixes stuff that I just don't have the mental capacity to fix through CSS)
 function checkIfPageScrollable() {
   const isScrollable = document.documentElement.scrollHeight > document.documentElement.clientHeight;
   const footerElement = document.querySelector(".footer");
