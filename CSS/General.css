@@ -33,6 +33,31 @@ table {
   display: none !important;
 }
 
+/* --- ERROR MESSAGES --- */
+.error {
+  border: 1px solid red !important;
+}
+
+.success {
+  color: #28a745;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+.input-error-message,
+.form-error-message {
+  display: block;
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  z-index: auto;
+}
+
+.form-error-message {
+  margin: 0.5rem auto;
+  font-weight: bold;
+}
+
 /* --- NAVBAR --- */
 .navbar {
   position: fixed;

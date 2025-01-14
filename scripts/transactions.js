@@ -17,7 +17,18 @@ if (storedData.allData) {
   buildMonthSelect(allData);
   updateDashboard();
 } else {
-  removeElements();
+  buildMonthSelect(allData);
+  chargesDashboard = document.querySelector(".charges-dashboard");
+  chargesDashboard.remove();
+  const centerFrame = document.createElement("div");
+  centerFrame.style.display = "flex";
+  centerFrame.style.justifyContent = "center";
+  centerFrame.style.alignItems = "center";
+
+  const text = document.createElement("h1");
+  text.textContent = "No data available";
+  document.body.appendChild(centerFrame);
+  centerFrame.appendChild(text);
 }
 
 // Build the dropdown for months
@@ -35,6 +46,11 @@ function buildMonthSelect(data) {
       monthsSet.add(key);
     }
   });
+
+  // Add the current month to the set
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  monthsSet.add(currentMonth);
 
   const sortedMonths = Array.from(monthsSet).sort().reverse();
   sortedMonths.forEach((monthStr) => {
@@ -118,7 +134,7 @@ function getPreviousMonth(currentMonth) {
   return `${yyyy}-${mm}`;
 }
 
-function updateCharts() {
+function updateCharts(filteredData) {
   // Get the selected month from the dropdown
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
@@ -149,7 +165,7 @@ function updateCharts() {
 
   // --- Pie Chart (Category Totals for Current Data) ---
   const categoryTotals = {};
-  allData.forEach((row) => {
+  filteredData.forEach((row) => {
     const cat = row.Category || "Unknown";
     const amt = parseFloat(row.Amount) || 0;
     categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;

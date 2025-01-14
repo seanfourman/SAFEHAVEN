@@ -15,7 +15,7 @@ function csvToJson(csvText) {
   return jsonArray;
 }
 
-// Function to calculate total expenses for a given month
+// calculate total expenses for a given month
 function calculateMonthlyExpenses(data, targetMonth) {
   return data
     .filter((row) => {
@@ -26,7 +26,7 @@ function calculateMonthlyExpenses(data, targetMonth) {
     .reduce((total, row) => total + (parseFloat(row.Amount) || 0), 0);
 }
 
-// Function to update Last and Next Charges directly from localStorage
+// update Last and Next Charges directly from localStorage
 function updateChargesFromStorage() {
   const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
   const previousChargeSpan = document.getElementById("previous-charge");
@@ -50,7 +50,7 @@ function updateChargesFromStorage() {
 
 updateChargesFromStorage();
 
-// Function to get current and previous months in YYYY-MM format
+// get current and previous months in YYYY-MM format
 function getCurrentAndPreviousMonth() {
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -59,7 +59,7 @@ function getCurrentAndPreviousMonth() {
   return { currentMonth, previousMonth };
 }
 
-// Attach event listener to the file input
+// attach event listener to the file input
 const csvFileInput = document.getElementById("csvFileInput");
 
 if (csvFileInput) {
@@ -97,8 +97,46 @@ if (csvFileInput) {
       // Update charges from storage after saving
       updateChargesFromStorage();
 
-      alert("Data successfully added to storage!");
+      // Add a span to show that a file was added
+      if (!document.querySelector(".success")) {
+        const fileAddedSpan = document.createElement("span");
+        fileAddedSpan.textContent = "File successfully added!";
+        fileAddedSpan.classList.add("success");
+        csvFileInput.parentNode.appendChild(fileAddedSpan);
+      }
+      clearButtonBind();
+
+      // Reset the file input value to allow re-uploading the same file
+      csvFileInput.value = "";
     };
     reader.readAsText(file);
   });
 }
+
+function clearButtonBind() {
+  const clearButton = document.getElementById("clearButton");
+  if (localStorage.getItem("expensesData") && clearButton) {
+    clearButton.textContent = "Want to clear all data?";
+    clearButton.classList.add("clear-button");
+    clearButton.addEventListener("click", clearAllData);
+  } else if (clearButton) {
+    clearButton.textContent = "No data loaded";
+    clearButton.classList.remove("clear-button");
+  }
+}
+
+// clear all data from localStorage
+function clearAllData() {
+  if (localStorage.getItem("expensesData")) {
+    localStorage.removeItem("expensesData");
+    updateChargesFromStorage();
+    clearButtonBind();
+
+    const fileAddedSpan = document.querySelector(".success");
+    if (fileAddedSpan) {
+      fileAddedSpan.remove();
+    }
+  }
+}
+
+clearButtonBind();

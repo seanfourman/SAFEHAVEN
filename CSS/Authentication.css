@@ -28,25 +28,6 @@
   max-height: 95%;
 }
 
-/* --- ERROR MESSAGES --- */
-.error {
-  border: 1px solid red !important;
-}
-
-.input-error-message,
-.form-error-message {
-  display: block;
-  color: red;
-  font-size: 0.75rem;
-  margin-top: 0.5rem;
-  z-index: auto;
-}
-
-.form-error-message {
-  margin: 0.5rem auto;
-  font-weight: bold;
-}
-
 /* ---------------------------------------------------------------------------- */
 /* container */
 .container {
@@ -148,6 +129,10 @@
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.container label {
+  color: #000000;
 }
 
 .container form::-webkit-scrollbar,

@@ -84,6 +84,7 @@
 /* --- CREDIT CARD --- */
 .user-cards-container {
   height: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,10 +112,31 @@
   max-width: 60%;
 }
 
+/* --- CARD CONTAINER & SCROLL BAR --- */
 .card-container {
   position: relative;
   display: flex;
   gap: 15px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+}
+
+.user-cards::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.user-cards::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.user-cards::-webkit-scrollbar-thumb {
+  background: rgba(175, 175, 175, 0.5);
+  border-radius: 5px;
+}
+
+.user-cards::-webkit-scrollbar-thumb:hover {
+  background: rgb(200, 200, 200);
 }
 
 .card-header,
@@ -221,5 +243,19 @@ h5.number {
     overflow-y: auto;
     max-width: 100%;
     max-height: 70%;
+  }
+
+  .monthly-charges h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .monthly-charges {
+    width: 50%;
+  }
+
+  #welcome-message {
+    font-size: 1.75rem;
   }
 }
