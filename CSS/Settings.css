@@ -1,3 +1,7 @@
 .custom-form.updateuser {
   min-width: 500px;
 }
+
+#updateuser-email {
+  color: #bbbbbb;
+}
