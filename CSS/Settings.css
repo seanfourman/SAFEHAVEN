@@ -5,3 +5,18 @@
 #updateuser-email {
   color: #bbbbbb;
 }
+
+.form-submit {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container button {
+  background-color: var(--highlight-color);
+}
+
+.container button:hover {
+  background-color: #ff7b5e;
+}
