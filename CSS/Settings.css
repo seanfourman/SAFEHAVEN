@@ -1,5 +1,5 @@
-.custom-form.updateuser {
-  min-width: 500px;
+.container {
+  max-width: 500px;
 }
 
 #updateuser-email {
@@ -19,4 +19,10 @@
 
 .container button:hover {
   background-color: #ff7b5e;
+}
+
+@media (max-width: 520px) {
+  .container {
+    max-width: 275px;
+  }
 }
