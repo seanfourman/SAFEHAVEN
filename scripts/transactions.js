@@ -8,14 +8,22 @@ const totalExpensesSpan = document.getElementById("totalExpenses");
 
 const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
 
-// check if there is data in the local storage and update the dashboard
+// parse "DD/MM/YYYY" into { year, month }
+function parseDateToYearMonth(dateStr) {
+  if (!dateStr) return null;
+  const [_, mm, yyyy] = dateStr.split("/");
+  if (!mm || !yyyy) return null;
+  return { year: yyyy, month: mm };
+}
+
 if (storedData.allData) {
   allData = storedData.allData;
-  buildMonthSelect(allData);
+}
+buildMonthSelect(allData);
+
+if (storedData.allData) {
   updateDashboard();
 } else {
-  buildMonthSelect(allData); // build the dropdown with no data (only current month)
-
   chargesDashboard = document.querySelector(".charges-dashboard");
   chargesDashboard.remove();
   const centerFrame = document.createElement("div");
@@ -35,43 +43,28 @@ function buildMonthSelect(data) {
   if (!monthSelectElement) return;
   monthSelectElement.innerHTML = "";
 
-  // get unique months from the data
-  const uniqueMonths = [];
+  const uniqueMonths = new Set();
   data.forEach((row) => {
-    const date = row.Date;
-    if (!date) return;
-    const [_, month, year] = date.split("/");
-    if (year && month) {
-      const formattedMonth = `${year}-${month.padStart(2, "0")}`; // format: "YYYY-MM"
-
-      // add the month if not in array already
-      if (!uniqueMonths.includes(formattedMonth)) {
-        uniqueMonths.push(formattedMonth);
-      }
+    const parsed = parseDateToYearMonth(row.Date);
+    if (parsed) {
+      const formattedMonth = `${parsed.year}-${parsed.month.padStart(2, "0")}`;
+      uniqueMonths.add(formattedMonth);
     }
   });
 
-  // add the current month to the array (if not already in)
-  const currentDate = new Date();
-  const currentMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`;
-  if (!uniqueMonths.includes(currentMonth)) {
-    uniqueMonths.push(currentMonth);
-  }
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  uniqueMonths.add(currentMonth);
 
-  const sortedMonths = uniqueMonths.sort().reverse(); // maybe change later? currently in descending order
-
-  // create dropdown options for each month
+  const sortedMonths = Array.from(uniqueMonths).sort().reverse();
   sortedMonths.forEach((monthStr) => {
     const option = document.createElement("option");
     option.value = monthStr;
-
-    // format to "MONTH-NAME YEAR"
-    const [year, month] = monthStr.split("-");
-    option.textContent = `${monthNumberToName(parseInt(month, 10))} ${year}`;
+    const [yyyy, mm] = monthStr.split("-");
+    option.textContent = `${monthNumberToName(parseInt(mm, 10))} ${yyyy}`;
     monthSelectElement.appendChild(option);
   });
 
-  // set the most recent month as the default selection
   if (sortedMonths.length > 0) {
     monthSelectElement.value = sortedMonths[0];
   }
@@ -89,16 +82,14 @@ if (monthSelect) {
 
 // update the dashboard
 function updateDashboard() {
-  if (!document.getElementById("monthSelect")) return;
+  if (!monthSelect) return;
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
 
-  // filter the data for the selected month -> find only the rows with the same month and year
   const [year, month] = selectedMonth.split("-");
   const filteredData = allData.filter((row) => {
-    if (!row.Date) return false;
-    const [_, mm, yyyy] = row.Date.split("/");
-    return yyyy === year && mm === month;
+    const parsed = parseDateToYearMonth(row.Date);
+    return parsed && parsed.year === year && parsed.month === month;
   });
 
   // update the table
@@ -146,28 +137,26 @@ function getPreviousMonth(currentMonth) {
 
 // update the charges dashboard
 function updateCharts(filteredData) {
-  const selectedMonth = monthSelect.value; // get the selected month
+  const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
 
   const [selectedYear, selectedMonthNumber] = selectedMonth.split("-").map(Number);
 
-  // calculate the past three months relative to the selected month
+  // calculate the past three months
   const pastThreeMonths = [];
   for (let i = 2; i >= 0; i--) {
-    const date = new Date(selectedYear, selectedMonthNumber - 1 - i, 1); // subtract i months from the selected month
+    const date = new Date(selectedYear, selectedMonthNumber - 1 - i, 1);
     pastThreeMonths.push(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`);
   }
 
-  // calculate the total expenses for the selected month
   const monthlyTotals = {};
   pastThreeMonths.forEach((month) => {
     monthlyTotals[month] = allData
       .filter((row) => {
-        if (!row.Date) return false;
-        const [_, mm, yyyy] = row.Date.split("/");
-        return `${yyyy}-${mm.padStart(2, "0")}` === month;
+        const parsed = parseDateToYearMonth(row.Date);
+        return parsed && `${parsed.year}-${parsed.month.padStart(2, "0")}` === month;
       })
-      .reduce((total, row) => total + (parseFloat(row.Amount) || 0), 0); // sum the amounts for the month
+      .reduce((acc, row) => acc + (parseFloat(row.Amount) || 0), 0);
   });
 
   // object to array conversion for the bar chart data
