@@ -78,7 +78,8 @@ class Users {
       displayExpirationDate: cardValues.expirationDate.slice(2).replaceAll("-", "/").split("/").reverse().join("/"),
       cvv: cardValues.cvv,
       billingDay: 1, // default billing day
-      cardHolder: cardValues.cardHolder
+      cardHolder: cardValues.cardHolder,
+      transactions: []
     };
   }
   ensureUniqueEmail(email) {

@@ -390,6 +390,15 @@ input:disabled {
   background-color: #dbdbdb;
 }
 
+#card-select-container {
+  display: flex;
+  gap: 10px;
+}
+
+#card-select-container select {
+  border-radius: 30px;
+}
+
 @media (max-width: 1200px) {
   .connected-user {
     display: none;
