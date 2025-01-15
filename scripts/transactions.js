@@ -43,20 +43,24 @@ function buildMonthSelect(data) {
   if (!monthSelectElement) return;
   monthSelectElement.innerHTML = "";
 
-  const uniqueMonths = new Set();
+  const uniqueMonths = [];
   data.forEach((row) => {
     const parsed = parseDateToYearMonth(row.Date);
     if (parsed) {
       const formattedMonth = `${parsed.year}-${parsed.month.padStart(2, "0")}`;
-      uniqueMonths.add(formattedMonth);
+      if (!uniqueMonths.includes(formattedMonth)) {
+        uniqueMonths.push(formattedMonth);
+      }
     }
   });
 
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  uniqueMonths.add(currentMonth);
+  if (!uniqueMonths.includes(currentMonth)) {
+    uniqueMonths.push(currentMonth);
+  }
 
-  const sortedMonths = Array.from(uniqueMonths).sort().reverse();
+  const sortedMonths = uniqueMonths.sort().reverse();
   sortedMonths.forEach((monthStr) => {
     const option = document.createElement("option");
     option.value = monthStr;
@@ -110,6 +114,10 @@ function updateDashboard() {
   });
 
   totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
+
+  // destroy the tableBody element if total is 0
+  if (total === 0) {
+  }
 
   // update charts
   updateCharts(filteredData);
