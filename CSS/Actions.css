@@ -7,6 +7,12 @@
   display: none; /* hide the default upload button */
 }
 
+#card-select-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .custom-file-input {
   padding: 10px 20px;
   background-color: var(--highlight-color);
@@ -23,6 +29,11 @@
 
 .custom-file-input:active {
   background-color: #ffa490;
+}
+
+#card-select-container label {
+  font-weight: bold;
+  color: var(--highlight-color);
 }
 
 .clear-button {

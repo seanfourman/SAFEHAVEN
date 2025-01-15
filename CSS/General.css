@@ -399,6 +399,33 @@ input:disabled {
   border-radius: 30px;
 }
 
+/* --- SELECT MENU --- */
+
+select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid var(--highlight-color);
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  color: #222222;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+select:hover {
+  background-color: #ffefea;
+}
+
+select:focus {
+  border-color: #ff8c66;
+  box-shadow: 0 0 10px #ff8c66; /* Glow effect */
+}
+
+select option {
+  padding: 10px;
+  background-color: #ffffff;
+}
+
 @media (max-width: 1200px) {
   .connected-user {
     display: none;

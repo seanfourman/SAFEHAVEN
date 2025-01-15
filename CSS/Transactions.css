@@ -81,31 +81,6 @@ canvas {
   color: var(--highlight-color);
 }
 
-#monthSelect {
-  padding: 10px;
-  font-size: 1rem;
-  border: 2px solid var(--highlight-color);
-  border-radius: 20px;
-  background-color: #f9f9f9;
-  color: #222222;
-  outline: none;
-  transition: all 0.3s ease-in-out;
-}
-
-#monthSelect:hover {
-  background-color: #ffefea;
-}
-
-#monthSelect:focus {
-  border-color: #ff8c66;
-  box-shadow: 0 0 10px #ff8c66; /* Glow effect */
-}
-
-#monthSelect option {
-  padding: 10px;
-  background-color: #ffffff;
-}
-
 /* --- TABLE --- */
 #details-container {
   max-height: 500px;
