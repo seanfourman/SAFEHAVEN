@@ -58,6 +58,7 @@ function changeBackground() {
 document.addEventListener("DOMContentLoaded", () => {
   updateRealTime();
   changeBackground();
+  calculateCharges();
 });
 
 setInterval(updateRealTime, 1000); // update every second
@@ -71,7 +72,7 @@ function calculateCharges() {
   const currentMonthExpenses = calculateMonthlyExpenses(transactions, currentMonth);
   const previousMonthExpenses = calculateMonthlyExpenses(transactions, previousMonth);
 
-  if (previousMonthExpenses) {
+  if (previousMonthExpenses > 0) {
     document.querySelector("#previous-charge span").textContent = `$${previousMonthExpenses}`;
     document.querySelector("#previous-charge").classList.remove("element-hidden");
   }
@@ -79,8 +80,6 @@ function calculateCharges() {
     document.querySelector("#next-charge span").textContent = `$${currentMonthExpenses}`;
   }
 }
-
-calculateCharges();
 
 function getCurrentAndPreviousMonth() {
   const now = new Date();
@@ -103,5 +102,5 @@ function calculateMonthlyExpenses(transactions, targetMonth) {
       }
     }
   });
-  return totalExpenses.toFixed(2);
+  return totalExpenses.toFixed(2); // returns a ***string with 2 decimal places
 }
