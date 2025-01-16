@@ -425,7 +425,7 @@ select:hover {
 
 select:focus {
   border-color: #ff8c66;
-  box-shadow: 0 0 10px #ff8c66; /* Glow effect */
+  box-shadow: 0 0 10px #ff8c66;
 }
 
 select option {

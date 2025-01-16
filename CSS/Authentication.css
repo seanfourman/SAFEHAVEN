@@ -133,7 +133,7 @@
     animation: move 0.6s; /* probably deleting */
   }
 
-  /* probably removing keyframes */
+  /* tried fixing something, doesn't do anything tbh, gave up */
   @keyframes move {
     0%,
     49% {

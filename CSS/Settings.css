@@ -54,24 +54,21 @@
   align-items: center;
   width: 40px;
   height: 40px;
-  background-color: #949494; /* Primary blue color */
-  color: #fff; /* White text */
-  font-size: 24px;
-  font-weight: bold;
+  background-color: #949494;
   border: none;
-  border-radius: 50%; /* Circular button */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .card-add-symbol:hover {
-  background-color: var(--highlight-color); /* Darker blue on hover */
-  transform: scale(1.1); /* Slight zoom effect */
+  background-color: var(--highlight-color);
+  transform: scale(1.1);
 }
 
 .card-add-symbol:active {
-  transform: scale(0.95); /* Click effect */
+  transform: scale(0.95);
 }
 
 .container form::-webkit-scrollbar,

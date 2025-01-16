@@ -7,7 +7,7 @@
 }
 
 .transactions-page {
-  height: auto; /* Let the page adjust its height dynamically */
+  height: auto; /* adjust page size dynamically, should fix it */
   display: block;
 }
 
@@ -26,16 +26,16 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  height: auto; /* Adjust height based on content */
+  height: auto;
 }
 
 .charges-dashboard {
   display: flex;
-  flex-direction: column; /* Stack charts and table vertically */
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: auto; /* Adjust height dynamically */
-  margin-bottom: 20px; /* Add spacing before the footer */
+  height: auto;
+  margin-bottom: 20px;
 }
 
 #summary {
@@ -59,8 +59,8 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  width: 80%; /* Align with table width */
-  margin: 20px auto; /* Center charts container */
+  width: 80%;
+  margin: 20px auto;
 }
 
 canvas {
@@ -89,16 +89,16 @@ canvas {
 }
 
 #details {
-  width: 100%; /* Ensure the table takes the full width of the container */
+  width: 100%;
   border-collapse: collapse;
-  border-radius: 0; /* Remove border-radius since the container handles it */
+  border-radius: 0;
 }
 
 #details thead {
-  position: sticky; /* Keep the header fixed while scrolling */
-  top: 0; /* Ensure it sticks to the top of the container */
-  background-color: var(--highlight-color); /* Match header background */
-  z-index: 2; /* Ensure it stays above other elements */
+  position: sticky;
+  top: 0;
+  background-color: var(--highlight-color);
+  z-index: 2;
 }
 
 #details th {
@@ -150,18 +150,18 @@ canvas {
 /* --- MEDIA QUERIES --- */
 @media (max-width: 1080px) {
   .charts-container {
-    flex-direction: column; /* Stack charts vertically on smaller screens */
+    flex-direction: column;
     gap: 20px;
   }
 
   #details-container {
-    width: 100%; /* Adjust container width for smaller screens */
+    width: 100%;
   }
 }
 
 @media (max-width: 678px) {
   .charges-title {
-    flex-direction: column; /* Stack title elements vertically */
+    flex-direction: column;
     gap: 30px;
   }
 
