@@ -127,6 +127,7 @@ h5.number {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

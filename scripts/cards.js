@@ -22,7 +22,18 @@ function generateCreditCard(index, cardValues, template) {
   const clonedElement = template.cloneNode(true);
   new RenderData(cardValues, clonedElement);
   clonedElement.setAttribute("data-index", index);
+  clonedElement.setAttribute("data-display-card-number", cardValues.displayCardNumber);
   template.parentElement.append(clonedElement);
+
+  if (clonedElement.querySelector("[data-transaction-link]")) {
+    clonedElement.addEventListener("click", (event) => bindCardClickEventToTransactions(event, clonedElement));
+  }
+}
+
+function bindCardClickEventToTransactions(event, containerElement) {
+  event.preventDefault();
+  setSelectedCard(containerElement.dataset.displayCardNumber);
+  window.location.href = "./Transactions.html";
 }
 
 generateUserCards();

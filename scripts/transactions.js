@@ -1,12 +1,15 @@
-let allData = [];
 let pieChartInstance = null;
 let barChartInstance = null;
 
 const monthSelect = document.getElementById("monthSelect");
 const tableBody = document.querySelector("#details tbody");
 const totalExpensesSpan = document.getElementById("totalExpenses");
-
-const storedData = JSON.parse(localStorage.getItem("expensesData")) || {};
+const chargesDashboard = document.querySelector(".charges-dashboard");
+const centerFrame = createCenterFrame();
+const text = document.createElement("h1");
+text.textContent = "No data available";
+document.body.appendChild(centerFrame);
+centerFrame.appendChild(text);
 
 // parse "DD/MM/YYYY" into { year, month }
 function parseDateToYearMonth(dateStr) {
@@ -16,26 +19,42 @@ function parseDateToYearMonth(dateStr) {
   return { year: yyyy, month: mm };
 }
 
-if (storedData.allData) {
-  allData = storedData.allData;
-}
-buildMonthSelect(allData);
-
-if (storedData.allData) {
-  updateDashboard();
-} else {
-  chargesDashboard = document.querySelector(".charges-dashboard");
-  chargesDashboard.remove();
+function createCenterFrame() {
   const centerFrame = document.createElement("div");
   centerFrame.style.display = "flex";
   centerFrame.style.justifyContent = "center";
   centerFrame.style.alignItems = "center";
-
-  const text = document.createElement("h1");
-  text.textContent = "No data available";
-  document.body.appendChild(centerFrame);
-  centerFrame.appendChild(text);
+  return centerFrame;
 }
+
+function generateCardTransactionsContent(cardTransactions) {
+  buildMonthSelect(cardTransactions);
+
+  if (cardTransactions.length) {
+    chargesDashboard.classList.remove("element-hidden");
+    text.classList.add("element-hidden");
+    updateDashboard();
+  } else {
+    chargesDashboard.classList.add("element-hidden");
+    text.classList.remove("element-hidden");
+    totalExpensesSpan.textContent = `$0`;
+  }
+}
+
+let previousCardValue = "";
+let cardTransactions = [];
+const cardSelectElement = document.getElementById("card-select");
+
+function handleCardChange() {
+  const card = window.users.getCard(cardSelectElement.value);
+  cardTransactions = [...card.transactions];
+  generateCardTransactionsContent(card.transactions || []);
+}
+
+cardSelectElement.addEventListener("change", () => {
+  handleCardChange();
+});
+handleCardChange();
 
 // Build the dropdown menu for selecting months
 function buildMonthSelect(data) {
@@ -86,12 +105,13 @@ if (monthSelect) {
 
 // update the dashboard
 function updateDashboard() {
+  if (document.getElementById("card-select").value !== getSelectedCard()) return;
   if (!monthSelect) return;
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
 
   const [year, month] = selectedMonth.split("-");
-  const filteredData = allData.filter((row) => {
+  const filteredData = cardTransactions.filter((row) => {
     const parsed = parseDateToYearMonth(row.Date);
     return parsed && parsed.year === year && parsed.month === month;
   });
@@ -126,7 +146,7 @@ function updateDashboard() {
 // calculate total expenses for a given month
 function calculateMonthlyExpenses(month) {
   const [year, mm] = month.split("-");
-  return allData
+  return cardTransactions
     .filter((row) => {
       const [_, rowMM, rowYYYY] = row.Date.split("/");
       return rowYYYY === year && rowMM === mm;
@@ -145,6 +165,7 @@ function getPreviousMonth(currentMonth) {
 
 // update the charges dashboard
 function updateCharts(filteredData) {
+  if (!cardTransactions.length) return;
   const selectedMonth = monthSelect.value;
   if (!selectedMonth) return;
 
@@ -159,7 +180,7 @@ function updateCharts(filteredData) {
 
   const monthlyTotals = {};
   pastThreeMonths.forEach((month) => {
-    monthlyTotals[month] = allData
+    monthlyTotals[month] = cardTransactions
       .filter((row) => {
         const parsed = parseDateToYearMonth(row.Date);
         return parsed && `${parsed.year}-${parsed.month.padStart(2, "0")}` === month;

@@ -12,8 +12,9 @@
     <script src="../scripts/data.js" defer></script>
     <script src="../scripts/users.js" defer></script>
     <script src="../scripts/dashboard.js" defer></script>
-    <script src="../scripts/cards.js" defer></script>
     <script src="../scripts/fileLoader.js" defer></script>
+    <script src="../scripts/linkCards.js" defer></script>
+    <script src="../scripts/cards.js" defer></script>
   </head>
 
   <body data-auth="true">
@@ -64,7 +65,7 @@
         <div class="user-cards" id="userCards">
           <div class="card-container">
             <div class="user-card">
-              <a href="./Transactions.html" class="card">
+              <div class="card" data-transaction-link>
                 <div class="card-header">
                   <span class="card-logo">
                     <img src="../Images/CreditCard/logo.png" alt="" />
@@ -84,7 +85,7 @@
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
         </div>
@@ -97,7 +98,7 @@
           <h1 id="welcome-message">WELCOME</h1>
         </div>
         <div class="monthly-charges">
-          <h1 id="previous-charge"></h1>
+          <h1 id="previous-charge" class="element-hidden">Next Charge: <span>$0.00</span></h1>
           <h1 id="next-charge">Next Charge: <span>$0.00</span></h1>
         </div>
       </div>

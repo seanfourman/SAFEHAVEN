@@ -61,3 +61,47 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 setInterval(updateRealTime, 1000); // update every second
+
+function calculateCharges() {
+  const { currentMonth, previousMonth } = getCurrentAndPreviousMonth();
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  const transactions = [];
+  user.cards.forEach((card) => transactions.push(...card.transactions));
+
+  const currentMonthExpenses = calculateMonthlyExpenses(transactions, currentMonth);
+  const previousMonthExpenses = calculateMonthlyExpenses(transactions, previousMonth);
+
+  if (previousMonthExpenses) {
+    document.querySelector("#previous-charge span").textContent = `$${previousMonthExpenses}`;
+    document.querySelector("#previous-charge").classList.remove("element-hidden");
+  }
+  if (currentMonthExpenses) {
+    document.querySelector("#next-charge span").textContent = `$${currentMonthExpenses}`;
+  }
+}
+
+calculateCharges();
+
+function getCurrentAndPreviousMonth() {
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const previousDate = new Date(now.getFullYear(), now.getMonth() - 1, 1); // subtract 1 month
+  const previousMonth = `${previousDate.getFullYear()}-${String(previousDate.getMonth() + 1).padStart(2, "0")}`;
+  return { currentMonth, previousMonth };
+}
+
+function calculateMonthlyExpenses(transactions, targetMonth) {
+  let totalExpenses = 0;
+  transactions.forEach((transaction) => {
+    if (transaction.Date) {
+      const dateParts = transaction.Date.split("/");
+      const yearMonth = `${dateParts[2]}-${dateParts[1].padStart(2, "0")}`;
+      // Add the amount to the total expenses if the month matches the target month
+      if (yearMonth === targetMonth) {
+        const amount = parseFloat(transaction.Amount) || 0;
+        totalExpenses += amount;
+      }
+    }
+  });
+  return totalExpenses.toFixed(2);
+}

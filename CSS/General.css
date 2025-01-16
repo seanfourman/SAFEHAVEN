@@ -393,6 +393,13 @@ input:disabled {
 #card-select-container {
   display: flex;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+#card-select-container label {
+  font-weight: bold;
+  color: var(--highlight-color);
 }
 
 #card-select-container select {
