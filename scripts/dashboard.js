@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 setInterval(updateRealTime, 1000); // update every second
 
+// calculates the total charges for the current and previous month and displays them on the dashboard
 function calculateCharges() {
   const { currentMonth, previousMonth } = getCurrentAndPreviousMonth();
   const user = window.users.getUser(window.auth.getCurrentUserEmail());
@@ -81,6 +82,7 @@ function calculateCharges() {
   }
 }
 
+// returns the current and previous month in the format "YYYY-MM"
 function getCurrentAndPreviousMonth() {
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -89,6 +91,7 @@ function getCurrentAndPreviousMonth() {
   return { currentMonth, previousMonth };
 }
 
+// calculates the total expenses for a given month
 function calculateMonthlyExpenses(transactions, targetMonth) {
   let totalExpenses = 0;
   transactions.forEach((transaction) => {

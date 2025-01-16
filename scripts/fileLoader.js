@@ -1,3 +1,4 @@
+// read and save file to local storage
 class FileLoader {
   constructor() {
     this.key = "fromFile";

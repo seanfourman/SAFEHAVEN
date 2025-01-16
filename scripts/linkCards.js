@@ -1,13 +1,16 @@
 const selectedCardKey = "selectedCard";
 
+// set the selected card in the local storage
 function setSelectedCard(cardNumber) {
   localStorage.setItem(selectedCardKey, cardNumber);
 }
 
+// get the selected card from the local storage
 function getSelectedCard() {
   return localStorage.getItem(selectedCardKey);
 }
 
+// render the card selection input element in the container element provided as an argument and set the selected card based on the user's selection or the default selected card
 function renderCardsInput(containerElement) {
   const user = window.users.getUser(window.auth.getCurrentUserEmail());
   const cards = user.cards;
@@ -39,6 +42,7 @@ function renderCardsInput(containerElement) {
   });
 }
 
+// observe file upload and update card transactions
 function observeFileUpload() {
   setInterval(() => {
     const fileContent = window.fileLoader.getItem();
@@ -48,6 +52,7 @@ function observeFileUpload() {
   }, 1000);
 }
 
+// update card transactions
 function upsertCardTransactions(fileContent) {
   const activeCardNumber = getSelectedCard();
   const card = window.users.getCard(activeCardNumber);

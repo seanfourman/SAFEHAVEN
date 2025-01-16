@@ -248,6 +248,7 @@ class CustomFormActionHandler {
   }
 }
 
+// CustomFormValuesInitiator initiates form values from a source (user or card)
 class CustomFormValuesInitiator {
   static _dictionary = {
     user: () => window.users.getUser(window.auth.getCurrentUserEmail()),

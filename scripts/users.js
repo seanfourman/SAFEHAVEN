@@ -43,10 +43,12 @@ class Users {
   getUser(email) {
     return this._getUsers().find((user) => user.email === email);
   }
+  // getCard finds a card in the users array with the given displayCardNumber
   getCard(displayCardNumber) {
     const dbUser = this._getUsers().find((user) => user.cards.find((card) => card.displayCardNumber === displayCardNumber));
     return dbUser ? dbUser.cards.find((card) => card.displayCardNumber === displayCardNumber) : null;
   }
+  // removeCard filters the users array to remove the card with the given displayCardNumber
   updateCard(email, cardValues) {
     const users = this._getUsers();
     const updatedUsers = users.map((dbUser) => {
@@ -58,6 +60,7 @@ class Users {
     this._setUsers(updatedUsers);
     window.location.reload();
   }
+  // addCard pushes a new card to the cards array of the user with the given email
   addCard(email, cardValues) {
     this.ensureUniqueCardNumber(cardValues.displayCardNumber);
     const users = this._getUsers();
@@ -70,6 +73,7 @@ class Users {
     this._setUsers(updatedUsers);
     window.location.reload();
   }
+  // buildCard returns a card object with the given cardValues
   buildCard(cardValues) {
     return {
       cardNumber: cardValues.cardNumber.replaceAll(" ", ""),
@@ -82,9 +86,11 @@ class Users {
       transactions: []
     };
   }
+  // ensureUniqueEmail checks if the email already exists in the database
   ensureUniqueEmail(email) {
     if (this.getUser(email)) throw new Error("Email already exists");
   }
+  // ensureUniqueCardNumber checks if the card already exists in the database
   ensureUniqueCardNumber(displayCardNumber) {
     if (this.getCard(displayCardNumber)) throw new Error("Card already exists");
   }

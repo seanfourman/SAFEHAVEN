@@ -19,6 +19,7 @@ function parseDateToYearMonth(dateStr) {
   return { year: yyyy, month: mm };
 }
 
+// create a div element with flex centering for hiding stuff when there's no data
 function createCenterFrame() {
   const centerFrame = document.createElement("div");
   centerFrame.style.display = "flex";
@@ -27,6 +28,7 @@ function createCenterFrame() {
   return centerFrame;
 }
 
+// generate the card transactions content
 function generateCardTransactionsContent(cardTransactions) {
   buildMonthSelect(cardTransactions);
 
@@ -45,6 +47,7 @@ let previousCardValue = "";
 let cardTransactions = [];
 const cardSelectElement = document.getElementById("card-select");
 
+// get the selected card from the local storage and update the card transactions
 function handleCardChange() {
   const card = window.users.getCard(cardSelectElement.value);
   cardTransactions = [...card.transactions];
@@ -54,6 +57,7 @@ function handleCardChange() {
 cardSelectElement.addEventListener("change", () => {
   handleCardChange();
 });
+
 handleCardChange();
 
 // Build the dropdown menu for selecting months
