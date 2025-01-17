@@ -30,6 +30,7 @@ function generateCreditCard(index, cardValues, template) {
   }
 }
 
+// setSelectedCard sets the selected card in local storage
 function bindCardClickEventToTransactions(event, containerElement) {
   event.preventDefault();
   setSelectedCard(containerElement.dataset.displayCardNumber);
