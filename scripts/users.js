@@ -157,6 +157,7 @@ class Auth {
   // logout removes the current user from local storage and redirects to the home page
   logout() {
     localStorage.removeItem("loggedUser");
+    localStorage.removeItem("selectedCard");
     window.location.href = "./Home.html";
   }
 }
