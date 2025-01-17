@@ -1,4 +1,3 @@
-// generateUserCards() -> generateCreditCard() -> RenderData()
 // generateUserCards find the credit card template and the user data to generate the credit cards
 function generateUserCards() {
   const templateCreditCard = document.querySelector(".user-card");
@@ -30,10 +29,10 @@ function generateCreditCard(index, cardValues, template) {
   }
 }
 
-// setSelectedCard sets the selected card in local storage
+// sets the selected card in local storage and redirects the user to the transactions page
 function bindCardClickEventToTransactions(event, containerElement) {
   event.preventDefault();
-  setSelectedCard(containerElement.dataset.displayCardNumber);
+  setSelectedCard(containerElement.dataset.displayCardNumber); // setSelectedCard sets the selected card in local storage
   window.location.href = "./Transactions.html";
 }
 
