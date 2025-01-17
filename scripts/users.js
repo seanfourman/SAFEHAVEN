@@ -117,10 +117,10 @@ class Auth {
   }
   // signUp checks if user is already logged in, then checks if email already exists in the database, then adds the user to the database and sets the user as logged in and redirects to the dashboard
   signUp(userValues) {
+    userValues.email = userValues.email.toLowerCase(); // convert email to lowercase, THIS HAS TO COME FIRST
     this._ensureNotLogged();
     this._users.ensureUniqueEmail(userValues.email);
     this._users.ensureUniqueCardNumber(userValues.cardNumber);
-    userValues.email = userValues.email.toLowerCase();
 
     // add card info to cards array
     userValues.cards = [this._users.buildCard(userValues)];
