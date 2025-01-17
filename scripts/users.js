@@ -127,6 +127,7 @@ class Auth {
     userValues.userName = userValues.cardHolder;
 
     // remove card info from userValues, as it is now in the cards array
+    delete userValues.cardHolder;
     delete userValues.cardNumber;
     delete userValues.expirationDate;
     delete userValues.cvv;
