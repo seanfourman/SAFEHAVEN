@@ -252,7 +252,7 @@ class CustomFormActionHandler {
 class CustomFormValuesInitiator {
   static _dictionary = {
     user: () => window.users.getUser(window.auth.getCurrentUserEmail()),
-    card: (index) => window.users.getUser(window.auth.getCurrentUserEmail()).cards[index]
+    card: (index) => window.users.getUser(window.auth.getCurrentUserEmail()).cards[index] // gets card by index
   };
 
   constructor(customForm, sourceName) {
@@ -266,7 +266,9 @@ class CustomFormValuesInitiator {
   _init() {
     this._sourceMethod = CustomFormValuesInitiator._dictionary[this._sourceName];
 
+    // Checks if the source method should get arguments
     if (this._sourceMethod.length) {
+      // Pass the index of the required source
       this._source = this._sourceMethod(this._customForm.$form.dataset.index);
     } else {
       this._source = this._sourceMethod();
