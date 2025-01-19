@@ -51,7 +51,10 @@ function changeBackground() {
 
   if (background) {
     //background.style.backgroundImage = 'url("https://picsum.photos/1920/1080")';
-    background.style.backgroundImage = 'url("https://picsum.photos/2560/1440")';
+    //background.style.backgroundImage = 'url("https://picsum.photos/2560/1440")';
+    const images = Array.from({ length: 30 }, (_, i) => i + 1);
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    background.style.backgroundImage = `url('../Images/dashboard-bg/${randomImage}.jpg')`;
   }
 }
 
