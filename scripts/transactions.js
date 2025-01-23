@@ -221,10 +221,17 @@ function updateDashboard() {
   if (!selectedMonth) return;
 
   const [year, month] = selectedMonth.split("-");
-  const filteredData = cardTransactions.filter((row) => {
-    const parsed = parseDateToYearMonth(row.Date);
-    return parsed && parsed.year === year && parsed.month === month;
-  });
+  const filteredData = cardTransactions
+    .filter((row) => {
+      const parsed = parseDateToYearMonth(row.Date);
+      return parsed && parsed.year === year && parsed.month === month;
+    })
+    .sort((a, b) => {
+      // convert dates to comparable format (DD/MM/YYYY)
+      const dateA = a.Date.split("/").reverse().join("");
+      const dateB = b.Date.split("/").reverse().join("");
+      return dateA.localeCompare(dateB); // ascending order (oldest first)
+    });
 
   // update the table
   tableBody.innerHTML = "";
