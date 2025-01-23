@@ -44,13 +44,26 @@ function addSuggestionsSection() {
 }
 
 function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
+  const selectedMonth = monthSelect.value;
+
+  // filter transactions for the selected month
+  const filteredTransactions = transactions.filter((transaction) => {
+    const parsed = parseDateToYearMonth(transaction.Date);
+    return parsed && `${parsed.year}-${parsed.month.padStart(2, "0")}` === selectedMonth;
+  });
+
   const textSpan = document.createElement("span");
-  textSpan.textContent = "Analyzing transactions...";
+  textSpan.textContent = "Analyzing transactions.";
+  let dotCount = 0;
+  setInterval(() => {
+    dotCount = (dotCount + 1) % 3;
+    textSpan.textContent = "Analyzing transactions" + ".".repeat(dotCount + 1);
+  }, 500);
   textSpan.classList.add("loading");
   suggestionsList.appendChild(textSpan);
   suggestionsContainer.classList.remove("element-hidden");
 
-  if (transactions.length < TRANSACTIONS_THRESHOLD) {
+  if (filteredTransactions.length < TRANSACTIONS_THRESHOLD) {
     textSpan.textContent = "Not enough transactions to generate recommendations.";
     textSpan.classList.add("api-error");
     return;
@@ -61,7 +74,7 @@ function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ transactions })
+    body: JSON.stringify({ filteredTransactions })
   })
     .then((response) => {
       requestInProgress = false;
@@ -387,4 +400,6 @@ document.addEventListener("DOMContentLoaded", () => {
   handleCardChange();
   checkIfPageScrollable();
   window.addEventListener("resize", checkIfPageScrollable);
+  window.addEventListener("scroll", checkIfPageScrollable);
+  setInterval(checkIfPageScrollable, 500);
 });
