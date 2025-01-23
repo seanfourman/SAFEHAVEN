@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
   changeBackground();
   calculateCharges();
   generateBirthdayCoupon();
+  checkMidnight();
 });
 
 setInterval(updateRealTime, 1000); // update every second
@@ -81,8 +82,11 @@ function calculateCharges() {
     document.querySelector("#previous-charge span").textContent = `$${previousMonthExpenses}`;
     document.querySelector("#previous-charge").classList.remove("element-hidden");
   }
-  if (currentMonthExpenses) {
+  if (currentMonthExpenses >= 0) {
     document.querySelector("#next-charge span").textContent = `$${currentMonthExpenses}`;
+  }
+  if (currentMonthExpenses < 0) {
+    document.querySelector("#next-charge span").textContent = `$0`;
   }
 }
 
@@ -137,12 +141,48 @@ function isTodayBirthday(birthdate) {
 // generate the birthday coupon
 function generateBirthdayCoupon() {
   const user = window.users.getUser(window.auth.getCurrentUserEmail());
-  if (isTodayBirthday(user.birthdate)) {
-    birthdayCoupon = getElementById("birthday-coupon");
+  const birthdayCoupon = document.querySelector(".birthday-coupon");
+  if (isTodayBirthday(user.birthdate) && !user.birthdayCouponTaken) {
     if (birthdayCoupon) {
-      document.getElementById("birthday-coupon").classList.remove("element");
+      birthdayCoupon.addEventListener("click", () => {
+        birthdayButtonOnClick(user);
+      });
     }
-    console.log("Happy Birthday!");
-    // displayBirthdayCoupon(user);
+  } else {
+    if (birthdayCoupon) {
+      birthdayCoupon.classList.add("element-hidden");
+    }
   }
+}
+
+function birthdayButtonOnClick() {
+  const birthdayCoupon = document.querySelector(".birthday-coupon");
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  if (birthdayCoupon) {
+    birthdayCoupon.classList.add("element-hidden");
+    // maybe add it to the selected card specifically but whatever
+    user.cards[0].transactions.push({
+      Amount: "-50.00",
+      "Business Name": "Birthday Coupon",
+      Category: "General",
+      Date: new Date().toLocaleDateString("en-GB") // format DD/MM/YYYY
+    });
+    window.users.updateCard(user.email, user.cards[0]);
+    user.birthdayCouponTaken = true;
+    window.users.updateUser(user);
+  }
+}
+
+function resetBirthdayCoupon() {
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  user.birthdayCouponTaken = false;
+  window.users.updateUser(user);
+}
+
+function checkMidnight() {
+  const now = new Date();
+  const timeUntilMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0) - now;
+  setTimeout(() => {
+    resetBirthdayCoupon();
+  }, timeUntilMidnight);
 }
