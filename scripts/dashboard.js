@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateRealTime();
   changeBackground();
   calculateCharges();
+  generateBirthdayCoupon();
 });
 
 setInterval(updateRealTime, 1000); // update every second
@@ -109,4 +110,35 @@ function calculateMonthlyExpenses(transactions, targetMonth) {
     }
   });
   return totalExpenses.toFixed(2); // returns a ***string with 2 decimal places
+}
+
+// get the current date in MM-DD format
+function getTodayFormatted() {
+  let today = new Date();
+  let month = String(today.getMonth() + 1).padStart(2, "0");
+  let day = String(today.getDate()).padStart(2, "0");
+  return `${month}-${day}`;
+}
+
+// format a given date to MM-DD format
+function formatDate(date) {
+  let month = String(date.getMonth() + 1).padStart(2, "0");
+  let day = String(date.getDate()).padStart(2, "0");
+  return `${month}-${day}`;
+}
+
+// check if today is the user's birthday
+function isTodayBirthday(birthdate) {
+  const todayFormatted = getTodayFormatted();
+  const userBirthdateFormatted = formatDate(new Date(birthdate));
+  return todayFormatted === userBirthdateFormatted;
+}
+
+// generate the birthday coupon
+function generateBirthdayCoupon() {
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  if (isTodayBirthday(user.birthdate)) {
+    console.log("Happy Birthday!");
+    // displayBirthdayCoupon(user);
+  }
 }
