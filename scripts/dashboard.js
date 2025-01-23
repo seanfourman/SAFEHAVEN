@@ -146,6 +146,7 @@ function generateBirthdayCoupon() {
     if (birthdayCoupon) {
       birthdayCoupon.addEventListener("click", () => {
         birthdayButtonOnClick(user);
+        showBirthdayMessage();
       });
     }
   } else {
@@ -185,4 +186,15 @@ function checkMidnight() {
   setTimeout(() => {
     resetBirthdayCoupon();
   }, timeUntilMidnight);
+}
+
+function showBirthdayMessage() {
+  const birthdayMessage = document.querySelector(".birthday-background");
+  if (birthdayMessage) {
+    birthdayMessage.classList.remove("element-hidden");
+    const closeBirthdayButton = document.querySelector(".birthday-notification-text button");
+    closeBirthdayButton.addEventListener("click", () => {
+      birthdayMessage.classList.add("element-hidden");
+    });
+  }
 }

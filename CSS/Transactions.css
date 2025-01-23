@@ -147,6 +147,112 @@ canvas {
   background: #afafaf;
 }
 
+/* --- SUGGESTIONS SECTION --- */
+.loading {
+  color: #aaaaaa;
+}
+
+.api-error {
+  color: #ff0000;
+}
+
+.suggestions-list {
+  color: #ffffff;
+}
+
+.suggestions-background {
+  background: linear-gradient(45deg, #ff4500, #ff6347, #ff7f50, #ff8c00, #ffa500, #ff4500);
+  background-size: 400% 400%;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  animation: colorShift 10s ease infinite, breathe 3s infinite ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  max-width: 50%;
+}
+
+/* --- SUGGESTIONS BUTTON --- */
+.suggestions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.suggestions-container button {
+  background: linear-gradient(45deg, #ff4500, #ff6347, #ff7f50, #ff8c00, #ffa500, #ff4500);
+  background-size: 300% 300%;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  animation: colorShift 3s ease infinite;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.suggestions-container button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+  z-index: -1;
+  transform: scale(0);
+  transition: transform 0.4s ease-in-out;
+  border-radius: 50%;
+}
+
+.suggestions-container button:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 30px rgba(255, 75, 43, 0.5);
+}
+
+.suggestions-container button:hover::before {
+  transform: scale(1);
+}
+
+.suggestions-container button:active {
+  transform: scale(0.95);
+}
+
+@keyframes colorShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
 /* --- MEDIA QUERIES --- */
 @media (max-width: 1080px) {
   .charts-container {

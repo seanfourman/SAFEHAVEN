@@ -1,6 +1,10 @@
 let pieChartInstance = null;
 let barChartInstance = null;
 
+const API_URL = "https://yael-ex-expenses-services-299199094731.me-west1.run.app/get-recommendations?lang=en&apiKay=afGre4Eerf223432AXE";
+const TRANSACTIONS_THRESHOLD = 5;
+var requestInProgress = false;
+const mainContainer = document.querySelector(".transactions-page");
 const monthSelect = document.getElementById("monthSelect");
 const tableBody = document.querySelector("#details tbody");
 const totalExpensesSpan = document.getElementById("totalExpenses");
@@ -10,6 +14,93 @@ const text = document.createElement("h1");
 text.textContent = "No data available";
 document.body.appendChild(centerFrame);
 centerFrame.appendChild(text);
+
+function addSuggestionsSection() {
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  const transactions = [];
+  user.cards.forEach((card) => transactions.push(...card.transactions)); // get all transactions from all cards of the user
+
+  if (!mainContainer) return;
+
+  const suggestionsContainer = document.createElement("div");
+  suggestionsContainer.classList.add("suggestions-container", "element-hidden");
+  mainContainer.appendChild(suggestionsContainer);
+
+  const suggestionsButton = document.createElement("button");
+  suggestionsButton.textContent = "AI Suggestions";
+  suggestionsContainer.appendChild(suggestionsButton);
+
+  const suggestionsList = document.createElement("div");
+  suggestionsList.classList.add("suggestions-list");
+  suggestionsContainer.appendChild(suggestionsList);
+
+  suggestionsButton.addEventListener("click", () => {
+    if (requestInProgress) return;
+    suggestionsList.innerHTML = "";
+    suggestionsList.classList.remove("suggestions-background");
+    getSuggestions(transactions, suggestionsList, suggestionsContainer);
+    requestInProgress = true;
+  });
+}
+
+function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
+  const textSpan = document.createElement("span");
+  textSpan.textContent = "Analyzing transactions...";
+  textSpan.classList.add("loading");
+  suggestionsList.appendChild(textSpan);
+  suggestionsContainer.classList.remove("element-hidden");
+
+  if (transactions.length < TRANSACTIONS_THRESHOLD) {
+    textSpan.textContent = "Not enough transactions to generate recommendations.";
+    textSpan.classList.add("api-error");
+    return;
+  }
+
+  fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ transactions })
+  })
+    .then((response) => {
+      requestInProgress = false;
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      requestInProgress = false;
+      displayRecommendations(data, suggestionsList);
+    })
+    .catch((error) => {
+      requestInProgress = false;
+      console.error("Error fetching recommendations:", error);
+      textSpan.classList.add("api-error");
+      textSpan.textContent = "Failed to fetch recommendations. Please try again later or check your internet connection.";
+    });
+}
+
+function displayRecommendations(data, suggestionsList) {
+  if (!data.recommendations || data.recommendations.length === 0) {
+    suggestionsList.innerHTML = '<div class="no-recommendations">No recommendations available.</div>';
+    return;
+  }
+
+  // clear artifacts
+  const cleanedRecommendations = data.recommendations
+    .replace(/```(html|css|javascript)?/g, "")
+    .replace(/```/g, "")
+    .replace(/<>/g, "")
+    .replace(/<\s*lang="en"\s*>/g, "")
+    .trim();
+
+  suggestionsList.classList.add("suggestions-background");
+  suggestionsList.innerHTML = cleanedRecommendations;
+}
+
+addSuggestionsSection();
 
 // parse "DD/MM/YYYY" into { year, month }
 function parseDateToYearMonth(dateStr) {
@@ -30,20 +121,23 @@ function createCenterFrame() {
 
 // generate the card transactions content
 function generateCardTransactionsContent(cardTransactions) {
+  const suggestionsContainer = document.querySelector(".suggestions-container");
   buildMonthSelect(cardTransactions);
 
   if (cardTransactions.length) {
     chargesDashboard.classList.remove("element-hidden");
-    text.classList.add("element-hidden");
+    text.classList.add("element-hidden"); // hide the "No data available" text
+    if (suggestionsContainer) {
+      suggestionsContainer.classList.remove("element-hidden");
+    }
     updateDashboard();
   } else {
     chargesDashboard.classList.add("element-hidden");
-    text.classList.remove("element-hidden");
+    text.classList.remove("element-hidden"); // show the "No data available" text
     totalExpensesSpan.textContent = `$0`;
   }
 }
 
-let previousCardValue = "";
 let cardTransactions = [];
 const cardSelectElement = document.getElementById("card-select");
 
@@ -57,8 +151,6 @@ function handleCardChange() {
 cardSelectElement.addEventListener("change", () => {
   handleCardChange();
 });
-
-handleCardChange();
 
 // Build the dropdown menu for selecting months
 function buildMonthSelect(data) {
@@ -137,25 +229,13 @@ function updateDashboard() {
     tableBody.appendChild(tr);
   });
 
-  totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
-
-  // destroy the tableBody element if total is 0
-  if (total === 0) {
+  if (total < 0) {
+    total = 0;
   }
+  totalExpensesSpan.textContent = `$${total.toFixed(2)}`;
 
   // update charts
   updateCharts(filteredData);
-}
-
-// calculate total expenses for a given month
-function calculateMonthlyExpenses(month) {
-  const [year, mm] = month.split("-");
-  return cardTransactions
-    .filter((row) => {
-      const [_, rowMM, rowYYYY] = row.Date.split("/");
-      return rowYYYY === year && rowMM === mm;
-    })
-    .reduce((sum, row) => sum + (parseFloat(row.Amount) || 0), 0); // sum the amounts for the month
 }
 
 // get the previous month
@@ -303,6 +383,8 @@ function checkIfPageScrollable() {
   }
 }
 
-checkIfPageScrollable();
-
-window.addEventListener("resize", checkIfPageScrollable);
+document.addEventListener("DOMContentLoaded", () => {
+  handleCardChange();
+  checkIfPageScrollable();
+  window.addEventListener("resize", checkIfPageScrollable);
+});
