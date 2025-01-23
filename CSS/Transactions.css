@@ -274,4 +274,8 @@ canvas {
   .chart {
     width: 80%;
   }
+
+  .suggestions-background {
+    max-width: 75%;
+  }
 }
