@@ -72,7 +72,7 @@ function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
     })
     .then((data) => {
       requestInProgress = false;
-      displayRecommendations(data, suggestionsList);
+      displaySuggestions(data, suggestionsList);
     })
     .catch((error) => {
       requestInProgress = false;
@@ -82,7 +82,7 @@ function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
     });
 }
 
-function displayRecommendations(data, suggestionsList) {
+function displaySuggestions(data, suggestionsList) {
   if (!data.recommendations || data.recommendations.length === 0) {
     suggestionsList.innerHTML = '<div class="no-recommendations">No recommendations available.</div>';
     return;
