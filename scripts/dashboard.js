@@ -138,6 +138,10 @@ function isTodayBirthday(birthdate) {
 function generateBirthdayCoupon() {
   const user = window.users.getUser(window.auth.getCurrentUserEmail());
   if (isTodayBirthday(user.birthdate)) {
+    birthdayCoupon = getElementById("birthday-coupon");
+    if (birthdayCoupon) {
+      document.getElementById("birthday-coupon").classList.remove("element");
+    }
     console.log("Happy Birthday!");
     // displayBirthdayCoupon(user);
   }
