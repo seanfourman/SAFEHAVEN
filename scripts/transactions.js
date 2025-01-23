@@ -46,7 +46,8 @@ function addSuggestionsSection() {
 function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
   const selectedMonth = monthSelect.value;
 
-  // filter transactions for the selected month
+  // filter transactions for the selected month (unclear by the task whether it needs to be for a specific month or all transactions)
+  // if you want to get all transactions, just remove the filter
   const filteredTransactions = transactions.filter((transaction) => {
     const parsed = parseDateToYearMonth(transaction.Date);
     return parsed && `${parsed.year}-${parsed.month.padStart(2, "0")}` === selectedMonth;
