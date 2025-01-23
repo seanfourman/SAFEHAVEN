@@ -31,7 +31,9 @@ class Users {
     const users = this._getUsers();
     const updatedUsers = users.map((dbUser) => (dbUser.email === user.email ? { ...dbUser, ...user } : dbUser));
     this._setUsers(updatedUsers);
-    window.location.reload();
+    if (!window.location.href.includes("Dashboard")) {
+      window.location.reload();
+    }
   }
   // removeUser filters the users array to remove the user with the given email
   removeUser(email) {
@@ -58,7 +60,9 @@ class Users {
       return dbUser;
     });
     this._setUsers(updatedUsers);
-    window.location.reload();
+    if (!window.location.href.includes("Dashboard")) {
+      window.location.reload();
+    }
   }
   // addCard pushes a new card to the cards array of the user with the given email
   addCard(email, cardValues) {
@@ -71,7 +75,9 @@ class Users {
       return dbUser;
     });
     this._setUsers(updatedUsers);
-    window.location.reload();
+    if (!window.location.href.includes("Dashboard")) {
+      window.location.reload();
+    }
   }
   // buildCard returns a card object with the given cardValues
   buildCard(cardValues) {
@@ -125,6 +131,7 @@ class Auth {
     // add card info to cards array
     userValues.cards = [this._users.buildCard(userValues)];
     userValues.userName = userValues.cardHolder;
+    userValues.birthdayCouponTaken = false; // default birthday coupon status
 
     // remove card info from userValues, as it is now in the cards array
     delete userValues.cardHolder;

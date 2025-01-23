@@ -62,6 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
   updateRealTime();
   changeBackground();
   calculateCharges();
+  generateBirthdayCoupon();
+  checkMidnight();
 });
 
 setInterval(updateRealTime, 1000); // update every second
@@ -80,8 +82,11 @@ function calculateCharges() {
     document.querySelector("#previous-charge span").textContent = `$${previousMonthExpenses}`;
     document.querySelector("#previous-charge").classList.remove("element-hidden");
   }
-  if (currentMonthExpenses) {
+  if (currentMonthExpenses >= 0) {
     document.querySelector("#next-charge span").textContent = `$${currentMonthExpenses}`;
+  }
+  if (currentMonthExpenses < 0) {
+    document.querySelector("#next-charge span").textContent = `$0`;
   }
 }
 
@@ -109,4 +114,75 @@ function calculateMonthlyExpenses(transactions, targetMonth) {
     }
   });
   return totalExpenses.toFixed(2); // returns a ***string with 2 decimal places
+}
+
+// get the current date in MM-DD format
+function getTodayFormatted() {
+  let today = new Date();
+  let month = String(today.getMonth() + 1).padStart(2, "0");
+  let day = String(today.getDate()).padStart(2, "0");
+  return `${month}-${day}`;
+}
+
+// format a given date to MM-DD format
+function formatDate(date) {
+  let month = String(date.getMonth() + 1).padStart(2, "0");
+  let day = String(date.getDate()).padStart(2, "0");
+  return `${month}-${day}`;
+}
+
+// check if today is the user's birthday
+function isTodayBirthday(birthdate) {
+  const todayFormatted = getTodayFormatted();
+  const userBirthdateFormatted = formatDate(new Date(birthdate));
+  return todayFormatted === userBirthdateFormatted;
+}
+
+// generate the birthday coupon
+function generateBirthdayCoupon() {
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  const birthdayCoupon = document.querySelector(".birthday-coupon");
+  if (isTodayBirthday(user.birthdate) && !user.birthdayCouponTaken) {
+    if (birthdayCoupon) {
+      birthdayCoupon.addEventListener("click", () => {
+        birthdayButtonOnClick(user);
+      });
+    }
+  } else {
+    if (birthdayCoupon) {
+      birthdayCoupon.classList.add("element-hidden");
+    }
+  }
+}
+
+function birthdayButtonOnClick() {
+  const birthdayCoupon = document.querySelector(".birthday-coupon");
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  if (birthdayCoupon) {
+    birthdayCoupon.classList.add("element-hidden");
+    // maybe add it to the selected card specifically but whatever
+    user.cards[0].transactions.push({
+      Amount: "-50.00",
+      "Business Name": "Birthday Coupon",
+      Category: "General",
+      Date: new Date().toLocaleDateString("en-GB") // format DD/MM/YYYY
+    });
+    window.users.updateCard(user.email, user.cards[0]);
+    user.birthdayCouponTaken = true;
+    window.users.updateUser(user);
+  }
+}
+
+function resetBirthdayCoupon() {
+  const user = window.users.getUser(window.auth.getCurrentUserEmail());
+  user.birthdayCouponTaken = false;
+  window.users.updateUser(user);
+}
+
+function checkMidnight() {
+  const now = new Date();
+  const timeUntilMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0) - now;
+  setTimeout(() => {
+    resetBirthdayCoupon();
+  }, timeUntilMidnight);
 }
