@@ -216,7 +216,14 @@ function monthNumberToName(num) {
 }
 
 if (monthSelect) {
-  monthSelect.addEventListener("change", updateDashboard);
+  monthSelect.addEventListener("change", () => {
+    const errorSpan = document.querySelector(".api-error");
+    if (errorSpan) {
+      requestInProgress = false;
+      errorSpan.remove();
+    }
+    updateDashboard();
+  });
 }
 
 // update the dashboard
