@@ -55,17 +55,22 @@ function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
 
   const textSpan = document.createElement("span");
   textSpan.textContent = "Analyzing transactions.";
+  textSpan.classList.add("loading");
   let dotCount = 0;
-  setInterval(() => {
+  const loadingInterval = setInterval(() => {
+    if (!textSpan.classList.contains("loading")) {
+      clearInterval(loadingInterval);
+      return;
+    }
     dotCount = (dotCount + 1) % 3;
     textSpan.textContent = "Analyzing transactions" + ".".repeat(dotCount + 1);
   }, 500);
-  textSpan.classList.add("loading");
   suggestionsList.appendChild(textSpan);
   suggestionsContainer.classList.remove("element-hidden");
 
   if (filteredTransactions.length < TRANSACTIONS_THRESHOLD) {
     textSpan.textContent = "Not enough transactions to generate recommendations.";
+    textSpan.classList.remove("loading");
     textSpan.classList.add("api-error");
     return;
   }
@@ -91,6 +96,7 @@ function getSuggestions(transactions, suggestionsList, suggestionsContainer) {
     .catch((error) => {
       requestInProgress = false;
       console.error("Error fetching recommendations:", error);
+      textSpan.classList.remove("loading");
       textSpan.classList.add("api-error");
       textSpan.textContent = "Failed to fetch recommendations. Please try again later or check your internet connection.";
     });
