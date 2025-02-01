@@ -8,6 +8,7 @@ function generateUserCards() {
 
   user.cards.forEach((card, index) => generateCreditCard(index, card, templateCreditCard));
 
+  // add the plus card to the end of the list
   const templateCardAdd = document.querySelector(".card-add");
   if (templateCardAdd) {
     templateCreditCard.parentElement.append(templateCardAdd);
